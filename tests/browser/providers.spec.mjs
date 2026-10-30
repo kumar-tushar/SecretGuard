@@ -1,6 +1,6 @@
 import { test, expect, chromium } from '@playwright/test';
 import path from 'node:path';
-import { credentialCases } from '../fixtures/credentials.mjs';
+import { credentialCases, providerKey } from '../fixtures/gitleaks-credentials.mjs';
 
 const providers = [
   { host: 'gemini.google.com', site: 'Gemini', conversation: '/app/synthetic-provider-test' },
@@ -118,6 +118,7 @@ async function attempt(state, gesture = 'Enter') {
   if (gesture === 'Enter') await state.editor.press('Enter');
   else {
     const target = state.page.locator(gesture === 'icon' ? '#provider-send svg,#provider-send mat-icon' : '#provider-send');
+    await target.scrollIntoViewIfNeeded();
     const box = await target.boundingBox();
     await state.page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
   }
@@ -141,10 +142,10 @@ test('the manifest grants only explicit chat origins and makes local assets avai
 for (const provider of providers) {
   for (const action of ['Edit', 'Send', 'Mask']) for (const gesture of ['Enter', 'button', 'icon']) test(provider.site + ': ' + gesture + ' reviews exact values before ' + action, async () => {
     const state = await chat(provider);
-    await state.editor.fill('api_key = synthetic-provider-123; client_secret = synthetic-provider-456');
-    const original = await read(state.editor), masked = original.replace('synthetic-provider-123', 'xxxxxxxxxx').replace('synthetic-provider-456', 'xxxxxxxxxx');
+    await state.editor.fill('api_key = synthetic-21a9ae9b2b79f658d09330f9; client_secret = synthetic-9161a882e7028078135e6e03');
+    const original = await read(state.editor), masked = original.replace('synthetic-21a9ae9b2b79f658d09330f9', 'xxxxxxxxxx').replace('synthetic-9161a882e7028078135e6e03', 'xxxxxxxxxx');
     await attempt(state, gesture);
-    await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-provider-123', 'synthetic-provider-456']);
+    await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-21a9ae9b2b79f658d09330f9', 'synthetic-9161a882e7028078135e6e03']);
     expect(state.requests).toEqual([]);
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
     await expect(review(state.page)).toBeHidden();
@@ -178,14 +179,14 @@ for (const provider of providers) {
     });
   });
 
-  test(provider.site + ': custom keywords, client-ID opt-out and mandatory masking share the same guard', async () => {
+  test(provider.site + ': saved settings retain strict mode and standalone provider detection', async () => {
     await dashboard.evaluate(async () => {
       await SecretShieldPolicy.update({ kind: 'addField', name: 'project_code' });
       await SecretShieldPolicy.update({ kind: 'set', key: 'protectClientIds', value: false });
       await SecretShieldPolicy.update({ kind: 'set', key: 'mode', value: 'block' });
     });
     const state = await chat(provider);
-    const value = 'Q7mV8z2R9tA4nP6xL3cD';
+    const value = providerKey;
     await state.editor.fill('project_code is mentioned below.\nclient_id: readable-public-id\n' + value);
     await attempt(state);
     await expect(review(state.page).locator('.review-values code')).toHaveText([value]);
@@ -199,7 +200,7 @@ for (const provider of providers) {
     const state = await chat(provider);
     await state.page.evaluate(() => { window.options.delay = 100; });
     for (let i = 0; i < 12; i++) {
-      const value = 'synthetic-repeated-' + i + '-123';
+      const value = 'synthetic-fe188f280083afd85c32c9ae' + i + '-123';
       await state.editor.fill('password=' + value); await attempt(state);
       await review(state.page).getByRole('button', { name: action, exact: true }).evaluate(button => { button.click(); button.click(); });
       await outgoing(state, 'password=' + (action === 'Send' ? value : 'xxxxxxxxxx'), i + 1);
@@ -208,9 +209,9 @@ for (const provider of providers) {
 
   test(provider.site + ': unrelated inputs and Stop controls do not open the secret review', async () => {
     const state = await chat(provider);
-    await state.page.locator('#search').fill('password=synthetic-search-123');
+    await state.page.locator('#search').fill('password=synthetic-fc593b5f431fca81da9fe8d5');
     await state.page.locator('#search').press('Enter');
-    await state.editor.fill('password=synthetic-unsent-456');
+    await state.editor.fill('password=synthetic-85f2748ff280aaa4f180c154');
     await state.page.locator('#stop-response').click();
     await expect(review(state.page)).toHaveCount(0);
     expect(state.requests).toEqual([]);
@@ -219,7 +220,7 @@ for (const provider of providers) {
 
   test(provider.site + ': alternate supported controls remain recognized', async () => {
     const state = await chat(provider, provider.site === 'DeepSeek' ? 'legacy' : provider.site === 'Meta AI' ? 'richtext' : 'localized');
-    await state.editor.fill('api_key=synthetic-compatible-123'); await attempt(state, 'icon');
+    await state.editor.fill('api_key=synthetic-277620a97d0c95700da1986e'); await attempt(state, 'icon');
     await expect(review(state.page)).toBeVisible();
     await review(state.page).getByRole('button', { name: 'Mask', exact: true }).click();
     await outgoing(state, 'api_key=xxxxxxxxxx');
@@ -227,50 +228,50 @@ for (const provider of providers) {
 
   test(provider.site + ': changing the draft invalidates retained review buttons', async () => {
     const state = await chat(provider);
-    await state.editor.fill('password=synthetic-before-123'); await attempt(state);
+    await state.editor.fill('password=synthetic-41831f6e991013ad394f54ca'); await attempt(state);
     const old = await review(state.page).getByRole('button', { name: 'Send', exact: true }).elementHandle();
     await state.editor.evaluate(el => {
-      if (el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement) el.value = 'password=synthetic-after-456';
-      else el.textContent = 'password=synthetic-after-456';
+      if (el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement) el.value = 'password=synthetic-7b4a6bdce842e0309803a7e9';
+      else el.textContent = 'password=synthetic-7b4a6bdce842e0309803a7e9';
       el.dispatchEvent(new InputEvent('input', { bubbles: true }));
     });
     await old.evaluate(button => button.click()); await old.dispose();
     expect(state.requests).toEqual([]);
-    await attempt(state); await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-after-456']);
+    await attempt(state); await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-7b4a6bdce842e0309803a7e9']);
   });
 }
 
 for (const provider of providers.filter(provider => provider.site !== 'Gemini')) for (const action of ['Send', 'Mask']) test(provider.site + ': a disabled control never reports ' + action + ' as sent', async () => {
   const state = await chat(provider);
   await state.page.evaluate(() => { window.options.locked = true; });
-  await state.editor.fill('password=synthetic-disabled-123'); await attempt(state);
+  await state.editor.fill('password=synthetic-1b7aeb63280ffe34977b6e77'); await attempt(state);
   await review(state.page).getByRole('button', { name: action, exact: true }).click();
   await expect(state.page.locator('#secret-shield-notice')).toBeVisible();
   expect(state.requests).toEqual([]);
   expect(await records()).toEqual([]);
   const counts = await dashboard.evaluate(() => SecretShieldStats.read());
   expect(counts.maskedPrompts).toBe(0); expect(counts.unmaskedPrompts).toBe(0);
-  expect(await read(state.editor)).toBe('password=' + (action === 'Mask' ? 'xxxxxxxxxx' : 'synthetic-disabled-123'));
+  expect(await read(state.editor)).toBe('password=' + (action === 'Mask' ? 'xxxxxxxxxx' : 'synthetic-1b7aeb63280ffe34977b6e77'));
 });
 
 for (const host of ['copilot.microsoft.com', 'copilot.com', 'm365.cloud.microsoft', 'perplexity.ai']) for (const action of ['Edit', 'Send', 'Mask']) test(host + ': supported alias preserves ' + action + ' behavior', async () => {
-  const provider = host === 'perplexity.ai' ? { host, site: 'Perplexity', conversation: '/search/synthetic-alias-test' } :
-    { host, site: 'Microsoft Copilot', conversation: '/chats/synthetic-alias-test' };
+  const provider = host === 'perplexity.ai' ? { host, site: 'Perplexity', conversation: '/search/synthetic-c094512a0de1c65d753d2994' } :
+    { host, site: 'Microsoft Copilot', conversation: '/chats/synthetic-c094512a0de1c65d753d2994' };
   const state = await chat(provider);
-  await state.editor.fill('api_key=synthetic-alias-123'); await attempt(state);
+  await state.editor.fill('api_key=synthetic-fd8cad673dd841c9aa6d6663'); await attempt(state);
   await review(state.page).getByRole('button', { name: action, exact: true }).click();
   await expect(review(state.page)).toBeHidden();
-  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-alias-123'); }
-  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-alias-123' : 'xxxxxxxxxx'));
+  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-fd8cad673dd841c9aa6d6663'); }
+  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-fd8cad673dd841c9aa6d6663' : 'xxxxxxxxxx'));
 });
 
 for (const [site, variant] of [['Microsoft Copilot', 'consumer'], ['Perplexity', 'legacy']]) for (const action of ['Edit', 'Send', 'Mask']) test(site + ': ' + variant + ' textarea preserves ' + action + ' behavior', async () => {
   const state = await chat(providers.find(provider => provider.site === site), variant);
-  await state.editor.fill('api_key=synthetic-textarea-123'); await attempt(state);
+  await state.editor.fill('api_key=synthetic-dff7ad312e3a306a6919d706'); await attempt(state);
   await review(state.page).getByRole('button', { name: action, exact: true }).click();
   await expect(review(state.page)).toBeHidden();
-  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-textarea-123'); }
-  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-textarea-123' : 'xxxxxxxxxx'));
+  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-dff7ad312e3a306a6919d706'); }
+  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-dff7ad312e3a306a6919d706' : 'xxxxxxxxxx'));
 });
 
 test('all nine provider logos remain centered and the redundant footer list is absent', async () => {
@@ -291,20 +292,20 @@ test('all nine provider logos remain centered and the redundant footer list is a
 });
 
 for (const action of ['Edit', 'Send', 'Mask']) test('Meta AI: the bare-domain alias preserves ' + action + ' behavior', async () => {
-  const state = await chat({ host: 'meta.ai', site: 'Meta AI', conversation: '/prompt/synthetic-alias-test' });
-  await state.editor.fill('api_key=synthetic-alias-123'); await attempt(state);
+  const state = await chat({ host: 'meta.ai', site: 'Meta AI', conversation: '/prompt/synthetic-c094512a0de1c65d753d2994' });
+  await state.editor.fill('api_key=synthetic-fd8cad673dd841c9aa6d6663'); await attempt(state);
   await review(state.page).getByRole('button', { name: action, exact: true }).click();
   await expect(review(state.page)).toBeHidden();
-  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-alias-123'); }
-  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-alias-123' : 'xxxxxxxxxx'));
+  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-fd8cad673dd841c9aa6d6663'); }
+  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-fd8cad673dd841c9aa6d6663' : 'xxxxxxxxxx'));
 });
 
 for (const variant of ['guest', 'mobile', 'localized']) for (const action of ['Edit', 'Send', 'Mask']) test('Meta AI: ' + variant + ' composer preserves ' + action + ' behavior', async () => {
   const state = await chat(providers.find(provider => provider.site === 'Meta AI'), variant);
-  await state.editor.fill('api_key=synthetic-meta-variant-123'); await attempt(state, 'icon');
-  await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-meta-variant-123']);
+  await state.editor.fill('api_key=synthetic-7f549ce0984089faf128e136'); await attempt(state, 'icon');
+  await expect(review(state.page).locator('.review-values code')).toHaveText(['synthetic-7f549ce0984089faf128e136']);
   await review(state.page).getByRole('button', { name: action, exact: true }).click();
   await expect(review(state.page)).toBeHidden();
-  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-meta-variant-123'); }
-  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-meta-variant-123' : 'xxxxxxxxxx'));
+  if (action === 'Edit') { expect(state.requests).toEqual([]); expect(await read(state.editor)).toBe('api_key=synthetic-7f549ce0984089faf128e136'); }
+  else await outgoing(state, 'api_key=' + (action === 'Send' ? 'synthetic-7f549ce0984089faf128e136' : 'xxxxxxxxxx'));
 });

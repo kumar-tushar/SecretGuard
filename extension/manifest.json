@@ -15,11 +15,11 @@
   "content_scripts": [{
     "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*", "https://gemini.google.com/*", "https://chat.deepseek.com/*", "https://grok.com/*", "https://www.meta.ai/*", "https://meta.ai/*", "https://copilot.microsoft.com/*", "https://copilot.com/*", "https://copilot.cloud.microsoft/*", "https://m365.cloud.microsoft/*", "https://www.perplexity.ai/*", "https://perplexity.ai/*", "https://chat.mistral.ai/*"],
     "css": ["fonts.css"],
-    "js": ["gitleaks-rules.js", "core.js", "policy.js", "stats.js", "adapters.js", "content.js"],
+    "js": ["gitleaks-rules.js", "core.js", "scanner.js", "policy.js", "stats.js", "adapters.js", "content.js"],
     "run_at": "document_start"
   }],
   "web_accessible_resources": [{
-    "resources": ["icons/orbit-pointer.png", "fonts/dm-sans-latin.woff2"],
+    "resources": ["icons/orbit-pointer.png", "fonts/dm-sans-latin.woff2", "scan-host.html"],
     "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*", "https://gemini.google.com/*", "https://chat.deepseek.com/*", "https://grok.com/*", "https://www.meta.ai/*", "https://meta.ai/*", "https://copilot.microsoft.com/*", "https://copilot.com/*", "https://copilot.cloud.microsoft/*", "https://m365.cloud.microsoft/*", "https://www.perplexity.ai/*", "https://perplexity.ai/*", "https://chat.mistral.ai/*"]
   }],
   "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'" }

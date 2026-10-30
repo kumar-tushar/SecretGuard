@@ -2351,6 +2351,34 @@
       "name": "unicode candidate 15",
       "input": "api_key=ſKſKſKſKſKſKſKſKſKſKſKſKſKſKſKaabbccd012345678",
       "secrets": []
+    },
+    {
+      "name": "Go word-class fold value ſ",
+      "input": "api_key=ſN7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+      "secrets": [
+        "ſN7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ]
+    },
+    {
+      "name": "Go word-class fold context ſ",
+      "input": "api_keyſ=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ]
+    },
+    {
+      "name": "Go word-class fold value K",
+      "input": "api_key=KN7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+      "secrets": [
+        "KN7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ]
+    },
+    {
+      "name": "Go word-class fold context K",
+      "input": "api_keyK=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ]
     }
   ]
 }

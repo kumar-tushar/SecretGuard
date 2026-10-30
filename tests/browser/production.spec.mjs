@@ -50,7 +50,7 @@ test('production reviews, masks and sends without creating logs or accepting the
   const id = await worker.evaluate(async url => (await chrome.tabs.query({ url }))[0].id, page.url());
   await expect.poll(() => worker.evaluate(async id => (await chrome.tabs.sendMessage(id, { type: 'coverage' })).ready, id)).toBe(true);
   const editor = page.locator('textarea'), review = page.getByRole('dialog');
-  for (const [action, prompt] of [['Edit', 'api_key=synthetic-edit-123'], ['Mask', 'api_key=synthetic-mask-123'], ['Send', 'api_key=synthetic-send-123']]) {
+  for (const [action, prompt] of [['Edit', 'api_key=synthetic-69ba6bf9e4a8bc63b6da0d66'], ['Mask', 'api_key=synthetic-3a8323627cb48ce0002f51fd'], ['Send', 'api_key=synthetic-15db5b0f7cf1e3437173c91f']]) {
     await editor.fill(prompt); await editor.press('Enter');
     await expect(review.getByRole('heading')).toHaveText('1 secret detected');
     await review.getByRole('button', { name: action, exact: true }).click();

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import '../src/gitleaks-rules.js';
 import '../src/core.js';
 import '../src/policy.js';
 
@@ -11,6 +12,13 @@ test('managed fields override local settings and expose locks', async () => {
   assert.equal(result.policy.protectClientIds, true);
   assert.deepEqual(result.policy.sensitiveNames, ['org_dataset']);
   assert.deepEqual(result.locked, ['mode','protectClientIds','sensitiveNames']);
+  assert.equal(SecretShieldCore.redact('org_dataset=short; dataset1=public', result.policy).text, 'org_dataset=xxxxxxxxxx; dataset1=public');
+  assert.equal(SecretShieldCore.redact('client_id=demo-client-123', result.policy).text, 'client_id=xxxxxxxxxx');
+  chrome.storage.local.get = async () => ({policy:{protectClientIds:true}});
+  chrome.storage.managed.get = async () => ({protectClientIds:false});
+  const disabled = await SecretShieldPolicy.loadPolicy();
+  assert.deepEqual(disabled.locked, ['protectClientIds']);
+  assert.deepEqual(SecretShieldCore.scan('client_id=demo-client-123', disabled.policy), []);
 });
 test('missing preferences use safe defaults; unreadable and malformed policy rejects', async () => {
   globalThis.chrome = {storage:{local:{get:async()=>({})},managed:{get:async()=>({})}}};

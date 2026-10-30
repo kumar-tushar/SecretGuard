@@ -1,0 +1,701 @@
+{
+  "source": "Official Gitleaks 8.30.1, pinned config 5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c; synthetic inputs; --max-decode-depth 3 --ignore-gitleaks-allow",
+  "binarySha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "configSha256": "e163e53b9e7e8a8511e77271e2b323ed057759542a6d988258afe3a1fa329caf",
+  "cases": [
+    {
+      "name": "github-pat base64 depth 1",
+      "ruleId": "github-pat",
+      "depth": 1,
+      "input": "Z2hwX20ySFV5MlM1bDI2bm1GcFRYMldnWlg1ZGtseTV5Rm9TbGl0Mg==",
+      "secrets": [
+        "Z2hwX20ySFV5MlM1bDI2bm1GcFRYMldnWlg1ZGtseTV5Rm9TbGl0Mg=="
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "github-pat base64 depth 2",
+      "ruleId": "github-pat",
+      "depth": 2,
+      "input": "WjJod1gyMHlTRlY1TWxNMWJESTJibTFHY0ZSWU1sZG5XbGcxWkd0c2VUVjVSbTlUYkdsME1nPT0=",
+      "secrets": [
+        "WjJod1gyMHlTRlY1TWxNMWJESTJibTFHY0ZSWU1sZG5XbGcxWkd0c2VUVjVSbTlUYkdsME1nPT0="
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "github-pat base64 depth 3",
+      "ruleId": "github-pat",
+      "depth": 3,
+      "input": "V2pKb2QxZ3lNSGxUUmxZMVRXeE5NV0pFU1RKaWJURkhZMFpTV1Uxc1pHNVhiR2N4V2tkMGMyVlVWalZTYlRsVVlrZHNNRTFuUFQwPQ==",
+      "secrets": [
+        "V2pKb2QxZ3lNSGxUUmxZMVRXeE5NV0pFU1RKaWJURkhZMFpTV1Uxc1pHNVhiR2N4V2tkMGMyVlVWalZTYlRsVVlrZHNNRTFuUFQwPQ=="
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "github-pat base64url depth 1",
+      "ruleId": "github-pat",
+      "depth": 1,
+      "input": "Z2hwX20ySFV5MlM1bDI2bm1GcFRYMldnWlg1ZGtseTV5Rm9TbGl0Mg",
+      "secrets": [
+        "Z2hwX20ySFV5MlM1bDI2bm1GcFRYMldnWlg1ZGtseTV5Rm9TbGl0Mg"
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "github-pat base64url depth 2",
+      "ruleId": "github-pat",
+      "depth": 2,
+      "input": "WjJod1gyMHlTRlY1TWxNMWJESTJibTFHY0ZSWU1sZG5XbGcxWkd0c2VUVjVSbTlUYkdsME1n",
+      "secrets": [
+        "WjJod1gyMHlTRlY1TWxNMWJESTJibTFHY0ZSWU1sZG5XbGcxWkd0c2VUVjVSbTlUYkdsME1n"
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "github-pat base64url depth 3",
+      "ruleId": "github-pat",
+      "depth": 3,
+      "input": "V2pKb2QxZ3lNSGxUUmxZMVRXeE5NV0pFU1RKaWJURkhZMFpTV1Uxc1pHNVhiR2N4V2tkMGMyVlVWalZTYlRsVVlrZHNNRTFu",
+      "secrets": [
+        "V2pKb2QxZ3lNSGxUUmxZMVRXeE5NV0pFU1RKaWJURkhZMFpTV1Uxc1pHNVhiR2N4V2tkMGMyVlVWalZTYlRsVVlrZHNNRTFu"
+      ],
+      "upstreamRules": [
+        "github-pat"
+      ],
+      "decodedSecrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "generic-api-key base64 depth 1",
+      "ruleId": "generic-api-key",
+      "depth": 1,
+      "input": "YXBpX2tleT1ON3EyVjltNFI4czZUM3g1SzFwMEwyejdINGM5RDZiOA==",
+      "secrets": [
+        "YXBpX2tleT1ON3EyVjltNFI4czZUM3g1SzFwMEwyejdINGM5RDZiOA=="
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "generic-api-key base64 depth 2",
+      "ruleId": "generic-api-key",
+      "depth": 2,
+      "input": "WVhCcFgydGxlVDFPTjNFeVZqbHRORkk0Y3paVU0zZzFTekZ3TUV3eWVqZElOR001UkRaaU9BPT0=",
+      "secrets": [
+        "WVhCcFgydGxlVDFPTjNFeVZqbHRORkk0Y3paVU0zZzFTekZ3TUV3eWVqZElOR001UkRaaU9BPT0="
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "generic-api-key base64 depth 3",
+      "ruleId": "generic-api-key",
+      "depth": 3,
+      "input": "V1ZoQ2NGZ3lkR3hsVkRGUFRqTkZlVlpxYkhST1JrazBZM3BhVlUwelp6RlRla1ozVFVWM2VXVnFaRWxPUjAwMVVrUmFhVTlCUFQwPQ==",
+      "secrets": [
+        "V1ZoQ2NGZ3lkR3hsVkRGUFRqTkZlVlpxYkhST1JrazBZM3BhVlUwelp6RlRla1ozVFVWM2VXVnFaRWxPUjAwMVVrUmFhVTlCUFQwPQ=="
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "generic-api-key base64url depth 1",
+      "ruleId": "generic-api-key",
+      "depth": 1,
+      "input": "YXBpX2tleT1ON3EyVjltNFI4czZUM3g1SzFwMEwyejdINGM5RDZiOA",
+      "secrets": [
+        "YXBpX2tleT1ON3EyVjltNFI4czZUM3g1SzFwMEwyejdINGM5RDZiOA"
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "generic-api-key base64url depth 2",
+      "ruleId": "generic-api-key",
+      "depth": 2,
+      "input": "WVhCcFgydGxlVDFPTjNFeVZqbHRORkk0Y3paVU0zZzFTekZ3TUV3eWVqZElOR001UkRaaU9B",
+      "secrets": [
+        "WVhCcFgydGxlVDFPTjNFeVZqbHRORkk0Y3paVU0zZzFTekZ3TUV3eWVqZElOR001UkRaaU9B"
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "generic-api-key base64url depth 3",
+      "ruleId": "generic-api-key",
+      "depth": 3,
+      "input": "V1ZoQ2NGZ3lkR3hsVkRGUFRqTkZlVlpxYkhST1JrazBZM3BhVlUwelp6RlRla1ozVFVWM2VXVnFaRWxPUjAwMVVrUmFhVTlC",
+      "secrets": [
+        "V1ZoQ2NGZ3lkR3hsVkRGUFRqTkZlVlpxYkhST1JrazBZM3BhVlUwelp6RlRla1ozVFVWM2VXVnFaRWxPUjAwMVVrUmFhVTlC"
+      ],
+      "upstreamRules": [
+        "generic-api-key"
+      ],
+      "decodedSecrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "private-key base64 depth 1",
+      "ruleId": "private-key",
+      "depth": 1,
+      "input": "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk9QaHNYZjFOMlFDYWcxeHhBTEhkWlNHeG5jNEMrQ0NiQU53WE5CYnkxb3Y3ZEExcmpnbHFLWlkzNVd6Z2RCUGNzaC9DejFFaGxoWkFwbEhYMXdpWlZaeU52U2I2SkxUN0sxL0U0ZHIvN3dnU0doRW84K1VjRmxsRm9lOHd2QWlRCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0=",
+      "secrets": [
+        "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk9QaHNYZjFOMlFDYWcxeHhBTEhkWlNHeG5jNEMrQ0NiQU53WE5CYnkxb3Y3ZEExcmpnbHFLWlkzNVd6Z2RCUGNzaC9DejFFaGxoWkFwbEhYMXdpWlZaeU52U2I2SkxUN0sxL0U0ZHIvN3dnU0doRW84K1VjRmxsRm9lOHd2QWlRCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0="
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "private-key base64 depth 2",
+      "ruleId": "private-key",
+      "depth": 2,
+      "input": "TFMwdExTMUNSVWRKVGlCUVVrbFdRVlJGSUV0RldTMHRMUzB0Q2s5UWFITllaakZPTWxGRFlXY3hlSGhCVEVoa1dsTkhlRzVqTkVNclEwTmlRVTUzV0U1Q1lua3hiM1kzWkVFeGNtcG5iSEZMV2xrek5WZDZaMlJDVUdOemFDOURlakZGYUd4b1drRndiRWhZTVhkcFdsWmFlVTUyVTJJMlNreFVOMHN4TDBVMFpISXZOM2RuVTBkb1JXODRLMVZqUm14c1JtOWxPSGQyUVdsUkNpMHRMUzB0UlU1RUlGQlNTVlpCVkVVZ1MwVlpMUzB0TFMwPQ==",
+      "secrets": [
+        "TFMwdExTMUNSVWRKVGlCUVVrbFdRVlJGSUV0RldTMHRMUzB0Q2s5UWFITllaakZPTWxGRFlXY3hlSGhCVEVoa1dsTkhlRzVqTkVNclEwTmlRVTUzV0U1Q1lua3hiM1kzWkVFeGNtcG5iSEZMV2xrek5WZDZaMlJDVUdOemFDOURlakZGYUd4b1drRndiRWhZTVhkcFdsWmFlVTUyVTJJMlNreFVOMHN4TDBVMFpISXZOM2RuVTBkb1JXODRLMVZqUm14c1JtOWxPSGQyUVdsUkNpMHRMUzB0UlU1RUlGQlNTVlpCVkVVZ1MwVlpMUzB0TFMwPQ=="
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "private-key base64 depth 3",
+      "ruleId": "private-key",
+      "depth": 3,
+      "input": "VEZNd2RFeFRNVU5TVldSS1ZHbENVVlZyYkZkUlZsSkdTVVYwUmxkVE1IUk1VekIwUTJzNVVXRklUbGxhYWtaUFRXeEdSRmxYWTNobFNHaENWRVZvYTFkc1RraGxSelZxVGtWTmNsRXdUbWxSVlRVelYwVTFRMWx1YTNoaU0xa3pXa1ZGZUdOdGNHNWlTRVpNVjJ4cmVrNVdaRFphTWxKRFZVZE9lbUZET1VSbGFrWkdZVWQ0YjFkclJuZGlSV2haVFZoa2NGZHNXbUZsVlRVeVZUSkpNbE5yZUZWT01ITjRUREJWTUZwSVNYWk9NMlJ1VlRCa2IxSlhPRFJMTVZacVVtMTRjMUp0T1d4UFNHUXlVVmRzVWtOcE1IUk1VekIwVWxVMVJVbEdRbE5UVmxwQ1ZrVlZaMU13VmxwTVV6QjBURk13UFE9PQ==",
+      "secrets": [
+        "VEZNd2RFeFRNVU5TVldSS1ZHbENVVlZyYkZkUlZsSkdTVVYwUmxkVE1IUk1VekIwUTJzNVVXRklUbGxhYWtaUFRXeEdSRmxYWTNobFNHaENWRVZvYTFkc1RraGxSelZxVGtWTmNsRXdUbWxSVlRVelYwVTFRMWx1YTNoaU0xa3pXa1ZGZUdOdGNHNWlTRVpNVjJ4cmVrNVdaRFphTWxKRFZVZE9lbUZET1VSbGFrWkdZVWQ0YjFkclJuZGlSV2haVFZoa2NGZHNXbUZsVlRVeVZUSkpNbE5yZUZWT01ITjRUREJWTUZwSVNYWk9NMlJ1VlRCa2IxSlhPRFJMTVZacVVtMTRjMUp0T1d4UFNHUXlVVmRzVWtOcE1IUk1VekIwVWxVMVJVbEdRbE5UVmxwQ1ZrVlZaMU13VmxwTVV6QjBURk13UFE9PQ=="
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "private-key base64url depth 1",
+      "ruleId": "private-key",
+      "depth": 1,
+      "input": "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk9QaHNYZjFOMlFDYWcxeHhBTEhkWlNHeG5jNEMrQ0NiQU53WE5CYnkxb3Y3ZEExcmpnbHFLWlkzNVd6Z2RCUGNzaC9DejFFaGxoWkFwbEhYMXdpWlZaeU52U2I2SkxUN0sxL0U0ZHIvN3dnU0doRW84K1VjRmxsRm9lOHd2QWlRCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0",
+      "secrets": [
+        "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk9QaHNYZjFOMlFDYWcxeHhBTEhkWlNHeG5jNEMrQ0NiQU53WE5CYnkxb3Y3ZEExcmpnbHFLWlkzNVd6Z2RCUGNzaC9DejFFaGxoWkFwbEhYMXdpWlZaeU52U2I2SkxUN0sxL0U0ZHIvN3dnU0doRW84K1VjRmxsRm9lOHd2QWlRCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0"
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "private-key base64url depth 2",
+      "ruleId": "private-key",
+      "depth": 2,
+      "input": "TFMwdExTMUNSVWRKVGlCUVVrbFdRVlJGSUV0RldTMHRMUzB0Q2s5UWFITllaakZPTWxGRFlXY3hlSGhCVEVoa1dsTkhlRzVqTkVNclEwTmlRVTUzV0U1Q1lua3hiM1kzWkVFeGNtcG5iSEZMV2xrek5WZDZaMlJDVUdOemFDOURlakZGYUd4b1drRndiRWhZTVhkcFdsWmFlVTUyVTJJMlNreFVOMHN4TDBVMFpISXZOM2RuVTBkb1JXODRLMVZqUm14c1JtOWxPSGQyUVdsUkNpMHRMUzB0UlU1RUlGQlNTVlpCVkVVZ1MwVlpMUzB0TFMw",
+      "secrets": [
+        "TFMwdExTMUNSVWRKVGlCUVVrbFdRVlJGSUV0RldTMHRMUzB0Q2s5UWFITllaakZPTWxGRFlXY3hlSGhCVEVoa1dsTkhlRzVqTkVNclEwTmlRVTUzV0U1Q1lua3hiM1kzWkVFeGNtcG5iSEZMV2xrek5WZDZaMlJDVUdOemFDOURlakZGYUd4b1drRndiRWhZTVhkcFdsWmFlVTUyVTJJMlNreFVOMHN4TDBVMFpISXZOM2RuVTBkb1JXODRLMVZqUm14c1JtOWxPSGQyUVdsUkNpMHRMUzB0UlU1RUlGQlNTVlpCVkVVZ1MwVlpMUzB0TFMw"
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "private-key base64url depth 3",
+      "ruleId": "private-key",
+      "depth": 3,
+      "input": "VEZNd2RFeFRNVU5TVldSS1ZHbENVVlZyYkZkUlZsSkdTVVYwUmxkVE1IUk1VekIwUTJzNVVXRklUbGxhYWtaUFRXeEdSRmxYWTNobFNHaENWRVZvYTFkc1RraGxSelZxVGtWTmNsRXdUbWxSVlRVelYwVTFRMWx1YTNoaU0xa3pXa1ZGZUdOdGNHNWlTRVpNVjJ4cmVrNVdaRFphTWxKRFZVZE9lbUZET1VSbGFrWkdZVWQ0YjFkclJuZGlSV2haVFZoa2NGZHNXbUZsVlRVeVZUSkpNbE5yZUZWT01ITjRUREJWTUZwSVNYWk9NMlJ1VlRCa2IxSlhPRFJMTVZacVVtMTRjMUp0T1d4UFNHUXlVVmRzVWtOcE1IUk1VekIwVWxVMVJVbEdRbE5UVmxwQ1ZrVlZaMU13VmxwTVV6QjBURk13",
+      "secrets": [
+        "VEZNd2RFeFRNVU5TVldSS1ZHbENVVlZyYkZkUlZsSkdTVVYwUmxkVE1IUk1VekIwUTJzNVVXRklUbGxhYWtaUFRXeEdSRmxYWTNobFNHaENWRVZvYTFkc1RraGxSelZxVGtWTmNsRXdUbWxSVlRVelYwVTFRMWx1YTNoaU0xa3pXa1ZGZUdOdGNHNWlTRVpNVjJ4cmVrNVdaRFphTWxKRFZVZE9lbUZET1VSbGFrWkdZVWQ0YjFkclJuZGlSV2haVFZoa2NGZHNXbUZsVlRVeVZUSkpNbE5yZUZWT01ITjRUREJWTUZwSVNYWk9NMlJ1VlRCa2IxSlhPRFJMTVZacVVtMTRjMUp0T1d4UFNHUXlVVmRzVWtOcE1IUk1VekIwVWxVMVJVbEdRbE5UVmxwQ1ZrVlZaMU13VmxwTVV6QjBURk13"
+      ],
+      "upstreamRules": [
+        "private-key"
+      ],
+      "decodedSecrets": [
+        "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "jwt base64 depth 1",
+      "ruleId": "jwt",
+      "depth": 1,
+      "input": "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKemVXNTBhR1YwYVdNdGRHVnpkQzExYzJWeUlpd2lhV0YwSWpveE56QXdNREF3TURBd2ZRLnNQbF9NWFNXeDA3c3pZVkdKMlNkVGc0dmREQ2dZRDJwRURRVE5FUlVLdTY=",
+      "secrets": [
+        "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKemVXNTBhR1YwYVdNdGRHVnpkQzExYzJWeUlpd2lhV0YwSWpveE56QXdNREF3TURBd2ZRLnNQbF9NWFNXeDA3c3pZVkdKMlNkVGc0dmREQ2dZRDJwRURRVE5FUlVLdTY="
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "jwt base64 depth 2",
+      "ruleId": "jwt",
+      "depth": 2,
+      "input": "WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNucGtWMGxwVDJsS2VtVlhOVEJoUjFZd1lWZE5kR1JIVm5wa1F6RXhZekpXZVVscGQybGhWMFl3U1dwdmVFNTZRWGROUkVGM1RVUkJkMlpSTG5OUWJGOU5XRk5YZURBM2MzcFpWa2RLTWxOa1ZHYzBkbVJFUTJkWlJESndSVVJSVkU1RlVsVkxkVFk9",
+      "secrets": [
+        "WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNucGtWMGxwVDJsS2VtVlhOVEJoUjFZd1lWZE5kR1JIVm5wa1F6RXhZekpXZVVscGQybGhWMFl3U1dwdmVFNTZRWGROUkVGM1RVUkJkMlpSTG5OUWJGOU5XRk5YZURBM2MzcFpWa2RLTWxOa1ZHYzBkbVJFUTJkWlJESndSVVJSVkU1RlVsVkxkVFk9"
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "aGJHY2lPaU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "jwt base64 depth 3",
+      "ruleId": "jwt",
+      "depth": 3,
+      "input": "V2xoc1MyRkhTa2haTW14UVlWVndTbFpZY0VwTlZUVndVMWhPU21Kc1NURlpNRTVLVG10c2NtTkdhRmRSTUc4MVRHMVdOVk51Y0d0V01HeHdWREpzUzJWdFZsaE9WRUpvVWpGWmQxbFdaRTVrUjFKSVZtNXdhMUY2UlhoWmVrcFhaVlZzY0dReWJHaFdNRmwzVTFkd2RtVkZOVFpSV0dST1VrVkdNMVJWVWtKa01scFNURzVPVVdKR09VNVhSazVZWlVSQk0yTXpjRnBXYTJSTFRXeE9hMVpIWXpCa2JWSkZVVEprV2xKRVNuZFNWVkpTVmtVMVJsVnNWa3hrVkZrOQ==",
+      "secrets": [
+        "V2xoc1MyRkhTa2haTW14UVlWVndTbFpZY0VwTlZUVndVMWhPU21Kc1NURlpNRTVLVG10c2NtTkdhRmRSTUc4MVRHMVdOVk51Y0d0V01HeHdWREpzUzJWdFZsaE9WRUpvVWpGWmQxbFdaRTVrUjFKSVZtNXdhMUY2UlhoWmVrcFhaVlZzY0dReWJHaFdNRmwzVTFkd2RtVkZOVFpSV0dST1VrVkdNMVJWVWtKa01scFNURzVPVVdKR09VNVhSazVZWlVSQk0yTXpjRnBXYTJSTFRXeE9hMVpIWXpCa2JWSkZVVEprV2xKRVNuZFNWVkpTVmtVMVJsVnNWa3hrVkZrOQ=="
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "aGJHY2lPaU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "jwt base64url depth 1",
+      "ruleId": "jwt",
+      "depth": 1,
+      "input": "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKemVXNTBhR1YwYVdNdGRHVnpkQzExYzJWeUlpd2lhV0YwSWpveE56QXdNREF3TURBd2ZRLnNQbF9NWFNXeDA3c3pZVkdKMlNkVGc0dmREQ2dZRDJwRURRVE5FUlVLdTY",
+      "secrets": [
+        "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT2lKemVXNTBhR1YwYVdNdGRHVnpkQzExYzJWeUlpd2lhV0YwSWpveE56QXdNREF3TURBd2ZRLnNQbF9NWFNXeDA3c3pZVkdKMlNkVGc0dmREQ2dZRDJwRURRVE5FUlVLdTY"
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "jwt base64url depth 2",
+      "ruleId": "jwt",
+      "depth": 2,
+      "input": "WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNucGtWMGxwVDJsS2VtVlhOVEJoUjFZd1lWZE5kR1JIVm5wa1F6RXhZekpXZVVscGQybGhWMFl3U1dwdmVFNTZRWGROUkVGM1RVUkJkMlpSTG5OUWJGOU5XRk5YZURBM2MzcFpWa2RLTWxOa1ZHYzBkbVJFUTJkWlJESndSVVJSVkU1RlVsVkxkVFk",
+      "secrets": [
+        "WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNucGtWMGxwVDJsS2VtVlhOVEJoUjFZd1lWZE5kR1JIVm5wa1F6RXhZekpXZVVscGQybGhWMFl3U1dwdmVFNTZRWGROUkVGM1RVUkJkMlpSTG5OUWJGOU5XRk5YZURBM2MzcFpWa2RLTWxOa1ZHYzBkbVJFUTJkWlJESndSVVJSVkU1RlVsVkxkVFk"
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "aGJHY2lPaU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "jwt base64url depth 3",
+      "ruleId": "jwt",
+      "depth": 3,
+      "input": "V2xoc1MyRkhTa2haTW14UVlWVndTbFpZY0VwTlZUVndVMWhPU21Kc1NURlpNRTVLVG10c2NtTkdhRmRSTUc4MVRHMVdOVk51Y0d0V01HeHdWREpzUzJWdFZsaE9WRUpvVWpGWmQxbFdaRTVrUjFKSVZtNXdhMUY2UlhoWmVrcFhaVlZzY0dReWJHaFdNRmwzVTFkd2RtVkZOVFpSV0dST1VrVkdNMVJWVWtKa01scFNURzVPVVdKR09VNVhSazVZWlVSQk0yTXpjRnBXYTJSTFRXeE9hMVpIWXpCa2JWSkZVVEprV2xKRVNuZFNWVkpTVmtVMVJsVnNWa3hrVkZr",
+      "secrets": [
+        "V2xoc1MyRkhTa2haTW14UVlWVndTbFpZY0VwTlZUVndVMWhPU21Kc1NURlpNRTVLVG10c2NtTkdhRmRSTUc4MVRHMVdOVk51Y0d0V01HeHdWREpzUzJWdFZsaE9WRUpvVWpGWmQxbFdaRTVrUjFKSVZtNXdhMUY2UlhoWmVrcFhaVlZzY0dReWJHaFdNRmwzVTFkd2RtVkZOVFpSV0dST1VrVkdNMVJWVWtKa01scFNURzVPVVdKR09VNVhSazVZWlVSQk0yTXpjRnBXYTJSTFRXeE9hMVpIWXpCa2JWSkZVVEprV2xKRVNuZFNWVkpTVmtVMVJsVnNWa3hrVkZr"
+      ],
+      "upstreamRules": [
+        "jwt-base64",
+        "jwt"
+      ],
+      "decodedSecrets": [
+        "aGJHY2lPaU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64 depth 1",
+      "ruleId": "curl-auth-user",
+      "depth": 1,
+      "input": "Y3VybCAtdSAic2VydmljZS11c2VyOk43cTJWOW00UjhzNlQzeDVLMXAwTDJ6N0g0YzlENmI4IiBodHRwczovL2FwaS5leGFtcGxlLmNvbQ==",
+      "secrets": [
+        "Y3VybCAtdSAic2VydmljZS11c2VyOk43cTJWOW00UjhzNlQzeDVLMXAwTDJ6N0g0YzlENmI4IiBodHRwczovL2FwaS5leGFtcGxlLmNvbQ=="
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64 depth 2",
+      "ruleId": "curl-auth-user",
+      "depth": 2,
+      "input": "WTNWeWJDQXRkU0FpYzJWeWRtbGpaUzExYzJWeU9rNDNjVEpXT1cwMFVqaHpObFF6ZURWTE1YQXdUREo2TjBnMFl6bEVObUk0SWlCb2RIUndjem92TDJGd2FTNWxlR0Z0Y0d4bExtTnZiUT09",
+      "secrets": [
+        "WTNWeWJDQXRkU0FpYzJWeWRtbGpaUzExYzJWeU9rNDNjVEpXT1cwMFVqaHpObFF6ZURWTE1YQXdUREo2TjBnMFl6bEVObUk0SWlCb2RIUndjem92TDJGd2FTNWxlR0Z0Y0d4bExtTnZiUT09"
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64 depth 3",
+      "ruleId": "curl-auth-user",
+      "depth": 3,
+      "input": "V1ROV2VXSkRRWFJrVTBGcFl6SldlV1J0YkdwYVV6RXhZekpXZVU5ck5ETmpWRXBYVDFjd01GVnFhSHBPYkZGNlpVUldURTFZUVhkVVJFbzJUakJuTUZsNmJFVk9iVWswU1dsQ2IyUklVbmRqZW05MlRESkdkMkZUTld4bFIwWjBZMGQ0YkV4dFRuWmlVVDA5",
+      "secrets": [
+        "V1ROV2VXSkRRWFJrVTBGcFl6SldlV1J0YkdwYVV6RXhZekpXZVU5ck5ETmpWRXBYVDFjd01GVnFhSHBPYkZGNlpVUldURTFZUVhkVVJFbzJUakJuTUZsNmJFVk9iVWswU1dsQ2IyUklVbmRqZW05MlRESkdkMkZUTld4bFIwWjBZMGQ0YkV4dFRuWmlVVDA5"
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64url depth 1",
+      "ruleId": "curl-auth-user",
+      "depth": 1,
+      "input": "Y3VybCAtdSAic2VydmljZS11c2VyOk43cTJWOW00UjhzNlQzeDVLMXAwTDJ6N0g0YzlENmI4IiBodHRwczovL2FwaS5leGFtcGxlLmNvbQ",
+      "secrets": [
+        "Y3VybCAtdSAic2VydmljZS11c2VyOk43cTJWOW00UjhzNlQzeDVLMXAwTDJ6N0g0YzlENmI4IiBodHRwczovL2FwaS5leGFtcGxlLmNvbQ"
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64url depth 2",
+      "ruleId": "curl-auth-user",
+      "depth": 2,
+      "input": "WTNWeWJDQXRkU0FpYzJWeWRtbGpaUzExYzJWeU9rNDNjVEpXT1cwMFVqaHpObFF6ZURWTE1YQXdUREo2TjBnMFl6bEVObUk0SWlCb2RIUndjem92TDJGd2FTNWxlR0Z0Y0d4bExtTnZiUQ",
+      "secrets": [
+        "WTNWeWJDQXRkU0FpYzJWeWRtbGpaUzExYzJWeU9rNDNjVEpXT1cwMFVqaHpObFF6ZURWTE1YQXdUREo2TjBnMFl6bEVObUk0SWlCb2RIUndjem92TDJGd2FTNWxlR0Z0Y0d4bExtTnZiUQ"
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "curl-auth-user base64url depth 3",
+      "ruleId": "curl-auth-user",
+      "depth": 3,
+      "input": "V1ROV2VXSkRRWFJrVTBGcFl6SldlV1J0YkdwYVV6RXhZekpXZVU5ck5ETmpWRXBYVDFjd01GVnFhSHBPYkZGNlpVUldURTFZUVhkVVJFbzJUakJuTUZsNmJFVk9iVWswU1dsQ2IyUklVbmRqZW05MlRESkdkMkZUTld4bFIwWjBZMGQ0YkV4dFRuWmlVUQ",
+      "secrets": [
+        "V1ROV2VXSkRRWFJrVTBGcFl6SldlV1J0YkdwYVV6RXhZekpXZVU5ck5ETmpWRXBYVDFjd01GVnFhSHBPYkZGNlpVUldURTFZUVhkVVJFbzJUakJuTUZsNmJFVk9iVWswU1dsQ2IyUklVbmRqZW05MlRESkdkMkZUTld4bFIwWjBZMGQ0YkV4dFRuWmlVUQ"
+      ],
+      "upstreamRules": [
+        "curl-auth-user"
+      ],
+      "decodedSecrets": [
+        "\"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\""
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64 depth 1",
+      "ruleId": "gitlab-pat",
+      "depth": 1,
+      "input": "Z2xwYXQtQjFIMXJkUVBJTUNGbFNNekJWMk4=",
+      "secrets": [
+        "Z2xwYXQtQjFIMXJkUVBJTUNGbFNNekJWMk4="
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64 depth 2",
+      "ruleId": "gitlab-pat",
+      "depth": 2,
+      "input": "WjJ4d1lYUXRRakZJTVhKa1VWQkpUVU5HYkZOTmVrSldNazQ9",
+      "secrets": [
+        "WjJ4d1lYUXRRakZJTVhKa1VWQkpUVU5HYkZOTmVrSldNazQ9"
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64 depth 3",
+      "ruleId": "gitlab-pat",
+      "depth": 3,
+      "input": "V2pKNGQxbFlVWFJSYWtaSlRWaEthMVZXUWtwVVZVNUhZa1pPVG1WclNsZE5helE5",
+      "secrets": [
+        "V2pKNGQxbFlVWFJSYWtaSlRWaEthMVZXUWtwVVZVNUhZa1pPVG1WclNsZE5helE5"
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64url depth 1",
+      "ruleId": "gitlab-pat",
+      "depth": 1,
+      "input": "Z2xwYXQtQjFIMXJkUVBJTUNGbFNNekJWMk4",
+      "secrets": [
+        "Z2xwYXQtQjFIMXJkUVBJTUNGbFNNekJWMk4"
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64url depth 2",
+      "ruleId": "gitlab-pat",
+      "depth": 2,
+      "input": "WjJ4d1lYUXRRakZJTVhKa1VWQkpUVU5HYkZOTmVrSldNazQ",
+      "secrets": [
+        "WjJ4d1lYUXRRakZJTVhKa1VWQkpUVU5HYkZOTmVrSldNazQ"
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "gitlab-pat base64url depth 3",
+      "ruleId": "gitlab-pat",
+      "depth": 3,
+      "input": "V2pKNGQxbFlVWFJSYWtaSlRWaEthMVZXUWtwVVZVNUhZa1pPVG1WclNsZE5helE",
+      "secrets": [
+        "V2pKNGQxbFlVWFJSYWtaSlRWaEthMVZXUWtwVVZVNUhZa1pPVG1WclNsZE5helE"
+      ],
+      "upstreamRules": [
+        "gitlab-pat"
+      ],
+      "decodedSecrets": [
+        "glpat-B1H1rdQPIMCFlSMzBV2N"
+      ],
+      "upstreamTags": [
+        "decoded:base64",
+        "decode-depth:3"
+      ]
+    }
+  ]
+}

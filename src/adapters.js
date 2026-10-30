@@ -99,8 +99,19 @@
           range.setEnd(end.node, end.offset);
           selection.removeAllRanges();
           selection.addRange(range);
+          if (start.node !== end.node) {
+            // Let rich editors synchronize cross-node selections before editing.
+            await new Promise(resolve => setTimeout(resolve, 0));
+            const selected = selection.rangeCount === 1 ? selection.getRangeAt(0) : null;
+            if (readEditor(editor) !== current || selected?.startContainer !== start.node || selected.startOffset !== start.offset ||
+                selected.endContainer !== end.node || selected.endOffset !== end.offset) throw new Error('Editor update failed');
+          }
           const expected = current.slice(0, finding.start) + SecretShieldCore.MASK + current.slice(finding.end);
-          if (!document.execCommand('insertText', false, SecretShieldCore.MASK)) throw new Error('Editor update failed');
+          // Give rich editors their controlled replacement before native DOM editing.
+          const nativeEdit = editor.dispatchEvent(new InputEvent('beforeinput', {
+            bubbles: true, cancelable: true, inputType: 'insertText', data: SecretShieldCore.MASK,
+          }));
+          if (nativeEdit && !document.execCommand('insertText', false, SecretShieldCore.MASK)) throw new Error('Editor update failed');
           // Let batched editor state commit before replacing another value in the same text node.
           await Promise.resolve();
           if (!editor.isConnected) {
@@ -108,6 +119,22 @@
             if (replacements.length !== 1 || readEditor(replacements[0]) !== expected) throw new Error('Editor update failed');
             editor = replacements[0];
             editor.focus();
+          }
+          // Chromium can insert an extra BR after replacing a selection across
+          // block elements. Correct only that exact extra newline, through the
+          // editor's transaction, and retain the complete-text check below.
+          const at = finding.start + SecretShieldCore.MASK.length;
+          const caret = selection.anchorNode;
+          const extraBreak = caret?.nodeType === Node.TEXT_NODE && selection.anchorOffset === caret.length ? caret.nextSibling : null;
+          if (current.slice(finding.start, finding.end).includes('\n') && expected[at] === '\n' &&
+              extraBreak instanceof HTMLBRElement && editor.contains(extraBreak) &&
+              readEditor(editor) === expected.slice(0, at) + '\n' + expected.slice(at)) {
+            const cleanup = document.createRange();
+            cleanup.selectNode(extraBreak);
+            selection.removeAllRanges();
+            selection.addRange(cleanup);
+            if (!document.execCommand('insertText', false, '\n')) throw new Error('Editor update failed');
+            await Promise.resolve();
           }
           if (readEditor(editor) !== expected) throw new Error('Editor update failed');
           current = expected;

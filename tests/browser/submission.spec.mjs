@@ -1,6 +1,7 @@
 import { test, expect, chromium } from '@playwright/test';
 import path from 'node:path';
-import { credentialCases, plainCases } from '../fixtures/credentials.mjs';
+import { plainCases } from '../fixtures/credentials.mjs';
+import { credentialCases } from '../fixtures/gitleaks-credentials.mjs';
 
 const extension = path.resolve('dist');
 let context, worker, chatSequence = 0;
@@ -59,11 +60,11 @@ async function chat(host) {
 test('eight concurrent ChatGPT and Claude tabs keep approvals, outgoing prompts, and History independent', async () => {
   const states = [];
   for (let i = 0; i < 8; i++) states.push(await chat(i % 2 ? 'claude.ai' : 'chatgpt.com'));
-  for (const [i, state] of states.entries()) await prepare(state, `<p>api_key = synthetic-tab-${i}-123</p>`);
+  for (const [i, state] of states.entries()) await prepare(state, `<p>api_key = synthetic-96fd7987e5b2525431d6ca51${i}-123</p>`);
   await Promise.all(states.map(async (state, i) => {
     const action = i % 4 < 2 ? 'Send' : 'Mask';
     await review(state.page).getByRole('button', { name: action, exact: true }).evaluate(button => { button.click(); button.click(); });
-    await checkSent(state, `api_key = ${action === 'Send' ? `synthetic-tab-${i}-123` : 'xxxxxxxxxx'}`);
+    await checkSent(state, `api_key = ${action === 'Send' ? `synthetic-96fd7987e5b2525431d6ca51${i}-123` : 'xxxxxxxxxx'}`);
   }));
   await expect.poll(() => worker.evaluate(async () => (await chrome.storage.local.get('activity')).activity)).toEqual({ detected: 8, maskedPrompts: 4, unmaskedPrompts: 4 });
   await worker.evaluate(() => pending);
@@ -140,31 +141,28 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
     }
   });
 
-  test(`${host}: client-ID opt-out preserves a labeled public ID while the context check protects the secret`, async () => {
+  test(`${host}: client-ID preference preserves a public ID while an explicit secret is masked`, async () => {
     const state = await chat(host);
     await worker.evaluate(() => chrome.storage.local.set({ policy: { protectClientIds: false } }));
-    await state.editor.fill('Client secret will be shown below.\nclient_id: Q7mV8z2R9tA4nP6xL3cD\nB9wK4s8H2yF7vN5rT6aZ');
+    await state.editor.fill('Client secret follows.\nclient_id: Q7mV8z2R9tA4nP6xL3cD\nclient_secret=B9wK4s8H2yF7vN5rT6aZ');
     await state.editor.press('Enter');
     await expect(review(state.page).getByRole('heading')).toHaveText('1 secret detected');
     await review(state.page).getByRole('button', { name: 'Mask', exact: true }).click();
-    await checkSent(state, 'Client secret will be shown below.\nclient_id: Q7mV8z2R9tA4nP6xL3cD\nxxxxxxxxxx');
+    await checkSent(state, 'Client secret follows.\nclient_id: Q7mV8z2R9tA4nP6xL3cD\nclient_secret=xxxxxxxxxx');
   });
 
-  test(`${host}: separated credential mentions review actual candidates without assuming a value count`, async () => {
+  test(`${host}: separated generic mentions do not restore retired context detection`, async () => {
     const state = await chat(host);
     const original = 'client id and client secret are at the bottom.\nQ7mV8z2R9tA4nP6xL3cD';
     await state.editor.fill(original);
     await state.editor.press('Enter');
-    await expect(review(state.page).getByRole('heading')).toHaveText('1 secret detected');
-    await expect(review(state.page).locator('.review-values code')).toHaveText(['Q7mV8z2R9tA4nP6xL3cD']);
-    expect(state.requests).toEqual([]);
-    await review(state.page).getByRole('button', { name: 'Mask', exact: true }).click();
-    await checkSent(state, original.replace('Q7mV8z2R9tA4nP6xL3cD', 'xxxxxxxxxx'));
+    await expect(review(state.page)).toHaveCount(0);
+    await checkSent(state, original);
   });
 
   for (const action of ['Send', 'Mask']) test(`${host}: ${action} waits for a temporarily removed click-only Send control`, async () => {
     const state = await chat(host);
-    const original = await prepare(state, '<p>client_secret = synthetic-removed-123</p>');
+    const original = await prepare(state, '<p>client_secret = synthetic-5e23b3084025a674f9d15cf6</p>');
     await state.page.evaluate(action => {
       window.options.submit = 'click';
       const remove = () => {
@@ -176,19 +174,19 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
       else document.querySelector('[contenteditable]').addEventListener('input', () => queueMicrotask(remove), { once: true });
     }, action);
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
-    await checkSent(state, action === 'Send' ? original : original.replace('synthetic-removed-123', 'xxxxxxxxxx'));
+    await checkSent(state, action === 'Send' ? original : original.replace('synthetic-5e23b3084025a674f9d15cf6', 'xxxxxxxxxx'));
   });
 
   for (const action of ['Send', 'Mask']) test(`${host}: an explicit form-only ${action} attempt uses that same form`, async () => {
     const state = await chat(host);
-    await state.editor.fill('password = synthetic-form-only-123');
+    await state.editor.fill('password = synthetic-22ddbd32bec13087462633a6');
     await state.page.evaluate(() => {
       document.querySelector('[data-testid="send-button"]').remove();
       document.querySelector('form').requestSubmit();
     });
     await expect(review(state.page)).toBeVisible();
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
-    await checkSent(state, action === 'Send' ? 'password = synthetic-form-only-123' : 'password = xxxxxxxxxx');
+    await checkSent(state, action === 'Send' ? 'password = synthetic-22ddbd32bec13087462633a6' : 'password = xxxxxxxxxx');
   });
 
   test(`${host}: block mode applies Edit and Mask to a mixed credential batch`, async () => {
@@ -207,11 +205,11 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
     await checkSent(state, expected);
   });
 
-  test(`${host}: every one of 50 configured custom fields is detected and masked in one prompt`, async () => {
+  test(`${host}: Mask replaces all 50 explicitly assigned custom values`, async () => {
     const state = await chat(host);
     const names = Array.from({ length: 50 }, (_, i) => `custom_field_${i}`);
     await worker.evaluate(sensitiveNames => chrome.storage.local.set({ policy: { sensitiveNames } }), names);
-    const original = names.map((name, i) => `${name} = synthetic-custom-${i}-123`).join('\n');
+    const original = names.map((name, i) => `${name} = synthetic-bb101b72c4a0bc694cbe8eb0${i}-123`).join('\n');
     await state.editor.fill(original);
     await state.editor.press('Enter');
     await expect(review(state.page).getByRole('heading')).toHaveText('50 secrets detected');
@@ -221,42 +219,42 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
 
   for (const action of ['Send', 'Mask']) test(`${host}: ${action} waits for a temporarily disabled Send control`, async () => {
     const state = await chat(host);
-    const original = await prepare(state, '<p>api_key = synthetic-delayed-123</p>');
+    const original = await prepare(state, '<p>api_key = synthetic-279ba43adaaa19bfaa1c6688</p>');
     await state.page.evaluate(action => {
       if (action === 'Mask') window.options.delay = 1200;
       else { const button = document.querySelector('[data-testid="send-button"]'); button.disabled = true; setTimeout(() => { button.disabled = false; }, 1200); }
     }, action);
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
-    await checkSent(state, action === 'Mask' ? original.replace('synthetic-delayed-123', 'xxxxxxxxxx') : original);
+    await checkSent(state, action === 'Mask' ? original.replace('synthetic-279ba43adaaa19bfaa1c6688', 'xxxxxxxxxx') : original);
   });
 
   test(`${host}: Mask follows a framework remount only when the masked draft matches exactly`, async () => {
     const state = await chat(host);
-    const original = await prepare(state, '<p>api_key = synthetic-remount-123</p><p>dataset_key = synthetic-remount-123</p><p>password = synthetic-remount-123</p>');
+    const original = await prepare(state, '<p>api_key = synthetic-e863fdd93cd9b4b729f26ca3</p><p>access_token = synthetic-e863fdd93cd9b4b729f26ca3</p><p>password = synthetic-e863fdd93cd9b4b729f26ca3</p>');
     await state.page.evaluate(() => { window.options = { delay: 90, remount: true }; });
     await review(state.page).getByRole('button', { name: 'Mask', exact: true }).click();
-    await checkSent(state, original.replaceAll('synthetic-remount-123', 'xxxxxxxxxx'));
+    await checkSent(state, original.replaceAll('synthetic-e863fdd93cd9b4b729f26ca3', 'xxxxxxxxxx'));
     expect(await state.page.evaluate(() => window.remounted)).toBe(true);
   });
 
   for (const action of ['Send', 'Mask']) test(`${host}: ${action} permits one deferred form submission after its approved click`, async () => {
     const state = await chat(host);
-    const original = await prepare(state, '<p>client_secret = synthetic-deferred-123</p>');
+    const original = await prepare(state, '<p>client_secret = synthetic-706015362423f22332420081</p>');
     await state.page.evaluate(() => { window.options.submit = 'deferred'; });
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
-    await checkSent(state, action === 'Mask' ? original.replace('synthetic-deferred-123', 'xxxxxxxxxx') : original);
+    await checkSent(state, action === 'Mask' ? original.replace('synthetic-706015362423f22332420081', 'xxxxxxxxxx') : original);
   });
 
   for (const action of ['Send', 'Mask']) for (const change of ['draft', 'policy']) test(`${host}: changing ${change} while ${action} waits cancels automatic sending`, async () => {
     const state = await chat(host);
-    await prepare(state, '<p>api_key = synthetic-cancel-123</p>');
+    await prepare(state, '<p>api_key = synthetic-e45866066d38f7f07d52d4bb</p>');
     await state.page.evaluate(action => {
       if (action === 'Mask') window.options.delay = 1200;
       else document.querySelector('[data-testid="send-button"]').disabled = true;
     }, action);
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
     await expect(review(state.page)).toBeHidden();
-    if (change === 'draft') await state.editor.fill('api_key = synthetic-changed-456');
+    if (change === 'draft') await state.editor.fill('api_key = synthetic-a8c39c9f1f1a3cb3738e9d74');
     else await worker.evaluate(() => chrome.storage.local.set({ policy: { mode: 'block', sensitiveNames: ['dataset_key'] } }));
     await expect(state.page.locator('#secret-shield-notice')).toBeVisible();
     expect(state.requests).toEqual([]);
@@ -266,7 +264,7 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
 
   for (const action of ['Send', 'Mask']) test(`${host}: retiring a controller during pending ${action} cannot submit or recreate stale notices`, async () => {
     const state = await chat(host);
-    await prepare(state, '<p>api_key = synthetic-teardown-123</p>');
+    await prepare(state, '<p>api_key = synthetic-c3cd1b3c2ae46647d2736cca</p>');
     await state.page.evaluate(action => {
       if (action === 'Mask') window.options.delay = 1200;
       else {
@@ -295,16 +293,16 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
     expect(state.errors).toEqual([]);
     await state.editor.press('Enter');
     if (action === 'Send') await review(state.page).getByRole('button', { name: 'Send', exact: true }).click();
-    await checkSent(state, action === 'Send' ? 'api_key = synthetic-teardown-123' : 'api_key = xxxxxxxxxx');
+    await checkSent(state, action === 'Send' ? 'api_key = synthetic-c3cd1b3c2ae46647d2736cca' : 'api_key = xxxxxxxxxx');
   });
 
   for (const change of ['draft', 'policy', 'expiry']) test(`${host}: deferred unmasked submission requires an unchanged, unexpired approval: ${change}`, async () => {
     const state = await chat(host);
-    await prepare(state, '<p>client_secret = synthetic-approval-123</p>');
+    await prepare(state, '<p>client_secret = synthetic-c44d46d708defee5130c41f6</p>');
     await state.page.evaluate(change => { window.options = { submit: 'deferred', submitDelay: change === 'expiry' ? 3200 : 250 }; }, change);
     await review(state.page).getByRole('button', { name: 'Send', exact: true }).click();
     await expect.poll(() => worker.evaluate(async () => (await chrome.storage.local.get('activity')).activity?.unmaskedPrompts)).toBe(1);
-    if (change === 'draft') await state.editor.fill('client_secret = synthetic-changed-456');
+    if (change === 'draft') await state.editor.fill('client_secret = synthetic-a8c39c9f1f1a3cb3738e9d74');
     if (change === 'policy') await worker.evaluate(() => chrome.storage.local.set({ policy: { mode: 'block', sensitiveNames: ['dataset_key'] } }));
     await expect.poll(() => state.page.evaluate(() => window.deferredComplete)).toBe(true);
     await expect(review(state.page)).toBeVisible();
@@ -315,14 +313,14 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
 
   for (const action of ['Send', 'Mask']) for (const clearOnSend of [false, true]) test(`${host}: ${action} blocks duplicate framework form callbacks with clear=${clearOnSend}`, async () => {
     const state = await chat(host);
-    const original = await prepare(state, '<p>api_key = synthetic-duplicate-123</p>');
+    const original = await prepare(state, '<p>api_key = synthetic-d5ab18685d9f6565f508b25f</p>');
     await state.page.evaluate(clearOnSend => { window.options = { submit: 'deferred', duplicate: true, clearOnSend }; }, clearOnSend);
     await review(state.page).getByRole('button', { name: action, exact: true }).click();
     await expect.poll(() => state.page.evaluate(() => window.deferredComplete)).toBe(true);
-    await checkSent(state, action === 'Mask' ? original.replace('synthetic-duplicate-123', 'xxxxxxxxxx') : original);
+    await checkSent(state, action === 'Mask' ? original.replace('synthetic-d5ab18685d9f6565f508b25f', 'xxxxxxxxxx') : original);
     if (clearOnSend) {
       await state.page.evaluate(() => { window.options = {}; });
-      await state.editor.fill('client_secret = synthetic-next-prompt-456');
+      await state.editor.fill('client_secret = synthetic-81453cc071a0eab221cf6b62');
       await state.editor.press('Enter');
       await expect(review(state.page)).toBeVisible();
       expect(state.requests).toHaveLength(1);
@@ -333,12 +331,12 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
 
   for (const replacement of ['changed', 'ambiguous']) test(`${host}: Mask rejects a ${replacement} replacement editor`, async () => {
     const state = await chat(host);
-    await prepare(state, '<p>api_key = synthetic-remount-123</p>');
+    await prepare(state, '<p>api_key = synthetic-e863fdd93cd9b4b729f26ca3</p>');
     await state.page.evaluate(replacement => {
       window.options = { delay: 90, remount: true };
       document.querySelector('[contenteditable]').addEventListener('input', () => queueMicrotask(() => {
         const editor = document.querySelector('[contenteditable]');
-        if (replacement === 'changed') editor.textContent = 'api_key = synthetic-unapproved-456';
+        if (replacement === 'changed') editor.textContent = 'api_key = synthetic-4c5f4a6c78128921d0008e59';
         else editor.after(editor.cloneNode(true));
       }), { once: true });
     }, replacement);
@@ -351,11 +349,11 @@ for (const host of ['chatgpt.com', 'claude.ai']) {
   for (const action of ['Send', 'Mask']) test(`${host}: repeated ${action} sends 25 varied drafts exactly once each`, async () => {
     const state = await chat(host);
     for (let iteration = 0; iteration < 25; iteration++) {
-      const value = `synthetic-stress-${iteration}-123`;
+      const value = `synthetic-ba01538d3ea0d98ddad1047d${iteration}-123`;
       const html = [
         `<p>openai_api_key = xxxxxxxxxx</p><p>api_key = ${value}</p>`,
-        `<p>Explain 🧪 this config.</p><p><br></p><p>dataset_key = ${value}</p><p>Keep this paragraph.</p>`,
-        `<p><strong>Keep this style.</strong></p><p>client_secret = synthetic-<em>stress-${iteration}</em>-123</p>`,
+        `<p>Explain 🧪 this config.</p><p><br></p><p>access_token = ${value}</p><p>Keep this paragraph.</p>`,
+        `<p><strong>Keep this style.</strong></p><p>client_secret = ${value.slice(0, 14)}<em>${value.slice(14)}</em></p>`,
       ][iteration % 3];
       const original = await prepare(state, html);
       await state.page.evaluate(({ action, iteration }) => {

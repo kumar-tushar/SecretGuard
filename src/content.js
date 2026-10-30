@@ -15,7 +15,12 @@
   let policy = null, policyError = false, generation = 0;
   let suppressClick = null, suppressEnter = false;
   let notice = null, noticeTimer = null, pendingNotice = '';
-  let review = null, approval = null, pendingSend = null;
+  let review = null, approval = null, pendingSend = null, pendingScan = null;
+
+  function cancelScan() {
+    pendingScan?.controller.abort();
+    pendingScan = null;
+  }
 
   function runtimeAvailable() {
     try { return Boolean(chrome.runtime?.id); }
@@ -80,6 +85,7 @@
     if (!runtimeAvailable()) {
       stop(event);
       policy = null;
+      cancelScan();
       clearApproval();
       pendingSend = null;
       closeReview(false);
@@ -96,6 +102,7 @@
     const previous = review;
     review = null;
     if (!previous) return;
+    previous.controller.abort();
     previous.dialog.getAnimations().forEach(animation => animation.cancel());
     previous.dialog.close();
     previous.host.remove();
@@ -129,7 +136,7 @@
   function submitDraft(current, original) {
     const editors = getEditors(adapter);
     if (!runtimeAvailable() || !policy || current.generation !== generation || pendingSend !== current ||
-        (original ? policy.mode === 'block' : SecretShieldCore.scan(current.text, policy, current.text.length).length)) {
+        (original ? policy.mode === 'block' : !current.verified)) {
       throw new Error('Draft or policy changed');
     }
     // Frameworks may replace a masked editor while committing the same input transaction.
@@ -203,7 +210,8 @@
     } finally { if (pendingSend === current) pendingSend = null; }
   }
 
-  function openReview(editor, text, findings, submitForm) {
+  function openReview(editor, text, result, submitForm) {
+    const { findings } = result;
     const count = findings.length;
     if (review?.editor === editor && review.text === text && review.generation === generation) return;
     closeReview(false);
@@ -267,7 +275,7 @@
     showValues();
     const send = dialog.querySelector('.send');
     if (policy.mode === 'block') send.remove();
-    const current = { host, dialog, editor, text, count, generation, submitForm, closing: false };
+    const current = { host, dialog, editor, text, count, generation, submitForm, result, controller: new AbortController(), closing: false };
     review = current;
     if (policy.mode !== 'block') send.addEventListener('click', () => releaseOriginal(current));
     dialog.querySelector('.edit').addEventListener('click', async () => {
@@ -289,18 +297,23 @@
           show('The draft or policy changed. Send again to review the current prompt.');
           return;
         }
-        const result = SecretShieldCore.redact(current.text, policy, current.text.length);
+        const result = current.result;
+        const checked = await SecretShieldScanner.redact(result.text, policy, { signal: current.controller.signal });
+        if (!reviewIsCurrent(current)) return;
+        if (checked.count) throw new Error('Masked draft still contains findings');
         closeReview(false);
         await writeEditor(editor, result.text, result.findings);
-        masked = { editor, text: result.text, generation: current.generation, submitForm: current.submitForm };
+        masked = { editor, text: result.text, generation: current.generation, submitForm: current.submitForm, verified: true };
         pendingSend = masked;
         if (await waitForSend(masked, false)) {
           void globalThis.SecretShieldStats?.record('maskedPrompts');
           return;
         }
         show('The masked draft is ready, but Send is unavailable. It has not been sent.');
-      } catch {
+      } catch (error) {
         if (review === current) closeReview();
+        if (error.code === 'cancelled') return;
+        if (error.code === 'timeout') { show('Scanning took too long. Send blocked. Your draft is unchanged; shorten it or try again.'); return; }
         show('Could not send the masked prompt. Check the draft and send again.');
       } finally { if (pendingSend === masked) pendingSend = null; }
     });
@@ -318,6 +331,31 @@
       dialog.animate([{ transform: 'translateY(calc(50vh + 100%))', opacity: 0 },
         { transform: 'translateY(0)', opacity: 1 }],
         { duration: 260, easing: 'cubic-bezier(.16,1,.3,1)' });
+    }
+  }
+
+  async function scanDraft(current) {
+    try {
+      const result = await SecretShieldScanner.redact(current.text, policy, { signal: current.controller.signal });
+      if (pendingScan !== current) return;
+      pendingScan = null;
+      const editors = getEditors(adapter);
+      if (!runtimeAvailable() || !policy || current.generation !== generation || !current.editor.isConnected ||
+          editors.length !== 1 || editors[0] !== current.editor || readEditor(current.editor) !== current.text) return;
+      if (result.count) {
+        openReview(current.editor, current.text, result, current.submitForm);
+        return;
+      }
+      current.verified = true;
+      pendingSend = current;
+      if (!await waitForSend(current, false)) show('Send is not ready. Your draft is still in the input box.');
+    } catch (error) {
+      if (error.code === 'cancelled' || current.generation !== generation || lifecycle.signal.aborted) return;
+      show(error.code === 'timeout' ? 'Scanning took too long. Send blocked. Your draft is unchanged; shorten it or try again.' :
+        'Could not scan or update this input. Send blocked. Shorten the draft or reload the chat tab.');
+    } finally {
+      if (pendingScan === current) pendingScan = null;
+      if (pendingSend === current) pendingSend = null;
     }
   }
 
@@ -357,10 +395,13 @@
         clearApproval();
       }
       if (pendingSend?.editor === editor) { stop(event); return true; }
-      const result = SecretShieldCore.redact(text, policy, text.length);
-      if (!result.count) return false;
       stop(event);
-      openReview(editor, text, result.findings, event.type === 'submit' ? event.target : null);
+      if (pendingScan?.editor === editor && pendingScan.text === text && pendingScan.generation === generation) return true;
+      if (review?.editor === editor && review.text === text && review.generation === generation) return true;
+      cancelScan();
+      const current = { editor, text, generation, submitForm: event.type === 'submit' ? event.target : null, controller: new AbortController() };
+      pendingScan = current;
+      void scanDraft(current);
       return true;
     } catch {
       stop(event);
@@ -397,6 +438,7 @@
   }, capture);
   window.addEventListener('input', event => {
     const editor = editorFrom(event.target);
+    if (editor && pendingScan?.editor === editor && readEditor(editor) !== pendingScan.text) cancelScan();
     if (editor && review?.editor === editor && readEditor(editor) !== review.text) closeReview(false);
     if (editor && approval?.editor === editor && readEditor(editor) !== approval.text &&
         !(approval.submitted && !readEditor(editor).trim())) clearApproval();
@@ -406,6 +448,7 @@
   async function refreshPolicy() {
     const request = ++generation;
     policy = null;
+    cancelScan();
     clearApproval();
     pendingSend = null;
     closeReview(false);
@@ -426,6 +469,7 @@
   function dispose() {
     ++generation;
     policy = null;
+    cancelScan();
     clearApproval();
     pendingSend = null;
     pendingNotice = '';
@@ -438,6 +482,14 @@
     try { chrome.runtime.onMessage.removeListener(onCoverage); } catch {}
   }
   globalThis.SecretShieldContent = dispose;
+  window.addEventListener('pagehide', () => {
+    ++generation;
+    cancelScan();
+    clearApproval();
+    pendingSend = null;
+    closeReview(false);
+  }, { signal: lifecycle.signal });
+  window.addEventListener('pageshow', event => { if (event.persisted) void refreshPolicy(); }, { signal: lifecycle.signal });
   // Reloaded extensions have a new isolated world; only disconnected guards accept this handoff.
   window.dispatchEvent(new Event(reconnectEvent));
   window.addEventListener(reconnectEvent, () => { if (!runtimeAvailable()) dispose(); }, { signal: lifecycle.signal });

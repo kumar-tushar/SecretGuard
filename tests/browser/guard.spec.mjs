@@ -1,10 +1,11 @@
 import { test, expect, chromium } from '@playwright/test';
 import { readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { providerKey } from '../fixtures/gitleaks-credentials.mjs';
 
 const root = path.resolve('.');
 const extension = path.join(root, 'dist');
-const key = 'sk-proj-' + 'SyntheticOnly9_'.repeat(5);
+const key = providerKey;
 let context, composer, extensionId;
 function fixture(kind = 'textarea', unknown = false, delayed = false) {
   const editor = kind === 'textarea' ? `<textarea ${unknown ? 'id="unknown"' : 'id="prompt-textarea"'}></textarea>` : kind === 'markdown' ?
@@ -103,21 +104,21 @@ async function addFields(names) {
 
 for (const host of ['chatgpt.com','claude.ai']) test(`${host}: activity counts review choices without invalidating the draft`, async () => {
   const page=await chat(host); const editor=page.locator('textarea,[contenteditable]');
-  await editor.fill('api_key=synthetic-one-123\npassword=synthetic-two-456\nclient_id=synthetic-three-789');
+  await editor.fill('api_key=synthetic-7c0c449b19fc644bb3509ea8\npassword=synthetic-54f87dbc7e7acb714abb1520\naccess_token=synthetic-9863b2093098f99261c4e75c');
   await clickSend(page);
   await expect(review(page)).toBeVisible();
   await expect.poll(activity).toEqual({detected:3,maskedPrompts:0,unmaskedPrompts:0});
   await expect(review(page)).toBeVisible();
   await review(page).getByRole('button',{name:'Edit',exact:true}).click();
   await expect.poll(activity).toEqual({detected:3,maskedPrompts:0,unmaskedPrompts:0});
-  await editor.fill('api_key=synthetic-mask-123\npassword=synthetic-mask-456');
+  await editor.fill('api_key=synthetic-3a8323627cb48ce0002f51fd\npassword=synthetic-c7af6d9e2840f8a9f45c28ca');
   await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await expect.poll(activity).toEqual({detected:5,maskedPrompts:0,unmaskedPrompts:0});
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
   await expect.poll(activity).toEqual({detected:5,maskedPrompts:1,unmaskedPrompts:0});
   await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['api_key=xxxxxxxxxx\npassword=xxxxxxxxxx']);
-  await editor.fill('client_secret=synthetic-send-123\nclient_id=synthetic-send-456');
+  await editor.fill('client_secret=synthetic-15db5b0f7cf1e3437173c91f\naccess_token=synthetic-079fe1f06e31e2b2d5e9588c');
   await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await expect.poll(activity).toEqual({detected:7,maskedPrompts:1,unmaskedPrompts:0});
@@ -240,26 +241,67 @@ test('failed field and settings writes preserve saved values and allow retry', a
   await expect(composer.locator('#settings-status')).not.toHaveClass(/error/);
 });
 
-for (const host of ['chatgpt.com','claude.ai']) test(`${host}: client-ID selection saves automatically without disabling client-secret detection`, async () => {
-  const page=await chat(host); const editor=page.locator('textarea,[contenteditable]');
-  const original=['client_id','client-id','Client ID','clientId','clienT  ID'].map((name,i)=>`${name}=synthetic-public-app-${i}`).join('\n');
+for (const host of ['chatgpt.com','claude.ai']) test(`${host}: client-ID preference changes detection immediately and persists without disabling Gitleaks`, async () => {
+  const page=await chat(host), editor=page.locator('textarea,[contenteditable]');
+  const original='client_id=demo-client-123';
   await editor.fill(original); await editor.press('Enter');
-  await expect(review(page)).toBeVisible();
+  await expect(review(page).locator('.review-values code')).toHaveText(['demo-client-123']);
+  expect(await page.evaluate(()=>window.submitted)).toEqual([]);
+  await composer.locator('#protection-settings').evaluate(el=>{el.open=true;});
+  // A policy change dismisses a stale review; the next send uses the saved value.
+  await composer.locator('#client-ids').uncheck();
+  await expect(review(page)).toHaveCount(0);
+  await editor.press('Enter');
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([original]);
+  for (const checked of [false,true]) {
+    await composer.locator('#client-ids').setChecked(checked);
+    await expect(composer.locator('#client-ids')).toBeEnabled();
+    await expect.poll(()=>composer.evaluate(async()=>(await chrome.storage.local.get('policy')).policy.protectClientIds)).toBe(checked);
+    await composer.reload();
+    await expect(composer.locator('#client-ids')).toBeEnabled();
+    expect(await composer.locator('#client-ids').isChecked()).toBe(checked);
+    await composer.locator('#protection-settings').evaluate(el=>{el.open=true;});
+    await page.reload();
+    await expect.poll(()=>composer.evaluate(async url=>{
+      const [tab]=await chrome.tabs.query({url});
+      return (await chrome.tabs.sendMessage(tab.id,{type:'coverage'})).ready;
+    },page.url())).toBe(true);
+    await editor.fill(original); await editor.press('Enter');
+    if (checked) {
+      await expect(review(page).locator('.review-values code')).toHaveText(['demo-client-123']);
+      expect(await page.evaluate(()=>window.submitted)).toEqual([]);
+      await review(page).getByRole('button',{name:'Mask',exact:true}).click();
+      await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['client_id=xxxxxxxxxx']);
+    } else {
+      await expect(review(page)).toHaveCount(0);
+      await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([original]);
+    }
+    await editor.fill('client_secret=synthetic-940b4a839afd9d67e5718d44\npassword=synthetic-288634d97bb216223f9c24c5');
+    await editor.press('Enter');
+    await expect(review(page).getByRole('heading')).toHaveText('2 secrets detected');
+    await review(page).getByRole('button',{name:'Edit',exact:true}).click();
+  }
+  await composer.getByRole('radio',{name:'Edit or Mask',exact:true}).check();
+  await expect(composer.getByRole('radio',{name:'Edit or Mask',exact:true})).toBeEnabled();
+  await editor.fill(original); await editor.press('Enter');
+  await expect(review(page).getByRole('button')).toHaveText(['Edit','Mask']);
+  await review(page).getByRole('button',{name:'Mask',exact:true}).click();
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['client_id=xxxxxxxxxx','client_id=xxxxxxxxxx']);
+  await page.close();
+});
+
+test('client-ID protection preserves strict mode and explicitly configured custom fields', async () => {
+  await addFields(['client_id']);
+  const page=await chat(), editor=page.locator('textarea');
   await composer.locator('#protection-settings').evaluate(el=>{el.open=true;});
   await composer.locator('#client-ids').uncheck();
   await expect(composer.locator('#client-ids')).toBeEnabled();
-  await expect.poll(()=>composer.evaluate(async()=>(await chrome.storage.local.get('policy')).policy.protectClientIds)).toBe(false);
-  await expect(review(page)).toBeHidden();
-  await editor.press('Enter');
-  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([original]);
-  await editor.fill('client_secret=synthetic-private-456\npassword=synthetic-private-789');
-  await editor.press('Enter');
-  await expect(review(page).getByRole('heading')).toHaveText('2 secrets detected');
-  await review(page).getByRole('button',{name:'Edit',exact:true}).click();
-  await composer.locator('#client-ids').check();
-  await expect(composer.locator('#client-ids')).toBeEnabled();
-  await editor.fill(original); await editor.press('Enter');
-  await expect(review(page)).toBeVisible();
+  await composer.getByRole('radio',{name:'Edit or Mask',exact:true}).check();
+  await expect(composer.getByRole('radio',{name:'Edit or Mask',exact:true})).toBeEnabled();
+  await editor.fill('client_id=12'); await editor.press('Enter');
+  await expect(review(page).getByRole('button')).toHaveText(['Edit','Mask']);
+  await review(page).getByRole('button',{name:'Mask',exact:true}).click();
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['client_id=xxxxxxxxxx']);
   await page.close();
 });
 
@@ -269,10 +311,9 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: credential field 
     'client_secret','client secret','clientsecret','client-secret','access_token','access token','accesstoken','access-token',
     'authToken','auth-token','auth token','auth_token','refreshToken','refresh-token','refresh token','refresh_token',
     'privateKey','private-key','private key','private_key','secretKey','secret-key','secret key','secret_key',
-    'awsSecretAccessKey','aws-secret-access-key','aws secret access key','aws_secret_access_key',
-    'awsAccessKeyId','aws-access-key-id','aws access key id','aws_access_key_id','CLIENT-ID','clienT  Id'];
-  const separators=[': ', ' = ', ' is ', ':    ', '= ', ' ='];
-  const original=names.map((name,i)=>name+separators[i%separators.length]+`synthetic-format-${i}`).join('\n');
+    'awsSecretAccessKey','aws-secret-access-key','aws secret access key','aws_secret_access_key'];
+  const separators=[': ', ' = ', ':', ':    ', '= ', ' ='];
+  const original=names.map((name,i)=>name+separators[i%separators.length]+`synthetic-c128e0dd87816a333e1961df${i}`).join('\n');
   const masked=names.map((name,i)=>name+separators[i%separators.length]+'xxxxxxxxxx').join('\n');
   await editor.fill(original); await editor.press('Enter');
   await expect(review(page).getByRole('heading')).toHaveText(`${names.length} secrets detected`);
@@ -292,21 +333,15 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: rushed and pasted
   const requests=[];
   page.on('request',request=>{if(request.method()==='POST') requests.push(request.postData());});
   const cases=[
-    ['⚡clienT  secret:    fake-quick-123\nAPI\tTOKEN=fake-tab-456\nCLIENT-ID:fake-id-789',
-      '⚡clienT  secret:    xxxxxxxxxx\nAPI\tTOKEN=xxxxxxxxxx\nCLIENT-ID:xxxxxxxxxx',3],
-    ['password=“fake password with spaces”\nclient_secret=‘fake secret phrase’',
-      'password=“xxxxxxxxxx”\nclient_secret=‘xxxxxxxxxx’',2],
-    ['client\u00a0id:\u00a0fake-copied-id-123\naccess-token：\nfake-nextline-456',
-      'client\u00a0id:\u00a0xxxxxxxxxx\naccess-token：\nxxxxxxxxxx',2],
-    ['apiKey="fake unfinished key','apiKey="xxxxxxxxxx',1],
-    ['Authorization: Bearer fake-bearer-123\napi_key=${SERVICE_KEY}',
-      'Authorization: Bearer xxxxxxxxxx\napi_key=${SERVICE_KEY}',1],
-    ['Authorization: Bearer "fake-auth-123"\nAuthorization: Basic ‘fake-basic-456’',
-      'Authorization: Bearer "xxxxxxxxxx"\nAuthorization: Basic ‘xxxxxxxxxx’',2],
-    ['clientSecret＝fake-fullwidth-123\npassword=\n"fake following line"',
-      'clientSecret＝xxxxxxxxxx\npassword=\n"xxxxxxxxxx"',2],
-    ['password:\nclient_secret: fake-after-empty-123\napi_key=\n"client_id": "fake-following-id-456"',
-      'password:\nclient_secret: xxxxxxxxxx\napi_key=\n"client_id": "xxxxxxxxxx"',2],
+    ['⚡clienT  secret:    synthetic-d9dbb0c0b6b02bc991783ed9\nAPI\tTOKEN=synthetic-b1ab918d132ce8af38936189',
+      '⚡clienT  secret:    xxxxxxxxxx\nAPI\tTOKEN=xxxxxxxxxx',2],
+    ['password="synthetic-21ef69246d69be6f0e48c406"\nclient_secret=\'synthetic-b7c53632c72be3d346e720ee\'',
+      'password="xxxxxxxxxx"\nclient_secret=\'xxxxxxxxxx\'',2],
+    ['access-token:\nsynthetic-c6b0282919b1da3991595529','access-token:\nxxxxxxxxxx',1],
+    ['apiKey="synthetic-9ac2c55a08b56c713b8dc7c6','apiKey="xxxxxxxxxx',1],
+    [`curl -H "Authorization: Bearer ${key}" https://example.invalid`,
+      'curl -H "Authorization: Bearer xxxxxxxxxx" https://example.invalid',1],
+    ['password:\nclient_secret: synthetic-de81b8f353e3d4d1d6ab96de','password:\nclient_secret: xxxxxxxxxx',1],
   ];
   const sent=[];
   for(const [original,masked,count] of cases) {
@@ -332,7 +367,7 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: rushed and pasted
 
 for (const host of ['chatgpt.com','claude.ai']) for (const action of ['Send','Mask']) test(`${host}: rapid Enter, send clicks and repeated ${action} clicks submit once`, async () => {
   const page=await chat(host); const editor=page.locator('textarea,[contenteditable]');
-  const original='clienT-secret = fake-rushed-123\npassword=“fake rushed password”';
+  const original='clienT-secret = synthetic-9c0e83772708156bc8c4d643\npassword="synthetic-21e22d1d5195e70487b234f2"';
   await editor.fill(original); await editor.focus();
   await page.keyboard.down('Enter');
   await expect(review(page)).toBeVisible();
@@ -348,7 +383,7 @@ for (const host of ['chatgpt.com','claude.ai']) for (const action of ['Send','Ma
   await expect.poll(activity).toEqual({detected:2,maskedPrompts:0,unmaskedPrompts:0});
   const request=page.waitForRequest(request=>request.method()==='POST');
   await review(page).getByRole('button',{name:action,exact:true}).evaluate(button=>{button.click();button.click();button.click();});
-  const expected=action==='Send'?original:'clienT-secret = xxxxxxxxxx\npassword=“xxxxxxxxxx”';
+  const expected=action==='Send'?original:'clienT-secret = xxxxxxxxxx\npassword="xxxxxxxxxx"';
   expect((await request).postData()).toBe(expected);
   await page.keyboard.down('Enter');
   await page.keyboard.up('Enter');
@@ -358,52 +393,51 @@ for (const host of ['chatgpt.com','claude.ai']) for (const action of ['Send','Ma
   await page.close();
 });
 
-for (const host of ['chatgpt.com','claude.ai']) test(`${host}: custom field values trigger Edit, Send, and Mask without storing values in preferences`, async () => {
+for (const host of ['chatgpt.com','claude.ai']) test(`${host}: saved custom names use the existing Edit, Send and Mask flow`, async () => {
   await addFields(['dataset1','project_code']);
-  const page=await chat(host); const editor=page.locator('textarea,[contenteditable]');
-  const plain='dataset10 = fictional-public-123';
-  await editor.fill(plain); await editor.press('Enter');
+  const page=await chat(host), editor=page.locator('textarea,[contenteditable]');
+  const plain='{"other_field": "public", "project_other": "readable"}';
+  await editor.fill(plain); await clickSend(page);
+  await expect(review(page)).toHaveCount(0);
   await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([plain]);
-  const original='{"dataset1": "synthetic-data-123", "project_code": "synthetic-project-456"}';
+  const original='{"dataset1": "short", "project_code": "some readable words"}\napi_key=synthetic-928491d0f2e2220935424b35';
   await editor.fill(original); await clickSend(page);
-  await expect(review(page)).toBeVisible();
-  await expect(review(page).getByRole('heading')).toHaveText('2 secrets detected');
+  await expect(review(page).getByRole('heading')).toHaveText('3 secrets detected');
   await review(page).getByRole('button',{name:'Edit',exact:true}).click();
   expect(await editorText(editor)).toBe(original);
-  expect(await page.evaluate(()=>window.submitted)).toEqual([plain]);
   await editor.press('Enter');
   await review(page).getByRole('button',{name:'Send',exact:true}).click();
   await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([plain,original]);
   await editor.fill(original); await editor.press('Enter');
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
-  const masked='{"dataset1": "xxxxxxxxxx", "project_code": "xxxxxxxxxx"}';
-  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([plain,original,masked]);
-  await expect.poll(activity).toEqual({detected:6,maskedPrompts:1,unmaskedPrompts:1});
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([plain,original,'{"dataset1": "xxxxxxxxxx", "project_code": "xxxxxxxxxx"}\napi_key=xxxxxxxxxx']);
+  await expect.poll(activity).toEqual({detected:9,maskedPrompts:1,unmaskedPrompts:1});
   const stored=await composer.evaluate(async()=>JSON.stringify(await chrome.storage.local.get(null)));
-  expect(stored).not.toContain('synthetic-data');
-  expect(stored).not.toContain('synthetic-project');
+  expect(stored).not.toContain('some readable words');
+  expect(stored).not.toContain('synthetic-928491d0f2e2220935424b35');
   await page.close();
 });
 
 test('clearing custom fields cancels an open review and keeps built-in detection', async () => {
   await addFields(['dataset1']);
   const page=await chat(); const editor=page.locator('textarea');
-  await editor.fill('dataset1=synthetic-custom-123'); await editor.press('Enter');
+  await editor.fill('dataset1=short'); await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await composer.getByRole('button',{name:'Remove dataset1',exact:true}).click();
   await expect(composer.locator('#field-status')).toHaveText('');
   await expect(composer.locator('#saved-fields li')).toHaveCount(0);
   await expect(review(page)).toBeHidden();
   await editor.press('Enter');
-  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['dataset1=synthetic-custom-123']);
-  await editor.fill('password=synthetic-built-in-123'); await editor.press('Enter');
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['dataset1=short']);
+  await expect(review(page)).toBeHidden();
+  await editor.fill('password=synthetic-928491d0f2e2220935424b35'); await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await page.close();
 });
 
 test('unsuccessful Send and Mask choices do not record successful outcomes', async () => {
   const page=await chat(); const editor=page.locator('textarea');
-  await editor.fill('api_key=synthetic-failed-123');
+  await editor.fill('api_key=synthetic-3e744bc5a21ee6090017b994');
   await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await page.locator('[data-testid="send-button"]').evaluate(button=>{button.disabled=true;});
@@ -427,7 +461,7 @@ test('unsuccessful Send and Mask choices do not record successful outcomes', asy
 
 test('a masked draft without an available Send control does not count as a sent prompt', async () => {
   const page=await chat(); const editor=page.locator('textarea');
-  await editor.fill('api_key=synthetic-unsent-123\npassword=synthetic-unsent-456');
+  await editor.fill('api_key=synthetic-efc17293b9c8baf2d0574c07\npassword=synthetic-85f2748ff280aaa4f180c154');
   await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await page.locator('[data-testid="send-button"]').evaluate(button=>{button.disabled=true;});
@@ -480,7 +514,7 @@ for (const host of ['chatgpt.com','claude.ai']) {
   });
   test(`${host}: Edit retains the original draft and the next attempt asks again`, async () => {
     const page=await chat(host); const editor=page.locator('textarea,[contenteditable]');
-    const original='password = synthetic-password-4583';
+    const original='password = synthetic-cbec94b54f835709d110be04';
     await editor.fill(original);
     await clickSend(page);
     await expect(review(page)).toBeVisible();
@@ -508,7 +542,7 @@ for (const host of ['chatgpt.com','claude.ai']) {
     await expect(review(page)).toBeVisible();
     expect(await page.evaluate(()=>window.submitted)).toEqual([original]);
     await review(page).getByRole('button',{name:'Edit',exact:true}).click();
-    await editor.fill('client_secret = next-synthetic-secret-7364');
+    await editor.fill('client_secret = synthetic-2db666f0f5f2aeb29dc1129f');
     await editor.press('Enter');
     await expect(review(page)).toBeVisible();
     expect(await page.evaluate(()=>window.submitted)).toEqual([original]);
@@ -519,11 +553,11 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: Mask preserves ri
   const page=await chat(host,host==='chatgpt.com'?'markdown':'');
   const editor=page.locator('[contenteditable]');
   const cases=[
-    {html:'<p>openai_api_key = xxxxxxxxxx</p><p>openai_api_key = synthetic-paragraph-123</p>',values:['synthetic-paragraph-123'],paragraphs:2},
-    {html:'<p><strong>Keep this style.</strong></p><p>client_secret = synthetic-first-123</p><p><br></p><p>  password = "synthetic second 456"</p><p>Keep   these spaces.</p>',values:['synthetic-first-123','synthetic second 456'],paragraphs:5,styled:true},
-    {html:'<p>Before 🧪</p><p><br></p><p>client_secret = synthetic-<em>inline</em>-123</p><p>After</p>',values:['synthetic-inline-123'],paragraphs:4},
-    {html:'<p>Before</p><p>-----BEGIN RSA PRIVATE KEY-----</p><p>SYNTHETIC-PRIVATE-MATERIAL</p><p>-----END RSA PRIVATE KEY-----</p><p>After</p>',values:null,paragraphs:3},
-    {html:'<p>api_key = synthetic-repeat-123</p><p>Repeat synthetic-repeat-123 here.</p>',values:['synthetic-repeat-123'],paragraphs:2},
+    {html:'<p>openai_api_key = xxxxxxxxxx</p><p>openai_api_key = synthetic-45c4079f2f53e2278d865785</p>',values:['synthetic-45c4079f2f53e2278d865785'],paragraphs:2},
+    {html:'<p><strong>Keep this style.</strong></p><p>client_secret = synthetic-21091b3a80cecd4a4fcd6505</p><p><br></p><p>  password = "synthetic-93b82182b911dc9c38b9a1a6"</p><p>Keep   these spaces.</p>',values:['synthetic-21091b3a80cecd4a4fcd6505','synthetic-93b82182b911dc9c38b9a1a6'],paragraphs:5,styled:true},
+    {html:'<p>Before 🧪</p><p><br></p><p>client_secret = synthetic-3ec3b911<em>3db2e1c5</em>7817e281</p><p>After</p>',values:['synthetic-3ec3b9113db2e1c57817e281'],paragraphs:4},
+    {html:'<p>Before</p><p>-----BEGIN RSA PRIVATE KEY-----</p><p>SYNTHETIC-PRIVATE-MATERIAL-SYNTHETIC-PRIVATE-MATERIAL-SYNTHETIC-PRIVATE-MATERIAL-SYNTHETIC-PRIVATE-MATERIAL-</p><p>-----END RSA PRIVATE KEY-----</p><p>After</p>',values:null,paragraphs:3},
+    {html:`<p>api_key = ${key}</p><p>Repeat ${key} here.</p>`,values:[key],paragraphs:2},
   ];
   const submitted=[];
   for(const item of cases) {
@@ -550,7 +584,7 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: a rejected rich-e
   const page=await chat(host,host==='chatgpt.com'?'markdown':'');
   const editor=page.locator('[contenteditable]');
   await editor.evaluate(element=>{
-    const original='<p>api_key=synthetic-first-123</p><p>password=synthetic-second-456</p>';
+    const original='<p>api_key=synthetic-21091b3a80cecd4a4fcd6505</p><p>password=synthetic-93b82182b911dc9c38b9a1a6</p>';
     element.innerHTML=original;
     element.dispatchEvent(new InputEvent('input',{bubbles:true}));
     element.addEventListener('input',()=>{element.innerHTML=original;window.current=element.innerText;});
@@ -595,7 +629,7 @@ test('pointer and click open one review and its Send approval submits once', asy
 });
 test('review counts detected occurrences once when scanner matches overlap', async () => {
   const page=await chat(); const editor=page.locator('textarea');
-  await editor.fill(`api_key="${key}"\nRepeat ${key}\npassword=synthetic-password-4583`);
+  await editor.fill(`api_key="${key}"\nRepeat ${key}\npassword=synthetic-cbec94b54f835709d110be04`);
   await editor.press('Enter');
   await expect(review(page).getByRole('heading')).toHaveText('3 secrets detected');
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
@@ -655,12 +689,12 @@ for (const action of ['Send','Mask']) test(`changing a draft during the ${action
     [...dialog.querySelectorAll('button')].find(button=>button.textContent===action).click();
     dialog.getAnimations().forEach(animation=>animation.pause());
     const editor=document.querySelector('textarea');
-    editor.value='password="changed-synthetic-secret-2456"';window.current=editor.value;
+    editor.value='password="synthetic-b0a181bed01530b6fb2f4acc"';window.current=editor.value;
     dialog.getAnimations().forEach(animation=>animation.finish());
   },action);
   await expect(review(page)).toBeHidden();
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
-  await expect(editor).toHaveValue('password="changed-synthetic-secret-2456"');
+  await expect(editor).toHaveValue('password="synthetic-b0a181bed01530b6fb2f4acc"');
   await page.close();
 });
 for (const action of ['Send','Mask']) test(`a policy refresh during the ${action} exit animation prevents sending`, async () => {
@@ -766,14 +800,14 @@ test('changing the draft while Mask waits for synchronization cancels automatic 
   await page.evaluate(()=>{
     document.querySelector('textarea').addEventListener('input',event=>{
       if (event.target.value === 'api_key=xxxxxxxxxx') setTimeout(()=>{
-        event.target.value='password=changed-synthetic-secret-2456';
+        event.target.value='password=synthetic-b0a181bed01530b6fb2f4acc';
         event.target.dispatchEvent(new InputEvent('input',{bubbles:true}));
       },20);
     });
   });
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
-  await expect.poll(()=>page.evaluate(()=>window.current)).toBe('password=changed-synthetic-secret-2456');
-  await expect(editor).toHaveValue('password=changed-synthetic-secret-2456');
+  await expect.poll(()=>page.evaluate(()=>window.current)).toBe('password=synthetic-b0a181bed01530b6fb2f4acc');
+  await expect(editor).toHaveValue('password=synthetic-b0a181bed01530b6fb2f4acc');
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
   await page.close();
 });
@@ -830,11 +864,10 @@ test('pasted credentials remain unchanged until a send attempt opens review', as
 test('credential field types require review while ordinary personal text sends normally', async () => {
   const page=await chat(); const editor=page.locator('textarea');
   for (const prompt of [
-    'client_id = synthetic-client-4583',
-    'client_secret = synthetic-client-secret-4583',
-    'password = synthetic-password-4583',
-    'secret key = synthetic-secret-key-4583',
-    'access_token = synthetic-access-token-4583',
+    'client_secret = synthetic-31c0c742bf818083932ac3c7',
+    'password = synthetic-cbec94b54f835709d110be04',
+    'secret key = synthetic-13c07a6e3af04877a369d65d',
+    'access_token = synthetic-8a524736485f687b45dbefbb',
   ]) {
     await editor.fill(prompt);
     await editor.press('Enter');
@@ -847,7 +880,7 @@ test('credential field types require review while ordinary personal text sends n
   await editor.fill(ordinary);
   await editor.press('Enter');
   await expect(review(page)).toBeHidden();
-  expect(await page.evaluate(()=>window.submitted)).toEqual([ordinary]);
+  await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual([ordinary]);
   await page.close();
 });
 for (const action of ['Send','Mask']) test(`changing the draft invalidates pending ${action}`, async () => {
@@ -858,12 +891,12 @@ for (const action of ['Send','Mask']) test(`changing the draft invalidates pendi
   await page.evaluate(()=>{
     // A page/framework can change its draft without emitting an input event.
     const editor=document.querySelector('textarea');
-    editor.value='password = changed-synthetic-secret-2456';
+    editor.value='password = synthetic-b0a181bed01530b6fb2f4acc';
     window.current=editor.value;
   });
   await approve.evaluate(button=>button.click());
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
-  await expect(editor).toHaveValue('password = changed-synthetic-secret-2456');
+  await expect(editor).toHaveValue('password = synthetic-b0a181bed01530b6fb2f4acc');
   if (await review(page).isVisible()) await review(page).getByRole('button',{name:'Edit',exact:true}).click();
   await editor.press('Enter');
   await expect(review(page)).toBeVisible();
@@ -880,13 +913,13 @@ for (const action of ['Send','Mask']) test(`replacing the visible editor invalid
     old.id='retired-editor';old.hidden=true;
     const replacement=document.createElement('textarea');
     replacement.id='prompt-textarea';
-    replacement.value='password = replacement-synthetic-secret-3456';
+    replacement.value='password = synthetic-67afb5cb962cee89fa3d5fc8';
     old.after(replacement);
   });
   await choice.evaluate(button=>button.click());
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
   await expect(page.locator('#retired-editor')).toHaveValue(original);
-  await expect(page.locator('#prompt-textarea')).toHaveValue('password = replacement-synthetic-secret-3456');
+  await expect(page.locator('#prompt-textarea')).toHaveValue('password = synthetic-67afb5cb962cee89fa3d5fc8');
   await page.close();
 });
 for (const action of ['Send','Mask']) test(`a policy refresh invalidates an open review and retained ${action} button`, async () => {
@@ -914,7 +947,7 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: the full prompt i
   await expect.poll(()=>page.evaluate(()=>window.submitted.length)).toBe(1);
   expect((await page.evaluate(()=>window.submitted))[0]).toBe(plain);
   const prefix='ordinary text '.repeat(80000);
-  const original='password=synthetic-long-start-123\n'+prefix+'\nclient_secret=synthetic-long-end-456';
+  const original='password=synthetic-673a8994ebc97afc2ca53d2c\n'+prefix+'\nclient_secret=synthetic-9122ce4db5106b35f91a13df';
   await editor.fill(original); await editor.press('Enter');
   await expect(review(page).getByRole('heading')).toHaveText('2 secrets detected');
   await review(page).getByRole('button',{name:'Edit',exact:true}).click();
@@ -928,14 +961,14 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: the full prompt i
   await expect(review(page).getByRole('heading')).toHaveText('2 secrets detected');
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
   await expect.poll(()=>page.evaluate(()=>window.submitted.length)).toBe(3);
-  const masked=original.replace('synthetic-long-start-123','xxxxxxxxxx').replace('synthetic-long-end-456','xxxxxxxxxx');
+  const masked=original.replace('synthetic-673a8994ebc97afc2ca53d2c','xxxxxxxxxx').replace('synthetic-9122ce4db5106b35f91a13df','xxxxxxxxxx');
   expect(await editorText(editor)).toBe(masked);
   expect((await page.evaluate(()=>window.submitted))[2]).toBe(masked);
   await page.close();
 });
-test('excessive scan work, missing inputs and ambiguous inputs block known send controls', async () => {
+test('large finding batches, missing inputs and ambiguous inputs block known send controls', async () => {
   const page=await chat();
-  await page.locator('textarea').fill(Array.from({length:500},(_,i)=>`api_key="fictional-value-${i}"`).join('\n').repeat(4));
+  await page.locator('textarea').fill(Array(2000).fill(`api_key="${key}"`).join('\n'));
   await page.locator('textarea').press('Enter');
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
   await page.close();
@@ -957,7 +990,7 @@ test('plain messages, Shift+Enter and unrelated forms keep their normal behavior
   await page.locator('textarea').press('Shift+Enter');
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
   await page.locator('textarea').press('Enter');
-  expect((await page.evaluate(()=>window.submitted))[0]).toContain('Explain safe environment variables.');
+  await expect.poll(async()=>(await page.evaluate(()=>window.submitted))[0]).toContain('Explain safe environment variables.');
   await page.evaluate(()=>{
     const form=document.createElement('form');form.id='search';form.innerHTML='<input name="q"><button>Search</button>';
     form.addEventListener('submit',e=>{e.preventDefault();window.searchWorked=true});document.body.append(form);
@@ -968,7 +1001,7 @@ test('plain messages, Shift+Enter and unrelated forms keep their normal behavior
 });
 test('invalid custom fields do not replace saved protection or persist secret assignments', async () => {
   await addFields(['dataset1']);
-  for (const invalid of ['dataset1=synthetic-secret-value', '(a+)+$', 'x'.repeat(65)]) {
+  for (const invalid of ['dataset1=synthetic-0e834a289cb8bcee8e3b3196', '(a+)+$', 'x'.repeat(65)]) {
     await composer.locator('#sensitive-names').fill(invalid);
     await expect(composer.locator('#field-status')).toHaveText('');
     await expect(composer.locator('#field-status')).not.toHaveClass(/error/);
@@ -984,7 +1017,7 @@ test('invalid custom fields do not replace saved protection or persist secret as
     expect(await composer.evaluate(async()=>(await chrome.storage.local.get('policy')).policy.sensitiveNames)).toEqual(['dataset1']);
   }
   const saved=await composer.evaluate(async()=>JSON.stringify(await chrome.storage.local.get(null)));
-  expect(saved).not.toContain('synthetic-secret-value');
+  expect(saved).not.toContain('synthetic-0e834a289cb8bcee8e3b3196');
   await composer.reload();
   await expect(composer.locator('#saved-fields span')).toHaveText(['dataset1']);
 });
@@ -1014,7 +1047,7 @@ test('the 50th saved field hides entry and deleting one restores it', async () =
   await expect(composer.locator('#field-help')).toHaveText('Add field names whose values you want to protect.');
   await expect(composer.locator('#sensitive-names')).toBeEnabled();
   const page=await chat();
-  await page.locator('textarea').fill('dataset49=synthetic-fiftieth-123');
+  await page.locator('textarea').fill('dataset49='+key);
   await page.locator('textarea').press('Enter');
   await expect(review(page)).toBeVisible();
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
@@ -1059,7 +1092,7 @@ test('saved fields use full-width rows and controls use brand hover colors', asy
   await composer.locator('#fields-title').click();
   await expect(composer.locator('#saved-fields')).toBeVisible();
   const page=await chat();
-  await page.locator('textarea').fill('api_key=synthetic-hover-123');
+  await page.locator('textarea').fill('api_key=synthetic-ddc70e1713749e9159da610d');
   await page.locator('textarea').press('Enter');
   const mask=review(page).getByRole('button',{name:'Mask',exact:true});
   await mask.hover();
@@ -1200,7 +1233,9 @@ async function noticeHarness(host='chatgpt.com', deferred=false) {
       runtime:{id:'test-extension',getURL:file=>`chrome-extension://test/${file}`,onMessage:{addListener:listener=>{window.coverageListener=listener;}}}};
     if (deferred) {window.noticeBody=document.body;document.body.remove();}
   },deferred);
-  for (const name of ['core','policy','adapters','content']) await page.addScriptTag({content:await readFile(path.join(root,'src',name+'.js'),'utf8')});
+  for (const name of ['gitleaks-rules','core','policy','adapters','content']) await page.addScriptTag({content:await readFile(path.join(root,'src',name+'.js'),'utf8')});
+  // This clock-controlled notice fixture has no installed extension origin.
+  await page.evaluate(() => { globalThis.SecretShieldScanner = { redact: async (text, policy) => SecretShieldCore.redact(text, policy, text.length) }; });
   return {browser,page};
 }
 
@@ -1240,7 +1275,7 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: notices count dow
     expect(await page.evaluate(()=>window.submitted)).toEqual([]);
     await page.evaluate(()=>{window.policyUnavailable=false;window.policyChanged({policy:{}},'local');});
     await expect.poll(()=>page.evaluate(()=>new Promise(resolve=>window.coverageListener({type:'coverage'},null,resolve)))).toMatchObject({ready:true});
-    await page.locator('textarea,[contenteditable]').fill('api_key=synthetic-notice-timer-123');
+    await page.locator('textarea,[contenteditable]').fill('api_key=synthetic-153de2924f370518273cdc96');
     await page.locator('textarea,[contenteditable]').press('Enter');
     await expect(review(page)).toBeVisible();
     await page.clock.runFor(5000);
@@ -1273,21 +1308,20 @@ for (const state of ['pending','unavailable','invalid']) test(`${state} policy b
     const get=()=>state==='pending'?new Promise(()=>{}):state==='invalid'?Promise.resolve({policy:{mode:'allow-all'}}):Promise.reject(new Error('unreadable'));
     window.chrome={storage:{local:{get},managed:{get:async()=>({})},onChanged:{addListener:()=>{}}},runtime:{id:'test-extension',getURL:file=>`chrome-extension://test/${file}`,onMessage:{addListener:()=>{}}}};
   },state);
-  for(const name of ['core','policy','adapters','content']) await page.addScriptTag({content:await readFile(path.join(root,'src',name+'.js'),'utf8')});
+  for(const name of ['gitleaks-rules','core','policy','adapters','content']) await page.addScriptTag({content:await readFile(path.join(root,'src',name+'.js'),'utf8')});
   await page.locator('textarea').fill('ordinary prompt');await page.locator('textarea').press('Enter');
   expect(await page.evaluate(()=>window.submitted)).toEqual([]);
   await browser.close();
 });
 
-for (const host of ['chatgpt.com','claude.ai']) test(`${host}: Markdown and multiline authorization cannot send unmasked credentials after Mask`,async()=>{
+for (const host of ['chatgpt.com','claude.ai']) test(`${host}: Markdown and cURL credentials cannot send unmasked values after Mask`,async()=>{
   const page=await chat(host), requests=[];
   page.on('request',request=>{if(request.method()==='POST') requests.push(request.postData());});
   const cases=[
-    ['client_secret: `synthetic-markdown-123`','client_secret: `xxxxxxxxxx`'],
-    ['`client_secret`: synthetic-label-123','`client_secret`: xxxxxxxxxx'],
-    ['client_secret:\n```\nsynthetic-fenced-123\n```','client_secret:\n```xxxxxxxxxx```'],
-    ['Authorization: Bearer\nsynthetic-bearer-123','Authorization: Bearer\nxxxxxxxxxx'],
-    ['Authorization: Basic\n"synthetic basic token"','Authorization: Basic\n"xxxxxxxxxx"'],
+    ['client_secret: `synthetic-a0722b1feb14d66a9921c66d`','client_secret: `xxxxxxxxxx`'],
+    ['{"client_secret": "synthetic-8bdeeb31984d73b3c5a3f405"}','{"client_secret": "xxxxxxxxxx"}'],
+    [`client_secret:\n\`\`\`\n${key}\n\`\`\``,`client_secret:\n\`\`\`\nxxxxxxxxxx\n\`\`\``],
+    [`curl -H "Authorization: Bearer ${key}" https://example.invalid`,'curl -H "Authorization: Bearer xxxxxxxxxx" https://example.invalid'],
   ];
   const sent=[];
   for(const [original,masked] of cases){
@@ -1314,7 +1348,7 @@ for(const host of ['chatgpt.com','claude.ai']) test(`${host}: CSS-hidden editor 
   const editor=page.locator('textarea,[contenteditable]').first();
   await editor.fill('A plain prompt.');await clickSend(page);
   await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['A plain prompt.']);
-  await editor.fill('client_secret=synthetic-visible-123');await editor.press('Enter');
+  await editor.fill('client_secret=synthetic-345fad7e5bf59f391e7b50ed');await editor.press('Enter');
   await expect(review(page)).toBeVisible();
   await review(page).getByRole('button',{name:'Mask',exact:true}).click();
   await expect.poll(()=>page.evaluate(()=>window.submitted)).toEqual(['A plain prompt.','client_secret=xxxxxxxxxx']);

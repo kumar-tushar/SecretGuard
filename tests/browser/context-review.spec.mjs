@@ -1,8 +1,9 @@
 import { test, expect, chromium } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { providerKey } from '../fixtures/gitleaks-credentials.mjs';
 let context, worker, dashboard, extensionId;
-const first = 'Q7mV8z2R9tA4nP6xL3cD', second = 'B9wK4s8H2yF7vN5rT6aZ';
+const first = providerKey, second = 'gho_N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8B9wK';
 const original = `My API key and client secret are at the bottom.\nPlease help with this connection.\n\n${first}\n\n${second}`;
 async function chat(host) {
   const page = await context.newPage(), sent = [];
@@ -36,7 +37,7 @@ test.afterEach(async () => {
 });
 test.afterAll(async () => { await context?.close(); });
 
-for (const host of ['chatgpt.com', 'claude.ai']) for (const action of ['Send', 'Edit', 'Mask']) test(`${host}: distant candidates are displayed completely before ${action}`, async () => {
+for (const host of ['chatgpt.com', 'claude.ai']) for (const action of ['Send', 'Edit', 'Mask']) test(`${host}: standalone provider values are displayed completely before ${action}`, async () => {
   const { page, sent } = await chat(host), editor = page.locator('textarea,[contenteditable]');
   await editor.fill(original);
   const current = await editor.evaluate(el => el.value ?? el.innerText);
@@ -55,51 +56,44 @@ for (const host of ['chatgpt.com', 'claude.ai']) for (const action of ['Send', '
   else await expect.poll(() => sent).toEqual([action === 'Send' ? current : current.replace(first, 'xxxxxxxxxx').replace(second, 'xxxxxxxxxx')]);
 });
 
-for (const host of ['chatgpt.com', 'claude.ai']) test(`${host}: known formats, explicit values and possible secrets share one review without duplicate detections`, async () => {
-  const { page, sent } = await chat(host), provider = 'sk-proj-' + 'OnlyDummy9_'.repeat(4);
-  const draft = `api_key = short-value\nA distant value follows.\n${first}\n${provider}`;
+for (const host of ['chatgpt.com', 'claude.ai']) test(`${host}: provider formats and explicit assignments share one review without duplicate detections`, async () => {
+  const { page, sent } = await chat(host), provider = 'ghs_B9wK4s8H2yF7vN5rT6aZN7q2V9m4R8s6T3x5';
+  const draft = `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\nA distant value follows.\n${first}\n${provider}`;
   await page.locator('textarea,[contenteditable]').fill(draft); await page.locator('textarea,[contenteditable]').press('Enter');
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('heading')).toHaveText('3 secrets detected');
-  await expect(dialog.locator('.review-values code')).toHaveText(['short-value', first, provider]);
+  await expect(dialog.locator('.review-values code')).toHaveText(['N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8', first, provider]);
   await dialog.getByRole('button', { name: 'Mask', exact: true }).click();
-  await expect.poll(() => sent).toEqual([draft.replace('short-value', 'xxxxxxxxxx').replace(first, 'xxxxxxxxxx').replace(provider, 'xxxxxxxxxx')]);
+  await expect.poll(() => sent).toEqual([draft.replace('N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8', 'xxxxxxxxxx').replace(first, 'xxxxxxxxxx').replace(provider, 'xxxxxxxxxx')]);
 });
 
-test('unknown values require keyword evidence and explicit client-ID opt-out stays respected', async () => {
+test('keyword mentions and saved preferences do not restore distant or custom matching', async () => {
   await dashboard.evaluate(() => SecretShieldPolicy.update({ kind: 'set', key: 'protectClientIds', value: false }));
   const { page, sent } = await chat('chatgpt.com'), editor = page.locator('textarea');
-  for (const draft of [first, `client id\n${first}`, `Explain API keys.\nrequest_id: ${first}`, `Explain API keys.\ngetCustomerAccessToken`]) {
+  const unknown = 'Q7mV8z2R9tA4nP6xL3cD';
+  for (const draft of [unknown, `client id\n${unknown}`, `Explain API keys.\nrequest_id: ${unknown}`,
+    'Explain API keys.\ngetCustomerAccessToken', `API key at the bottom.\nclient_id: ${unknown}\n${unknown}`,
+    `API key at the bottom.\nsession_id: ${unknown}`]) {
     await editor.fill(draft); await editor.press('Enter');
     await expect(page.getByRole('dialog')).toHaveCount(0);
     await expect.poll(() => sent.at(-1)).toBe(draft);
   }
-  const draft = `API key at the bottom.\nclient_id: ${first}\n${second}`;
-  await editor.fill(draft); await editor.press('Enter');
-  const dialog = page.getByRole('dialog'); await expect(dialog.locator('.review-values code')).toHaveText([second]);
-  await dialog.getByRole('button', { name: 'Mask', exact: true }).click();
-  await expect.poll(() => sent.at(-1)).toBe(draft.replace(second, 'xxxxxxxxxx'));
-  const session = `API key at the bottom.\nsession_id: ${first}`;
-  await editor.fill(session); await editor.press('Enter');
-  await expect(dialog.locator('.review-values code')).toHaveText([first]);
-  await dialog.getByRole('button', { name: 'Mask', exact: true }).click();
-  await expect.poll(() => sent.at(-1)).toBe(session.replace(first, 'xxxxxxxxxx'));
 });
 
 test('review treats detected HTML as text and every long or repeated value is available', async () => {
   const { page, sent } = await chat('claude.ai'), editor = page.locator('[contenteditable]');
-  const value = 'demo-<img src=x onerror="window.injected=true">', draft = `password='${value}'`;
+  const value = '-----BEGIN PRIVATE KEY-----\n<img src=x onerror="window.injected=true">' + 'Synthetic9'.repeat(8) + '\n-----END PRIVATE KEY-----', draft = value;
   await editor.fill(draft); await editor.press('Enter');
   const dialog = page.getByRole('dialog');
   await expect(dialog.locator('.review-values code')).toHaveText([value]);
   await expect(dialog.locator('.review-values img')).toHaveCount(0);
   expect(await page.evaluate(() => window.injected)).toBeUndefined();
   await dialog.getByRole('button', { name: 'Edit', exact: true }).click();
-  const long = first.repeat(200);
+  const long = 'Q7mV8z2R9tA4nP6xL3cD'.repeat(200);
   await editor.fill(`private_key = "${long}"`); await editor.press('Enter');
   await expect(dialog.locator('.review-values code')).toHaveText([long]);
   await dialog.getByRole('button', { name: 'Edit', exact: true }).click();
-  const repeated = 'api_key=short\n' + Array(65).fill(first).join('\n');
+  const repeated = 'api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\n' + Array(65).fill(first).join('\n');
   await editor.fill(repeated); await editor.press('Enter');
   await expect(dialog.getByRole('heading')).toHaveText('66 secrets detected');
   await expect(dialog.locator('.review-values li')).toHaveCount(50);
@@ -109,10 +103,10 @@ test('review treats detected HTML as text and every long or repeated value is av
   await expect(dialog.locator('.review-values li')).toHaveCount(66);
   await expect(dialog.locator('.review-values code').last()).toHaveText(first);
   await dialog.getByRole('button', { name: 'Mask', exact: true }).click();
-  await expect.poll(() => sent).toEqual([repeated.replace('short', 'xxxxxxxxxx').replaceAll(first, 'xxxxxxxxxx')]);
+  await expect.poll(() => sent).toEqual([repeated.replace('N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8', 'xxxxxxxxxx').replaceAll(first, 'xxxxxxxxxx')]);
 });
 
-test('custom keyword triggers and block mode use the same review and continue to hide Send', async () => {
+test('saved custom names retain block mode while provider formats continue to hide Send', async () => {
   await dashboard.evaluate(async () => {
     await SecretShieldPolicy.update({ kind: 'addField', name: 'project_code' });
     await SecretShieldPolicy.update({ kind: 'set', key: 'mode', value: 'block' });

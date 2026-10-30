@@ -4,11 +4,13 @@ Published by **Orenthic**.
 
 Local credential detection and masking for **ChatGPT, Claude, Gemini, DeepSeek, Grok, Meta AI, Microsoft Copilot, Perplexity and Mistral in Chrome**. Version 1.0.0 is an engineering pilot, not a production-certified enterprise DLP product.
 
-CkretGuard runs a deterministic scanner on your device. The first replacement detector enables Gitleaks' **generic-api-key** rule: its label/assignment pattern, candidate character and length constraints, entropy threshold, keyword prefilter, stopwords and content exclusions. The rule is pinned to an upstream revision; the original CkretGuard detection heuristics remain removed. See [Gitleaks integration](docs/GITLEAKS.md) for the exact scope, provenance, license and reference tests.
+CkretGuard runs a deterministic scanner on your device. The replacement detector enables **217 pinned Gitleaks rules** covering generic API-key assignments, provider credentials, private-key blocks, JWT patterns and cURL authentication options. Each rule retains its character and length constraints, entropy threshold where specified, keyword prefilter and applicable exclusions. Five filename-dependent rules remain excluded from prompt scanning. The original CkretGuard detection heuristics remain removed. See [Gitleaks integration](docs/GITLEAKS.md) for the exact scope, provenance, license and reference tests.
 
-This step does not enable standalone provider rules or search for arbitrary values distant from a field mention. For example, `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` is detected, while `key={event.id}` and ordinary API-key discussion are preserved. Custom-field controls and the client-ID preference remain available and retain saved settings; separate matching for those settings will be added in a later step. Detection does not verify whether a credential is active.
+Recognizable provider keys, private-key blocks and JWTs can trigger review anywhere in the prompt without a field name. Arbitrary values distant from a field mention are not inferred to be secrets. For example, `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` is detected, while `key={event.id}` and ordinary API-key discussion are preserved. Saved custom fields also protect explicitly assigned literal values, including short or readable ones. **Protect client IDs** is enabled by default and adds the same assignment checks for `client_id`, `clientId`, `client-id` and `client id`, ignoring case. Turning it off disables this extra check; saved custom fields and the pinned Gitleaks rules still apply. Detection does not verify whether a credential is active, parse private-key material or verify JWT signatures.
 
 ## Try it
+
+Browser scans run in a local worker with a five-second deadline, keeping the chat responsive. A timeout or worker failure blocks sending and leaves the draft unchanged. Editing the draft, changing protection settings or reloading the guard cancels pending work. The extension uses the same Chrome permissions as before.
 
 Build the extension into `dist/` with Node.js **24 LTS**. `.nvmrc` selects Node 24, and npm rejects other major versions. If you use nvm, run `nvm install` and `nvm use` first:
 
@@ -20,7 +22,7 @@ npm run build
 1. Open `chrome://extensions` in Chrome and enable **Developer mode**.
 2. Choose **Load unpacked** and select this project's `dist` folder.
 3. Pin CkretGuard and reload existing ChatGPT / Claude / Gemini / DeepSeek / Grok / Meta AI / Copilot / Perplexity / Mistral tabs.
-4. Test with `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` and choose Send, Edit, or Mask. Use synthetic values only. Custom-field names can still be saved and removed, up to 50 names, but their separate matching is not yet enabled in the replacement detector.
+4. Test with `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` and choose Send, Edit, or Mask. Use synthetic values only. To try a custom field, save `dataset_key` in Custom secret fields, then send `dataset_key = demo-value`.
 
 When upgrading, allow access to the newly supported chat sites if Chrome asks for the new site permissions.
 
@@ -40,7 +42,7 @@ The toolbar dashboard shows three local totals: **Detected** counts secret occur
 
 Use the **settings icon** at the top right to open full mode and use the **Home**, **History**, **Privacy Policy**, and **Contact Us** sidebar. History saves the complete original prompt, including secrets, only after the review's **Send** choice activates the website's send control. Each entry includes its time, chat site, detected count, and conversation link when available. Entries from the last 90 days appear newest first; expand one to inspect the prompt and rotate any exposed credentials. Older entries are deleted automatically on History access, on extension worker startup, and during hourly cleanup while Chrome is running. Delete entries individually or clear History without resetting the activity totals. Masked prompts, ordinary messages, edited drafts, and cancelled or unavailable sends are not recorded. History starts with this update and cannot recover earlier prompts. It records submission attempts, not provider delivery confirmations.
 
-Custom secret field names remain stored locally. Clicking × removes a saved name. Newly added names require 3–64 characters, starting with a letter and containing letters, digits, spaces, underscores or hyphens. Saving a name does not itself enable matching in this first replacement-detector step.
+Custom secret field names remain stored locally, up to 50 names. Clicking × removes a saved name and stops its custom matching. Newly added names require 3–64 characters, starting with a letter and containing letters, digits, spaces, underscores or hyphens. Names match literally, ignoring case, with `=` or `:` assignments and quoted JSON properties. A value may follow the separator on the immediately next line. Quoted values can include spaces and line breaks; unquoted values end at whitespace or a closing delimiter. Placeholders, empty values and JSX/object expressions such as `{event.id}` are skipped. Bare field mentions and distant values do not trigger custom matching. Incomplete quoted custom values block sending until corrected.
 
 **The Chrome extension performs the interception.** The optional CkretGuard AI plugin is a setup companion containing the extension and its instructions. Enabling that plugin alone does not intercept prompts in ChatGPT, Codex, Claude, or other clients.
 
@@ -59,8 +61,8 @@ After switching branches, run `npm run build` and reload the extension to use th
 - A website can read text as you type into its own page, including autosave/telemetry, before you press Send. Custom fields store names rather than sample secret values. The toolbar does not provide a private prompt composer.
 - This version does not intercept network requests. It cannot enforce confidentiality against a hostile site, scripts using programmatic requests, changed or unknown UI controls, browser extensions, compromised devices, or disabled/site-restricted installation. Site DOM changes can bypass event coverage; reload the tab and verify recognition before relying on the guard.
 - Files, images, voice, drag-and-drop, rich-text metadata, conversation history, tool output, API traffic, native desktop apps, Codex, and Claude Code are outside browser-guard coverage. There is no claim to protect every AI agent.
-- Detection currently uses only Gitleaks' generic-api-key rule and its exclusions. Unlabeled provider keys, distant values, short/low-entropy values, encoded secrets and other formats may be missed. False positives remain possible. Custom field names store labels rather than secret values; their separate matching is not yet enabled.
-- Browser scans cover the complete current prompt, including drafts above 100,000 characters, without truncating it or changing the chat input’s limits. The standalone scanner and stdin filter retain their 100,000-character default; browser calls explicitly use the full draft length. Excessive scan work, unreadable policy, and failed editor updates block recognized submission paths. The **Send** choice applies to a successfully scanned draft with detected credentials; it does not bypass these failures. This is cooperative browser UI protection, not a tamper-proof boundary.
+- Detection uses the 217 Gitleaks rules that do not require filenames, plus explicit assignments to saved custom fields. The same rules scan Base64/Base64url, percent-encoded and hexadecimal ASCII text through up to three shared decoding passes; Mask replaces complete original encoded segments. Hex candidates require at least 32 consecutive hex characters and complete byte pairs. Percent candidates span the first through last valid escape on a source line, so masking can also remove intervening non-secret text. A limit of 1,000,000 decoded ASCII bytes per scan fails closed, alongside the browser worker deadline. Other encodings, binary/non-ASCII escaped bytes, whitespace-split Base64/hex or deeper encodings, unrecognized formats, arbitrary distant values, short/low-entropy values outside configured custom fields and incomplete private-key blocks may be missed. AWS detection covers access-key IDs, not standalone secret access keys or session tokens. False positives remain possible. Custom field names store labels rather than secret values.
+- Browser scans cover the complete current prompt, including drafts above 100,000 characters, without truncating it or changing the chat input’s limits. The standalone scanner and stdin filter retain their 100,000-character default; browser calls explicitly use the full draft length. Failed scans, unreadable policy, and failed editor updates block recognized submission paths. The **Send** choice applies to a successfully scanned draft with detected credentials; it does not bypass these failures. This is cooperative browser UI protection, not a tamper-proof boundary.
 
 For deployment controls, see [enterprise guidance](docs/ENTERPRISE.md). For component boundaries and expansion to other clients, see [architecture](docs/ARCHITECTURE.md).
 
@@ -76,7 +78,7 @@ npm run package                   # both suites, Chrome ZIP, companion plugin ZI
 
 GitHub Actions runs the unit tests and the complete Playwright suite on every push and pull request, with a manual run option. Like AjentGuard, it uses Node from `.nvmrc`, `npm ci`, Playwright's bundled Chromium, and one test worker on Ubuntu. Failure screenshots and error context are available as `playwright-diagnostics` artifacts for seven days.
 
-During the detector replacement, older suites still expect the retired scanner and are not yet migrated. The first Gitleaks step has dedicated tests in `tests/gitleaks.test.mjs`, plus the retired-rule checks and active-rule browser cases in `tests/browser/detection-removal.spec.mjs`. The full legacy suite is not a passing release gate for this intermediate step.
+The unit and browser suites use the enabled Gitleaks rules. The `tests/gitleaks*.test.mjs` suites check 15,429 independently evaluated upstream cases, including 697 cURL cases and positive cases for every enabled rule. Per-option cURL enumeration, shared Azure boundaries and complete wrapped-JWT masking are tested browser adaptations. Browser contract samples come from the upstream reference fixtures; retired heuristics remain covered as negative cases. The complete suite covers all nine adapters, review actions, strict mode, counters, History, settings, rich editors and reload recovery.
 
 Browser fixtures resemble the supported textarea and contenteditable editors. Tests observe outgoing fixture POST bodies and cover the review choices: original text is sent only after **Send**, **Edit** preserves the draft without sending, and **Mask** automatically sends only the masked prompt once. No test sends requests to a real AI service or uses real credentials. Passing these fixtures does not verify today's live provider DOM or organization-managed deployment. Manual release checks remain necessary.
 
@@ -91,6 +93,17 @@ import { redact } from './src/index.mjs';
 const result = redact(prompt);
 // Send result.text only after the local host has intercepted the original request.
 ```
+
+Base64, percent and hex decoding share a default limit of three passes. A fourth argument, for example
+`redact(prompt, undefined, undefined, { maxDecodeDepth: 1 })`, limits it to one;
+`maxDecodeDepth: 0` preserves plaintext-only comparisons. Depths above 3 are
+rejected. See [decoding limits and mapping](docs/GITLEAKS.md#encoded-text-and-original-spans).
+
+Findings intersecting decoded text include `tags`, for example
+`['decoded:hex', 'decode-depth:2']` for a twice-hex-encoded token. Mixed codecs
+are listed once each, and overlapping findings retain the maximum contributing
+depth. Plaintext findings keep their existing shape. Tags do not change review,
+masking or History, and contain no decoded secret values.
 
 Exceptions must block delivery. Never fall back to the original prompt. A local stdin filter is also included:
 

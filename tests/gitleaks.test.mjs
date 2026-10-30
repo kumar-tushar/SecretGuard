@@ -5,14 +5,18 @@ import vm from 'node:vm';
 import { scan, redact, MASK } from '../src/index.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/gitleaks-generic.json', import.meta.url), 'utf8'));
+const coreSource = await readFile(new URL('../src/core.js', import.meta.url), 'utf8');
 const value = 'N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8';
 
 test('generic-api-key matches the pinned upstream reference corpus', () => {
-  assert.deepEqual(SecretShieldRules.rules.map(rule => rule.id), ['generic-api-key']);
+  const context = vm.createContext({ SecretShieldRules: { ...SecretShieldRules, rules: SecretShieldRules.rules.filter(rule => rule.id === 'generic-api-key') } });
+  vm.runInContext(coreSource, context);
+  const { scan, redact } = context.SecretShieldCore;
+  const policy = { protectClientIds: false };
   assert.match(SecretShieldRules.source, /5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/);
   for (const fixture of reference.cases) {
-    const findings = scan(fixture.input);
-    assert.deepEqual(findings.map(item => fixture.input.slice(item.start, item.end)), fixture.secrets, fixture.name);
+    const findings = scan(fixture.input, policy);
+    assert.deepEqual(Array.from(findings, item => fixture.input.slice(item.start, item.end)), fixture.secrets, fixture.name);
     let cursor = 0, expected = '';
     for (const item of findings) {
       assert.deepEqual(Object.keys(item).sort(), ['end', 'start', 'type']);
@@ -22,10 +26,10 @@ test('generic-api-key matches the pinned upstream reference corpus', () => {
       cursor = item.end;
     }
     expected += fixture.input.slice(cursor);
-    const result = redact(fixture.input);
+    const result = redact(fixture.input, policy);
     assert.equal(result.count, fixture.secrets.length, fixture.name);
     assert.equal(result.text, expected, fixture.name);
-    assert.equal(scan(result.text).length, 0, fixture.name);
+    assert.equal(scan(result.text, policy).length, 0, fixture.name);
   }
 });
 
@@ -52,10 +56,11 @@ test('only captured occurrences are masked and offsets remain UTF-16 editor offs
   assert.ok(!JSON.stringify(scan(text)).includes(value), 'findings do not duplicate secret values');
 });
 
-test('saved custom fields and client-ID settings do not restore retired matching', () => {
+test('saved custom fields supplement Gitleaks without restoring retired matching', () => {
   for (const mode of ['redact', 'block']) for (const protectClientIds of [false, true]) {
     const policy = { mode, protectClientIds, sensitiveNames: ['dataset_name'] };
-    for (const input of [`dataset_name=${value}`, `client_id=${value}`, `api key\n\n${value}`, value]) {
+    assert.equal(redact(`dataset_name=${value}`, policy).text, `dataset_name=${MASK}`);
+    for (const input of [`api key\n\n${value}`, value]) {
       assert.deepEqual(scan(input, policy), [], input);
     }
     assert.equal(scan('client_secret=' + value, policy).length, 1);

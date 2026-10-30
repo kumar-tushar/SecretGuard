@@ -51,7 +51,7 @@ for (const host of ['chatgpt.com', 'chat.openai.com', 'claude.ai', 'gemini.googl
     const submitted = [];
     for (const cycle of [0, 1]) {
       const separator = host.endsWith('meta.ai') ? '; ' : '\n';
-      const draft = `openai_api_key = xxxxxxxxxx${separator}dataset_key = synthetic-reload-${cycle}-123`;
+      const draft = `openai_api_key = xxxxxxxxxx${separator}api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8${cycle}`;
       await editor.fill(draft);
       // A page-created handoff event cannot retire a connected guard.
       await page.evaluate(() => window.dispatchEvent(new Event('ckretguard-reconnect')));
@@ -79,7 +79,7 @@ for (const host of ['chatgpt.com', 'chat.openai.com', 'claude.ai', 'gemini.googl
       await editor.press('Enter');
       await expect(dialog).toBeVisible();
       await dialog.getByRole('button', { name: cycle === 0 ? 'Mask' : 'Send', exact: true }).click();
-      submitted.push(cycle === 0 ? `openai_api_key = xxxxxxxxxx${separator}dataset_key = xxxxxxxxxx` : draft);
+      submitted.push(cycle === 0 ? `openai_api_key = xxxxxxxxxx${separator}api_key = xxxxxxxxxx` : draft);
       await expect.poll(() => page.evaluate(() => window.submitted)).toEqual(submitted);
       await expect.poll(() => worker.evaluate(async () => (await chrome.storage.local.get('activity')).activity)).toEqual({ detected: cycle * 2 + 2, maskedPrompts: 1, unmaskedPrompts: cycle });
       const policy = await worker.evaluate(async () => (await chrome.storage.local.get('policy')).policy);

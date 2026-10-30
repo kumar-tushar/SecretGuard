@@ -100,9 +100,10 @@ test('toolbar mode keeps the existing Home layout without a sidebar', async () =
 
 for (const host of ['chatgpt.com', 'chat.openai.com', 'claude.ai']) test(`${host}: only Send saves the complete unmasked prompt and its source`, async () => {
   const page = await chat(host);
-  const original = 'api_key=synthetic-visible-123\npassword="synthetic secret phrase"';
+  const original = 'api_key=synthetic-345fad7e5bf59f391e7b50ed\npassword="synthetic-201701bee25228ea760e8b91"';
   await page.locator('textarea,[contenteditable]').fill('Ordinary prompt without credentials.');
   await clickSend(page);
+  await expect.poll(() => page.evaluate(() => window.sent)).toEqual(['Ordinary prompt without credentials.']);
   await choose(page, original, 'Edit');
   expect(await entries()).toEqual([]);
   await choose(page, original, 'Mask');
@@ -128,18 +129,18 @@ for (const host of ['chatgpt.com', 'chat.openai.com', 'claude.ai']) test(`${host
 test('newest prompts appear first and updates reach every open dashboard', async () => {
   const page = await chat();
   await dashboard.getByRole('navigation').getByRole('link', { name: 'History', exact: true }).click();
-  await choose(page, 'key=synthetic-older-123', 'Send');
+  await choose(page, 'key=synthetic-81b701820fd38f7b0adf4ee1', 'Send');
   await expect(dashboard.locator('#history-list li')).toHaveCount(1);
   const second = await context.newPage();
   await second.goto(`chrome-extension://${extensionId}/composer.html#history`);
   await expect(second.locator('#history-list li')).toHaveCount(1);
-  await choose(page, 'key=synthetic-newer-456', 'Send');
+  await choose(page, 'key=synthetic-53e438c8321ee0971ecd21cc', 'Send');
   await expect(second.locator('#history-list li')).toHaveCount(2);
   await dashboard.locator('#history-list details').evaluateAll(items => items.forEach(item => { item.open = true; }));
-  await expect(dashboard.locator('#history-list pre')).toHaveText(['key=synthetic-newer-456', 'key=synthetic-older-123']);
+  await expect(dashboard.locator('#history-list pre')).toHaveText(['key=synthetic-53e438c8321ee0971ecd21cc', 'key=synthetic-81b701820fd38f7b0adf4ee1']);
   await second.locator('#history-list button').first().click();
   await expect(dashboard.locator('#history-list li')).toHaveCount(1);
-  await expect(dashboard.locator('#history-list pre')).toHaveText('key=synthetic-older-123');
+  await expect(dashboard.locator('#history-list pre')).toHaveText('key=synthetic-81b701820fd38f7b0adf4ee1');
   const totals = await dashboard.evaluate(() => SecretShieldStats.read());
   const confirmation = dashboard.getByRole('dialog', { name: 'Clear history?', exact: true });
   await dashboard.locator('#clear-history').click();
@@ -165,7 +166,7 @@ test('newest prompts appear first and updates reach every open dashboard', async
 
 test('clear history modal retains entries after a failure and permits retry', async () => {
   const page = await chat();
-  await choose(page, 'key=synthetic-clear-failure-123', 'Send');
+  await choose(page, 'key=synthetic-667e837f0dfeacca25dc3163', 'Send');
   await expect.poll(async () => (await entries()).length).toBe(1);
   await dashboard.getByRole('navigation').getByRole('link', { name: 'History', exact: true }).click();
   await dashboard.locator('#clear-history').click();
@@ -187,7 +188,7 @@ test('clear history modal retains entries after a failure and permits retry', as
 
 test('failed or invalidated sends never enter History', async () => {
   const page = await chat();
-  await page.locator('textarea,[contenteditable]').fill('key=synthetic-cancelled-123');
+  await page.locator('textarea,[contenteditable]').fill('key=synthetic-bc91ac6b83814c28ee8b068d');
   await clickSend(page);
   await expect(review(page)).toBeVisible();
   await page.locator('[data-testid=send-button]').evaluate(button => { button.disabled = true; });
@@ -206,7 +207,7 @@ test('failed or invalidated sends never enter History', async () => {
 
 test('History renders prompt text safely, preserves long prompts and keeps preferences content-free', async () => {
   const page = await chat();
-  const original = '<img src=x onerror="window.injected=true">\nkey=synthetic-safe-123\n' + 'long prompt '.repeat(10000);
+  const original = '<img src=x onerror="window.injected=true">\nkey=synthetic-2e8812cbe135ac4a801d4bde\n' + 'long prompt '.repeat(10000);
   await choose(page, original, 'Send');
   await expect.poll(async () => (await entries()).length).toBe(1);
   expect((await entries())[0].prompt).toBe(original);
@@ -216,19 +217,19 @@ test('History renders prompt text safely, preserves long prompts and keeps prefe
   await expect(dashboard.locator('#history-list img')).toHaveCount(0);
   expect(await dashboard.evaluate(() => window.injected)).toBeUndefined();
   const preferences = await dashboard.evaluate(async () => JSON.stringify(await chrome.storage.local.get(null)));
-  expect(preferences).not.toContain('synthetic-safe');
+  expect(preferences).not.toContain('synthetic-a9168bacb39b8b7ef048f6be');
   // Content scripts use the website's origin for IndexedDB, not the extension's database.
   expect(await page.evaluate(async () => (await indexedDB.databases()).some(db => db.name === 'ckretguard-history'))).toBe(false);
 });
 
 test('History reports storage errors without changing Send and recovers after a failure', async () => {
   const page = await chat();
-  await choose(page, 'key=synthetic-persist-123', 'Send');
+  await choose(page, 'key=synthetic-cad8afb7b97718ab08da9894', 'Send');
   await expect.poll(async () => (await entries()).length).toBe(1);
   const worker = context.serviceWorkers()[0];
   await worker.evaluate(() => { globalThis.originalHistoryDB = indexedDB.open; indexedDB.open = () => { throw new Error('synthetic failure'); }; });
   try {
-    await choose(page, 'key=synthetic-storage-failure-456', 'Send');
+    await choose(page, 'key=synthetic-1a0f6d30f20669c5d5087ada', 'Send');
     await expect.poll(() => page.evaluate(() => window.sent.length)).toBe(2);
     await expect(page.locator('#secret-shield-notice')).toBeVisible();
     await dashboard.getByRole('navigation').getByRole('link', { name: 'History', exact: true }).click();
@@ -236,12 +237,12 @@ test('History reports storage errors without changing Send and recovers after a 
   } finally { await worker.evaluate(() => { indexedDB.open = originalHistoryDB; delete globalThis.originalHistoryDB; }); }
   await dashboard.reload();
   await dashboard.locator('#history-list summary').click();
-  await expect(dashboard.locator('#history-list pre')).toHaveText('key=synthetic-persist-123');
+  await expect(dashboard.locator('#history-list pre')).toHaveText('key=synthetic-cad8afb7b97718ab08da9894');
 });
 
 test('Home and History retain the brand styling in full mode', async () => {
   const page = await chat();
-  await choose(page, 'client_secret=synthetic-preview-123', 'Send');
+  await choose(page, 'client_secret=synthetic-cb10481c788779f221003bd5', 'Send');
   await expect.poll(async () => (await entries()).length).toBe(1);
   await dashboard.setViewportSize({ width: 1280, height: 850 });
   await mkdir(path.join(root, 'artifacts'), { recursive: true });
@@ -257,7 +258,7 @@ test('Home and History retain the brand styling in full mode', async () => {
 async function seedHistory(items) {
   return dashboard.evaluate(async items=>{
     await SecretShieldHistory.perform('prune');
-    const records=items.map(item=>({...SecretShieldHistory.entry(item.large ? 'key=synthetic-volume-123\n'+'plain text '.repeat(100000) : 'key=synthetic-history-123',1,'https://chatgpt.com/c/history-test'),
+    const records=items.map(item=>({...SecretShieldHistory.entry(item.large ? 'key=synthetic-fac972fbd0e02c2c75be4e78\n'+'plain text '.repeat(100000) : 'key=synthetic-86bc3b622e99bf6dc70de4b8',1,'https://chatgpt.com/c/history-test'),
       ...(item.createdAt===undefined?{}:{createdAt:item.createdAt})}));
     const db=await new Promise((resolve,reject)=>{const request=indexedDB.open('ckretguard-history',1);request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});
     try { await new Promise((resolve,reject)=>{
