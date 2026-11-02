@@ -137,8 +137,8 @@ test('long cURL near matches and repeated keywords finish without blocking the s
     ['curl ' + ('\r'.repeat(10000) + '\n').repeat(8) + '-u service-user:N7q2V9m4R8s6T3x5', 0]];
   for (const [input, count] of inputs) {
     const result = spawnSync(process.execPath, ['--input-type=module', '-e',
-      `import { scan } from './src/index.mjs'; if (scan(${JSON.stringify(input)}).length !== ${count}) process.exit(1);`],
-    { cwd: new URL('../', import.meta.url), timeout: 3000, encoding: 'utf8' });
+      `import { readFileSync } from 'node:fs'; import { scan } from './src/index.mjs'; if (scan(readFileSync(0, 'utf8')).length !== ${count}) process.exit(1);`],
+    { cwd: new URL('../', import.meta.url), input, timeout: 3000, encoding: 'utf8' });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr);
   }
