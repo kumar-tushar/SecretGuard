@@ -382,7 +382,7 @@ test('custom-field detection preserves strict mode and the current modal design'
   const dialog = page.getByRole('dialog');
   await expect(dialog.locator('.review-values code')).toHaveText(['12', first]);
   await expect(dialog.getByRole('button', { name: 'Send', exact: true })).toHaveCount(0);
-  await expect(dialog.getByRole('button', { name: 'Mask', exact: true })).toHaveCSS('background-color', 'rgb(69, 214, 200)');
+  await expect(dialog.getByRole('button', { name: 'Mask', exact: true })).toHaveCSS('background-color', 'rgb(255, 255, 255)');
   await expect(dialog.getByRole('button', { name: 'Mask', exact: true })).toHaveCSS('height', '34px');
   await dialog.getByRole('button', { name: 'Mask', exact: true }).click();
   await expect.poll(() => page.evaluate(() => window.sent)).toEqual(['dataset_name=xxxxxxxxxx\napi_key=xxxxxxxxxx']);

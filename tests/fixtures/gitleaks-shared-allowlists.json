@@ -1,0 +1,1535 @@
+{
+  "source": "Official Gitleaks 8.30.1; pinned config 5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c with the legacy global [allowlist] header converted to equivalent [[allowlists]] plus each case shared allowlists; all base criteria unchanged; stdin without a filename; --max-decode-depth 0 --ignore-gitleaks-allow",
+  "binarySha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "configSha256": "e163e53b9e7e8a8511e77271e2b323ed057759542a6d988258afe3a1fa329caf",
+  "cases": [
+    {
+      "name": "generic only input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "generic only input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "generic only input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "generic only input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "provider only input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "github-pat"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "provider only input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "github-pat"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "provider only input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "github-pat"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "provider only input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "github-pat"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "generic-api-key",
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "shared two rules input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "curl-auth-user"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "shared two rules input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "curl-auth-user"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "shared two rules input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "curl-auth-user"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "shared two rules input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "curl-auth-user"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "empty global input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": []
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "empty global input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": []
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "empty global input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": []
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "empty global input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": []
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "omitted global input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "omitted global input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "omitted global input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "omitted global input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "duplicate targets input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "duplicate targets input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "duplicate targets input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "duplicate targets input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key",
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "stopword only input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [
+            "N7Q2V9M4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "stopword only input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [
+            "N7Q2V9M4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "stopword only input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [
+            "N7Q2V9M4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "stopword only input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [
+            "N7Q2V9M4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND both match input 1",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "AND both match input 2",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND both match input 3",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "AND both match input 4",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND stopword misses input 1",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "never-matches"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "AND stopword misses input 2",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "never-matches"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND stopword misses input 3",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "never-matches"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "AND stopword misses input 4",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [
+            "never-matches"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "generic-api-key",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "OR regex misses input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "OR regex misses input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "OR regex misses input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "OR regex misses input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [
+            "N7q2V9m4"
+          ],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "match target input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "match",
+          "regexes": [
+            "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "match target input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "match",
+          "regexes": [
+            "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "match target input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "match",
+          "regexes": [
+            "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "match target input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "match",
+          "regexes": [
+            "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "line target input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "line",
+          "regexes": [
+            "synthetic-fixture$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "line target input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "line",
+          "regexes": [
+            "synthetic-fixture$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "line target input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "line",
+          "regexes": [
+            "synthetic-fixture$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "line target input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "line",
+          "regexes": [
+            "synthetic-fixture$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND absent path input 1",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "AND absent path input 2",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "AND absent path input 3",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "AND absent path input 4",
+      "allowlists": [
+        {
+          "condition": "AND",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "generic-api-key",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "OR absent path input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "OR absent path input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "OR absent path input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "OR absent path input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^(?:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8|ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2)$"
+          ],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "path only input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "path only input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "path only input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "path only input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [],
+          "stopwords": [],
+          "paths": [
+            ".*"
+          ],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "generic-api-key",
+        "github-pat"
+      ]
+    },
+    {
+      "name": "different exception input 1",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "generic-api-key"
+      ]
+    },
+    {
+      "name": "different exception input 2",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture",
+      "secrets": [
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+      ],
+      "ruleIds": [
+        "github-pat"
+      ]
+    },
+    {
+      "name": "different exception input 3",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "curl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user"
+      ]
+    },
+    {
+      "name": "different exception input 4",
+      "allowlists": [
+        {
+          "condition": "OR",
+          "regexTarget": "secret",
+          "regexes": [
+            "^never-matches$"
+          ],
+          "stopwords": [],
+          "paths": [],
+          "targetRules": [
+            "generic-api-key"
+          ]
+        }
+      ],
+      "input": "api_key=N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 # synthetic-fixture\n\n\n\n\n\n\n\n\n\napi_key=ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2 # synthetic-fixture\n\n\n\n\n\n\n\n\n\ncurl -u service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8 https://example.invalid",
+      "secrets": [
+        "N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8",
+        "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2",
+        "service:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+      ],
+      "ruleIds": [
+        "curl-auth-user",
+        "generic-api-key",
+        "github-pat"
+      ]
+    }
+  ]
+}

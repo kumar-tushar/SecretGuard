@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import vm from 'node:vm';
 import { scan, redact, MASK } from '../src/index.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/gitleaks-curl.json', import.meta.url), 'utf8'));
 const core = await readFile(new URL('../src/core.js', import.meta.url), 'utf8');
@@ -21,7 +22,8 @@ for (const id of Object.keys(reference.examples)) test(`${id} matches the indepe
     let cursor = 0, expected = '';
     for (const finding of findings) {
       assert.equal(finding.type, id);
-      assert.deepEqual(Object.keys(finding).sort(), ['end', 'start', 'type']);
+      assert.equal(finding.description, rules[0].description);
+      assert.deepEqual(Object.keys(finding).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
       assert.ok(finding.start >= cursor && finding.end > finding.start && finding.end <= fixture.input.length);
       expected += fixture.input.slice(cursor, finding.start) + MASK;
       cursor = finding.end;
@@ -53,7 +55,7 @@ test('cURL automatic extraction selects every populated alternative without incl
   const header = examples[0], secret = header.secrets[0];
   const text = secret + '\n' + header.input;
   const start = text.lastIndexOf(secret);
-  assert.deepEqual(scan(text), [{ start, end: start + secret.length, type: header.ruleId }]);
+  assert.deepEqual(scan(text), withLocations(text, [{ start, end: start + secret.length, type: header.ruleId, description: SecretShieldRules.rules.find(rule => rule.id === header.ruleId).description }]));
   assert.equal(redact(text).text, secret + '\n' + header.input.replace(secret, MASK));
 });
 

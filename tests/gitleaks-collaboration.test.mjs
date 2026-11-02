@@ -16,7 +16,7 @@ for (const id of Object.keys(reference.examples)) test(`${id} matches the indepe
     let cursor = 0, expected = '';
     for (const finding of findings) {
       assert.equal(finding.type, id);
-      assert.deepEqual(Object.keys(finding).sort(), ['end', 'start', 'type']);
+      assert.deepEqual(Object.keys(finding).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
       assert.ok(finding.start >= cursor && finding.end > finding.start && finding.end <= fixture.input.length);
       expected += fixture.input.slice(cursor, finding.start) + MASK;
       cursor = finding.end;

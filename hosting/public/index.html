@@ -3,29 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="CkretGuard checks prompts for possible secrets before you send them to supported AI chats. Review, edit, or mask on your device.">
-  <title>CkretGuard · Share prompts. Protect secrets.</title>
-  <link rel="canonical" href="https://ckretguard.web.app/">
-  <link rel="icon" href="ckretguard.png">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="SecretGuard by Hunasys checks AI prompts locally with 217 detection rules. Review possible credentials, edit your draft, or mask detected values before sending.">
+  <title>SecretGuard</title>
+  <link rel="canonical" href="https://secretguard-hunasys.web.app/">
+  <link rel="icon" type="image/png" sizes="32x32" href="hunasys-favicon.png?v=symmetric-1">
+  <link rel="icon" type="image/svg+xml" href="hunasys.svg?v=symmetric-1">
+  <meta property="og:title" content="SecretGuard by Hunasys">
+  <meta property="og:description" content="Share prompts. Protect secrets. Local credential checks for nine AI chat platforms.">
+  <meta property="og:url" content="https://secretguard-hunasys.web.app/">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="styles.css?v=brand-casing-1">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="site-header"><a class="brand" href="/" aria-label="CkretGuard home"><img src="ckretguard.png" alt="" width="36" height="36">CkretGuard</a><nav aria-label="Main navigation"><a href="/" aria-current="page">Home</a><a href="/privacy-policy">Privacy Policy</a></nav></header>
+  <header class="site-header"><a class="brand" href="/" aria-label="Hunasys home"><img src="hunasys.svg?v=symmetric-1" alt="" width="56" height="56">HUNASYS</a><nav aria-label="Main navigation"><a href="/" aria-current="page">SecretGuard</a><a href="#features">Features</a><a href="/privacy-policy">Privacy Policy</a></nav></header>
   <main id="main" class="home-page">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">YOUR PROMPT. YOUR CHOICE.</p>
+        <p class="eyebrow product-label"><img src="ckretguard.png?v=shield-straight-1" alt="" width="22" height="22"> SecretGuard by Hunasys</p>
         <h1 id="hero-title">Share prompts.<br><span>Protect secrets.</span></h1>
-        <p class="intro">A second look before you send.</p>
-        <p class="hero-description">CkretGuard checks your prompt for possible API keys, passwords, and custom secret fields. Review what it finds, then choose Send, Edit, or Mask.</p>
+        <p class="intro">A second look. On your device.</p>
+        <p class="hero-description">Keep possible API keys, access tokens, and other credentials out of accidental AI messages. SecretGuard checks your draft when you try to send it, then lets you review, edit, or mask what it finds.</p>
         <a class="button" href="#how-it-works">See how it works <span aria-hidden="true">↓</span></a>
-        <p class="hero-note">Chrome extension · Scans on your device</p>
+        <p class="hero-note">217 detection rules · Nine supported AI chats</p>
       </div>
       <figure class="review-example">
         <div class="example-draft"><span class="example-label">Your draft</span><code>Api key = <span>K8m4Q2v7N9r5K8m4Q2v7N9r5</span></code></div>
         <div class="review-card" aria-label="Example secret review">
-          <div class="review-brand"><span>CkretGuard · Orenthic</span><img src="ckretguard.png" alt="" width="28" height="28"></div>
+          <div class="review-brand"><span>SecretGuard · Hunasys</span><img src="ckretguard.png?v=shield-straight-1" alt="" width="28" height="28"></div>
           <p class="review-heading"><span>1</span> secret detected</p>
           <div class="found-value">K8m4Q2v7N9r5K8m4Q2v7N9r5</div>
           <div class="review-actions" aria-label="Available choices in the extension">
@@ -45,27 +50,41 @@
         <li><img src="providers/deepseek.svg" alt="" width="24" height="24"><span>DeepSeek</span></li>
         <li><img src="providers/grok.svg" alt="" width="24" height="24"><span>Grok</span></li>
         <li><img src="providers/meta-ai.svg" alt="" width="24" height="24"><span>Meta AI</span></li>
-        <li><img src="providers/copilot.svg" alt="" width="24" height="24"><span>Copilot</span></li>
+        <li><img src="providers/copilot.svg" alt="" width="24" height="24"><span>Microsoft Copilot</span></li>
         <li><img src="providers/perplexity.svg" alt="" width="24" height="24"><span>Perplexity</span></li>
         <li><img src="providers/mistral.svg" alt="" width="24" height="24"><span>Mistral</span></li>
       </ul>
     </section>
+    <section id="features" class="features-section" aria-labelledby="features-title">
+      <p class="eyebrow">BUILT FOR YOUR WORKFLOW</p>
+      <h2 id="features-title">Your prompts. Your protection.</h2>
+      <dl class="feature-grid">
+        <div><dt><span class="feature-number">217</span> Detection rules</dt><dd>Checks prompts locally for known credential patterns.</dd></div>
+        <div><dt><span class="feature-number">50</span> Custom fields</dt><dd>Add the field names that matter to you. SecretGuard checks their values alongside the bundled rules.</dd></div>
+        <div><dt><span class="feature-number">02</span> Protection modes</dt><dd>Keep Send, Edit, and Mask, or choose the stricter Edit or Mask mode. You can also choose whether to protect client IDs.</dd></div>
+      </dl>
+      <p class="rules-note">These rules detect known credential patterns. They do not verify whether credentials are active or guarantee that every secret will be found.</p>
+    </section>
     <section id="how-it-works" class="how-it-works" aria-labelledby="how-title">
       <p class="eyebrow">BEFORE YOUR PROMPT LEAVES</p>
       <h2 id="how-title">One pause. Three choices.</h2>
-      <p class="section-description">When CkretGuard finds possible secrets, it shows the detected values so you can decide what to share.</p>
+      <p class="section-description">When SecretGuard finds possible secrets, it shows the detected values so you can decide what to share.</p>
       <ol class="choice-grid">
-        <li><span class="step-number">01</span><h3>Send</h3><p>Send the original prompt with the detected values unchanged.</p></li>
+        <li><span class="step-number">01</span><h3>Send</h3><p>Send the original prompt with detected values unchanged. This unmasked send attempt is saved in local History.</p></li>
         <li><span class="step-number">02</span><h3>Edit</h3><p>Return to your draft and make changes before sending.</p></li>
-        <li><span class="step-number">03</span><h3>Mask</h3><p>Replace detected values with <code>xxxxxxxxxx</code> and send the masked prompt.</p></li>
+        <li><span class="step-number">03</span><h3>Mask</h3><p>Replace detected values with <code>xxxxxxxxxx</code> and activate the chat website’s send control.</p></li>
       </ol>
     </section>
     <section class="local-section" aria-labelledby="local-title">
-      <div><p class="eyebrow">PROTECTION THAT STAYS LOCAL</p><h2 id="local-title">Your device does the checking.</h2><p>CkretGuard does not upload your prompts to Orenthic or a remote scanning service.</p><a class="text-link" href="/privacy-policy">Read the Privacy Policy <span aria-hidden="true">↗</span></a></div>
-      <dl class="local-details"><div><dt>Protect your own fields</dt><dd>Add up to 50 custom field names for values you want checked.</dd></div><div><dt>Review unmasked sends</dt><dd>Prompts sent through the warning’s Send choice are saved locally for up to 90 days, including their secrets. You can delete them in History.</dd></div><div><dt>Stay in control</dt><dd>Choose Send, Edit, or Mask, or use the stricter Edit or Mask setting.</dd></div></dl>
+      <div><p class="eyebrow">PROTECTION THAT STAYS LOCAL</p><h2 id="local-title">Your device does the checking.</h2><p>SecretGuard does not upload your prompts to Hunasys or a remote scanning service.</p><a class="text-link" href="/privacy-policy">Read the Privacy Policy <span aria-hidden="true">↗</span></a></div>
+      <dl class="local-details"><div><dt>No remote prompt scanning</dt><dd>Checks run in your browser. Hunasys does not receive your prompts or credentials through the extension.</dd></div><div><dt>Local History, under your control</dt><dd>Unmasked send attempts are saved on this device for up to 90 days, including their secrets. History is not encrypted by SecretGuard; delete entries you no longer need.</dd></div><div><dt>No website tracking</dt><dd>This site has no analytics, advertising cookies, or prompt collection. Support is available by email when you choose to contact us.</dd></div></dl>
     </section>
-    <p class="coverage-note">Covers recognized text inputs on supported chat websites. Some secrets may be missed. Websites can read text entered into their pages before you send it. CkretGuard is independent of the supported providers.</p>
+    <section class="publisher-section" aria-labelledby="publisher-title">
+      <img src="hunasys.svg?v=symmetric-1" alt="" width="120" height="120" loading="lazy">
+      <div><p class="eyebrow">Made by Hunasys</p><h2 id="publisher-title">A question. An idea. A better way.</h2><p>Tell us what is working, what needs attention, or what you would like to see next. For bug reports, use a synthetic example and remove any secrets from screenshots.</p><a class="text-link" href="mailto:connect.hunasys@gmail.com">connect.hunasys@gmail.com <span aria-hidden="true">↗</span></a></div>
+    </section>
+    <p class="coverage-note">Covers recognized text inputs on supported chat websites. Some secrets may be missed. Websites can read text entered into their pages before you send it. SecretGuard is independent of the supported providers.</p>
   </main>
-  <footer class="site-footer"><div><strong>CkretGuard by Orenthic</strong><p>Share prompts. Protect secrets.</p></div><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/privacy-policy">Privacy Policy</a><a href="/terms-and-conditions">Terms and Conditions</a></nav></footer>
+  <footer class="site-footer"><div><a class="brand footer-brand" href="/" aria-label="Hunasys home"><img src="hunasys.svg?v=symmetric-1" alt="" width="48" height="48"><strong>HUNASYS</strong></a><p>SecretGuard · Share prompts. Protect secrets.</p></div><nav aria-label="Footer navigation"><a href="/">Home</a><a href="/privacy-policy">Privacy Policy</a><a href="/terms-and-conditions">Terms and Conditions</a></nav></footer>
 </body>
 </html>

@@ -12,7 +12,7 @@ function check(input, values, expected, policy, options) {
   assert.deepEqual(result.findings.map(item => input.slice(item.start, item.end)), values);
   assert.equal(result.count, values.length);
   assert.equal(result.text, expected);
-  for (const item of result.findings) assert.deepEqual(Object.keys(item).sort(), item.tags ? ['end', 'start', 'tags', 'type'] : ['end', 'start', 'type']);
+  for (const item of result.findings) assert.deepEqual(Object.keys(item).sort(), [...(item.description === undefined ? [] : ['description']), 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', ...(item.tags ? ['tags'] : []), 'type']);
   assert.deepEqual(scan(expected, policy, expected.length, options), [], 'masked text has no remaining findings');
   return result;
 }

@@ -5,6 +5,10 @@ The replacement detector enables **217 of 222 default rules**, pinned to
 The upstream MIT license is included in `extension/licenses/GITLEAKS.txt` and
 copied into the unpacked build and packages.
 
+Keep the Gitleaks source header, pinned upstream URL and MIT copyright/license
+notice when editing or repackaging the detector. These preserve the rules'
+provenance and required attribution.
+
 All rules that work without a filename are enabled. This includes the initial
 families below plus Slack, Stripe, npm, Azure, GitLab, Databricks, DigitalOcean,
 SendGrid, Twilio, Postman, Shopify and the remaining provider formats. The full
@@ -47,6 +51,44 @@ match. The JWT rule does not decode claims, check a signature or prove that the
 token grants access. The separate `jwt-base64` pattern remains enabled alongside
 the bounded decoding passes described below.
 
+## Rule selection by ID
+
+All **217 rules stay enabled by default**. A caller can restrict one scan to
+exact, case-sensitive bundled IDs using the fourth `scan`/`redact` argument:
+
+```js
+redact(prompt, policy, undefined, { ruleIds: ['github-pat', 'generic-api-key'] });
+```
+
+The asynchronous browser API accepts this in its third argument:
+
+```js
+SecretShieldScanner.redact(prompt, policy, { ruleIds: ['github-pat'], signal });
+```
+
+Omitted/undefined `ruleIds` and `[]` use the full catalog, following the pinned
+[Gitleaks `--enable-rule` behavior](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/cmd/root.go#L308).
+A nonempty array runs only those rules on plaintext and every decoded pass.
+Duplicates are removed and catalog order determines overlap precedence. IDs are
+copied for each call. Unknown IDs, the five excluded filename rules, malformed
+values, sparse arrays and selections longer than 1,000 entries fail the entire
+scan, even for empty input. Comma-separated strings, wildcards and case folding
+are not accepted. The complete catalog still undergoes initialization validation.
+
+Composite primaries need every required supporting ID included in the selection;
+an unselected support cannot satisfy them. Selected `skipReport` rules still
+provide support without public findings. The pinned production catalog has no
+composites. Global, local and targeted shared allowlists keep their existing
+scope, and selected findings retain metadata, decoding tags and original locations.
+Custom-field detection and the Protect client IDs preference operate independently
+of Gitleaks rule selection. They are not selectable catalog IDs.
+
+This is a per-call scanner option. It does not save preferences or change the
+automatic chat guard, which continues using every default rule. The private
+worker transports and revalidates selection, and its caller rejects returned
+unselected rule IDs. Cancellation, deadlines, cleanup and retry remain active.
+No UI, History, storage, permission or dependency change is needed.
+
 ## Engine behavior
 
 `src/gitleaks-rules.js` contains the pinned expressions, the generic rule's full
@@ -54,12 +96,163 @@ the bounded decoding passes described below.
 Original Go expressions are retained for comparison. `src/core.js` compiles and
 validates the data, prefilters keywords, extracts the selected capture group
 (or the entire match for rules without captures), applies entropy and evaluates
-secret/match/line exclusions. Findings contain only offsets and a rule ID.
+secret/match/line exclusions. Findings contain original offsets and line/column
+locations, a rule ID, its pinned description, and any configured rule tags followed
+by optional encoding/decode-depth tags described below.
 When `secretGroup` is zero, extraction uses the first populated capture, falling
 back to the whole match if none is populated, as in Gitleaks. Explicit groups
 continue to use their configured capture.
 Whole-match extraction trims leading and trailing LF delimiters, preserving
 surrounding text and the upstream entropy input.
+
+Shared allowlists in the bundled `SecretShieldRules.globalAllowlists` data may
+include `targetRules`, an array of exact enabled Gitleaks rule IDs. A nonempty
+array attaches that exclusion only to those rules; it is not evaluated globally.
+An omitted or empty array retains global behavior. Duplicate IDs are collapsed.
+Malformed targets, unknown or excluded IDs, and nonempty `targetRules` on a
+per-rule allowlist fail initialization and block the scan. Source catalog data
+is not mutated, and a failed initialization does not cache a partial detector.
+This follows upstream [shared allowlist assignment](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/config/config.go).
+
+Scoped lists reuse the existing secret/match/line targets, stopwords, AND/OR
+conditions and prompt-only path semantics. Global, per-rule and shared exclusions
+combine through the same rule checks, including after decoding. An exception for
+`generic-api-key` does not suppress another rule matching the same value, or
+explicit custom-field and supplemental client-ID findings. For example:
+
+```js
+// Bundled catalog data, not a dashboard preference or runtime import API.
+{
+  targetRules: ['generic-api-key', 'curl-auth-user'],
+  condition: 'OR',
+  regexTarget: 'secret',
+  regexes: ['^synthetic-approved-fixture$'],
+  stopwords: [],
+  paths: []
+}
+```
+
+The pinned production catalog is unchanged and contains no targeted shared
+lists. This adds configuration compatibility without introducing new default
+exceptions. It does not add an allowlist editor, custom-regex/TOML import,
+managed/local preference fields, Chrome permissions or network requests.
+
+### Rule descriptions and configured tags
+
+Every enabled Gitleaks rule includes its exact description from the pinned
+catalog. Findings retain the existing `type` rule ID and add `description` when
+configured. Optional rule-defined `tags` are returned in source order, including
+duplicates, followed by the canonical encoding/decode-depth suffix when present.
+The pinned catalog defines no rule tags; none are invented. Empty or omitted tag
+arrays produce no `tags` field unless decoding contributes one. An explicitly
+empty description is preserved; an omitted description stays absent.
+
+Metadata is attached after overlap selection. The retained type's description
+and rule tags describe that review item, while encoding tags still combine
+provenance across its merged span. Tags from discarded overlapping rules or
+hidden supporting rules are not attributed to the retained rule. This follows
+upstream [finding metadata assignment](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/detect/detect.go),
+with the existing browser adaptation of merging overlapping findings.
+Standalone custom-field and client-ID findings do not receive invented Gitleaks
+metadata; their existing optional encoding tags continue to work.
+
+Descriptions are bounded at 2,048 UTF-16 characters, with at most 64 nonempty
+rule tags of up to 256 characters each. Malformed metadata fails initialization
+without caching partial state. Compiled tag arrays are copied, and returned tags
+are independent between occurrences and scans. Reserved-looking configured tags
+remain literal prefix values, separate from the generated decoding suffix.
+The private worker validates the exact configured description and tag prefix,
+then the existing canonical decoding suffix and exact masked text. Missing or
+altered metadata blocks sending and permits a fresh scan. No descriptions, tags,
+raw matches, or decoded values are added to popup markup, counters or History.
+No detection expressions, exclusions, settings or permissions change.
+
+### Original-prompt locations
+
+Every returned finding includes `startLine`, `startColumn`, `endLine` and
+`endColumn`, computed from its final original `start`/`end` masking span after
+decoding and overlap merging. This applies to provider rules, generic rules,
+custom fields, supplemental client IDs and retained composite primaries.
+Hidden supporting matches do not gain public location fields.
+
+Lines and UTF-8 byte columns start at one. The end location includes the last
+byte in the span, while existing editor offsets remain UTF-16 with an exclusive
+end. LF advances the line and resets the next column to one. CR and tabs each
+count as a byte, so CRLF advances the line once and bare CR does not. An included
+LF belongs to the preceding line at its next byte column. Unicode characters
+occupy their UTF-8 byte lengths, and lone surrogates count as the three-byte
+replacement character used by UTF-8 encoding. A span cannot split a surrogate
+pair. Locations always refer to the original draft, including coarse encoded
+blobs and merged spans, rather than temporary decoded text or the masked output.
+
+The [upstream location fields](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/report/finding.go)
+also use byte columns, but describe the full regex match before capture extraction.
+The browser reports the final masking span instead. It also normalizes LF column
+origins and correctly closes multiline spans on an unterminated final line,
+rather than reproducing the pinned upstream location routine's edge cases.
+Existing composite proximity checks retain their own upstream full-match-start
+coordinates and are unchanged by these public location fields.
+
+The mapper advances once through the original text across sorted disjoint
+findings. Its work is linear in the examined text and finding count, without
+per-finding prefix rescans or persistent caches. The private worker recomputes
+all four coordinates from the original spans and rejects missing or altered
+values before a result can enter review. Cleanup and retry use the existing
+failure flow. These are response fields only; popup content, counters, History,
+preferences, permissions, detection expressions and exclusion rules do not change.
+
+### Composite rules
+
+Bundled rules may declare `required: [{ id, withinLines?, withinColumns? }]`.
+A primary finding is retained only when every named rule ID has an accepted
+supporting match in the same scan pass. Without distance limits, any match in
+that prompt fragment qualifies. Bounds are inclusive absolute distances between
+the starts of the **full regex matches**, before secret-group extraction.
+`withinLines: 0` requires the same LF line. `withinColumns` alone does not require
+nearby lines. When both are present, the same supporting match must satisfy both.
+Repeated required IDs provide alternative bounds for that ID, following the
+upstream collect-by-ID behavior.
+
+Columns count UTF-8 bytes, including upstream's preceding-LF origin: the first
+character of the first line is column 1; immediately after LF it is column 2.
+A match beginning on LF belongs to the following line at column 1. CR alone is
+not a line break. These internal coordinates follow the pinned
+[Gitleaks detector](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/detect/detect.go)
+and [location calculation](https://github.com/gitleaks/gitleaks/blob/5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c/detect/location.go).
+Public editor offsets remain UTF-16.
+
+Supporting candidates pass the usual capture, entropy and global/per-rule/shared
+allowlist checks. Their own keyword prefilters and dependencies are bypassed,
+as in upstream auxiliary detection; references do not recursively evaluate a
+dependency graph. Self and mutual references therefore remain bounded. Primary
+keyword prefilters still apply. Boolean `skipReport: true` suppresses a rule's
+standalone findings while allowing it to support another rule. Hidden support
+does not independently enter review, masking, counters or History. Other rules
+matching that text, explicit custom fields and supplemental client IDs keep
+their normal behavior.
+
+After decoding, full-match starts map back to the original input before distance
+checks. Matches within one encoded segment can share its coarse original start.
+The browser engine retains its complete-pass scanning: decoded supporting context
+can enable an unchanged plaintext primary on a later pass. Upstream can skip
+unchanged primary matches on decoded passes, so this is a deliberate browser
+adaptation. Returned findings contain primary original spans, types, configured
+rule metadata and applicable encoding tags, with no auxiliary values or location
+fields.
+
+Unknown/excluded IDs, malformed `required` entries, nonboolean `skipReport`, or
+negative, fractional or unsafe distance integers fail initialization and block
+the complete scan without caching partial state. Nonnegative safe integers are
+a browser validation constraint; upstream accepts signed distance fields.
+Proximity indexes use binary searches, with a shared budget of 1,000,000
+dependency checks and examined candidates across original and decoded passes.
+Exhaustion fails the complete scan closed; the browser worker deadline also
+remains in force.
+
+None of the 222 pinned default rules uses composite dependencies or `skipReport`.
+The 217 enabled rules and their default findings are unchanged. This is bundled
+engine compatibility, with no new configuration editor, imports, preferences,
+permissions, dependencies or network requests.
 
 The regex port expands Go case-folding into explicit character classes, converts
 Go's ASCII whitespace and strict end-of-input anchors, including Unicode folds
@@ -154,7 +347,7 @@ incomplete-quote failure behavior apply. Findings use UTF-16 offsets with type
 The checkbox applies immediately, persists across reloads and follows managed
 policy precedence. Turning it off removes this supplemental matching only.
 Explicit custom fields and all 217 pinned Gitleaks rules remain active,
-including upstream provider-specific client-ID rules. These CkretGuard additions
+including upstream provider-specific client-ID rules. These SecretGuard additions
 do not change the upstream catalog, allowlists or entropy thresholds.
 
 ## Encoded text and original spans
@@ -217,9 +410,10 @@ provenance rather than claiming every character was encoded.
 
 Overlapping findings retain the union of encoding tags and their maximum depth
 while keeping the existing span and preferred rule type. Plaintext-only findings
-retain the original `{ start, end, type }` shape without a `tags` field. The
-worker channel preserves and validates the bounded canonical tags. Review still
-shows original values; tags are not added to the popup, History or storage.
+retain offsets and type plus configured rule metadata. Without configured rule
+tags, they have no `tags` field. The worker channel validates the exact configured
+prefix and bounded canonical encoding suffix. Review still shows original values;
+tags are not added to the popup, History or storage.
 Decoded secret values are never returned as separate fields.
 
 At most 1,000,000 decoded ASCII bytes are examined per call, including candidate
@@ -269,7 +463,7 @@ synchronous Node/library API is unchanged and has no cancellation parameter.
   nine browser adapters retain their existing behavior and design.
 - Saved custom names and the client-ID preference protect explicit assignments
   as described above.
-- Grouped/distant-value heuristics and other retired CkretGuard detectors are not
+- Grouped/distant-value heuristics and other retired SecretGuard detectors are not
   restored. Built-in matches use the enabled upstream expressions and keyword
   prefilters; custom fields require explicit assignments.
 - Five rules remain disabled because prompt text has no filename:
@@ -337,6 +531,35 @@ cross-segment spans, unchanged plaintext findings, policy settings and bounded
 large inputs. Worker tests reject malformed metadata and verify tag transport
 alongside the original review, masking, counters and History on all nine adapters.
 
+`tests/fixtures/gitleaks-shared-allowlists.json` adds 64 independently evaluated
+cases across 16 allowlist configurations, bringing the combined reference corpus
+to **15,655 cases**. The same official binary and pinned config are used with
+`stdin`, `--max-decode-depth 0` and `--ignore-gitleaks-allow`. To append shared
+lists, the reference runner converts the base config's legacy `[allowlist]`
+header to the equivalent `[[allowlists]]`; its original criteria stay unchanged.
+`tests/shared-allowlists.test.mjs` checks exact scopes, multiple/duplicate IDs,
+global and per-rule composition, validation failures, decoded text, independent
+catalogs, explicit custom/client protection and bounded large inputs. The 31
+shared-allowlist browser fixtures use a private copy with synthetic exclusions
+and verify all nine adapters, review actions, strict mode, counters, History and
+blocked sends for unknown targets. The production catalog is never altered by
+these fixtures.
+
+`tests/fixtures/gitleaks-composite.json` adds 179 independently evaluated cases,
+bringing the combined reference corpus to **15,834 cases**. There are 176
+plaintext cases across 16 composite configurations, plus three fully encoded
+Base64/hex/percent cases. The same official binary and pinned config are used,
+with only synthetic rules appended and the equivalent legacy allowlist-header
+conversion described above. `tests/composite.test.mjs` also checks all-ID and
+duplicate-ID behavior, exact line/column boundaries, UTF-8/CRLF coordinates,
+full-match versus capture starts, hidden support, keyword/dependency bypass,
+entropy/exclusions, invalid metadata, original-span mapping, decoded-context
+adaptation, independent custom/client/provider findings and comparison limits.
+The composite browser fixtures use a private synthetic catalog to check nine
+adapters, Send/Edit/Mask, strict encoded flows, primary-only review/counts,
+History, unchanged incomplete composites, and failure/retry for invalid IDs
+and exhausted comparison budgets. Production catalog data is never modified.
+
 The tests compare each rule's extracted secrets to the reference and verify
 UTF-16 offsets, masking, idempotence, malformed data, mixed-rule overlaps,
 length/entropy boundaries, known exclusions, repeated values and large drafts.
@@ -382,3 +605,38 @@ counters, History, strict mode, approval invalidation, duplicate-send prevention
 notice timers and 25 consecutive Send/Mask attempts on both primary adapters
 remain covered. These are local browser contracts, not live-provider delivery
 certification.
+
+`tests/fixtures/gitleaks-metadata.json` adds 245 independently evaluated reference
+cases: one positive scan for each of the 217 enabled rules, plus 28 synthetic
+metadata configurations covering absent/empty descriptions, ordered and duplicate
+tags, Unicode, reserved-looking tag values, hidden auxiliary rules and plaintext,
+Base64, hex and percent inputs. These use the same checksum-verified official
+Gitleaks 8.30.1 binary and pinned config as the other reference corpora. The
+combined reference corpus now contains **16,079 cases**. Rule-metadata unit tests
+also cover overlap selection, original/decoded merging, ownership, limits and
+malformed configuration. Worker/browser fixtures verify exact metadata transport,
+failure/retry, all nine adapters' Send/Edit/Mask choices and strict encoded Mask.
+
+`tests/fixtures/gitleaks-locations.json` adds 144 official Gitleaks 8.30.1
+whole-capture reference scans, retaining raw upstream coordinates alongside
+independent UTF-8 byte-buffer expectations for the browser's normalized original
+spans. Cases include Unicode prefixes and values, LF/CRLF/bare CR, blank lines,
+multiline values, and terminated/unterminated last lines. The documented LF/end
+adaptations affect 102 of these cases. The combined reference corpus contains
+**16,223 cases**. Location tests also check all 217 enabled catalog examples,
+the existing 162 encoded references, nested mixed codecs, overlap merging,
+surrogate boundaries, metadata ownership and 20,000 findings in a long prompt.
+Worker/browser fixtures check exact original coordinates, rejection and retry
+for missing/altered fields, and nine-adapter Send/Edit/Mask behavior.
+
+`tests/fixtures/gitleaks-rule-selection.json` adds 22 independent official
+Gitleaks 8.30.1 stdin scans covering omitted/empty selections, one or multiple
+IDs, duplicates, nonmatching rules, unknown IDs, all three codecs and composite
+support selection. These bring the combined reference corpus to **16,245 cases**.
+`tests/rule-selection.test.mjs` also selects every one of the 217 rules against
+its existing official positive example, verifies unchanged defaults, and checks
+allowlists, independent custom/client-ID protection, limits, invalid configuration
+and cache isolation. Private worker tests cover concurrent selection, input
+ownership, invalid/unselected responses, cleanup/retry, and default automatic
+protection across all nine browser adapters. These fixtures do not certify
+live-provider delivery.

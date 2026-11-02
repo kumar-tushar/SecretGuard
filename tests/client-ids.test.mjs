@@ -3,11 +3,16 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { scan, redact, MASK, ScanError } from '../src/index.mjs';
 import { providerKey } from './fixtures/gitleaks-credentials.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 function check(input, values, expected, policy) {
   const findings = scan(input, policy);
   assert.deepEqual(findings.map(item => input.slice(item.start, item.end)), values, input);
-  for (const item of findings) assert.deepEqual(Object.keys(item).sort(), ['end', 'start', 'type']);
+  for (const item of findings) {
+    const description = SecretShieldRules.rules.find(rule => rule.id === item.type)?.description;
+    assert.equal(item.description, description);
+    assert.deepEqual(Object.keys(item).sort(), description === undefined ? ['end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type'] : ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
+  }
   assert.equal(redact(input, policy).text, expected, input);
   assert.equal(redact(input, policy).count, values.length, input);
   assert.deepEqual(scan(expected, policy), [], 'masked values are not detected again');
@@ -38,7 +43,7 @@ test('quoted client IDs preserve escapes, multiple lines, Unicode and UTF-16 off
     const input = `😀 clientId=${quote}${value}${quote}; keep=public`;
     check(input, [value], `😀 clientId=${quote}${MASK}${quote}; keep=public`);
     const start = input.indexOf(value);
-    assert.deepEqual(scan(input), [{ start, end: start + value.length, type: 'client-id' }]);
+    assert.deepEqual(scan(input), withLocations(input, [{ start, end: start + value.length, type: 'client-id' }]));
   }
 });
 

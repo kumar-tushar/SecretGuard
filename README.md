@@ -1,12 +1,19 @@
-# CkretGuard
+# SecretGuard
 
-Published by **Orenthic**.
+Published by **HUNASYS**.
 
-Local credential detection and masking for **ChatGPT, Claude, Gemini, DeepSeek, Grok, Meta AI, Microsoft Copilot, Perplexity and Mistral in Chrome**. Version 1.0.0 is an engineering pilot, not a production-certified enterprise DLP product.
+Local credential detection and masking for **ChatGPT, Claude, Gemini, DeepSeek, Grok, Meta AI, Microsoft Copilot, Perplexity and Mistral in Chrome**. Version 2.0.0 is an engineering pilot, not a production-certified enterprise DLP product.
 
-CkretGuard runs a deterministic scanner on your device. The replacement detector enables **217 pinned Gitleaks rules** covering generic API-key assignments, provider credentials, private-key blocks, JWT patterns and cURL authentication options. Each rule retains its character and length constraints, entropy threshold where specified, keyword prefilter and applicable exclusions. Five filename-dependent rules remain excluded from prompt scanning. The original CkretGuard detection heuristics remain removed. See [Gitleaks integration](docs/GITLEAKS.md) for the exact scope, provenance, license and reference tests.
+SecretGuard runs a deterministic scanner on your device. The replacement detector enables **217 pinned Gitleaks rules** covering generic API-key assignments, provider credentials, private-key blocks, JWT patterns and cURL authentication options. Each rule retains its character and length constraints, entropy threshold where specified, keyword prefilter and applicable exclusions. The engine also supports bundled composite rules: a primary finding can require supporting rule matches, with optional line/column distance limits and hidden supporting rules. The pinned catalog contains no composites, so this adds no default warnings. Five filename-dependent rules remain excluded from prompt scanning. The original SecretGuard detection heuristics remain removed. See [Gitleaks integration](docs/GITLEAKS.md) for the exact scope, provenance, license and reference tests.
 
 Recognizable provider keys, private-key blocks and JWTs can trigger review anywhere in the prompt without a field name. Arbitrary values distant from a field mention are not inferred to be secrets. For example, `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` is detected, while `key={event.id}` and ordinary API-key discussion are preserved. Saved custom fields also protect explicitly assigned literal values, including short or readable ones. **Protect client IDs** is enabled by default and adds the same assignment checks for `client_id`, `clientId`, `client-id` and `client id`, ignoring case. Turning it off disables this extra check; saved custom fields and the pinned Gitleaks rules still apply. Detection does not verify whether a credential is active, parse private-key material or verify JWT signatures.
+
+Scan results include each retained Gitleaks rule’s pinned description and any configured tags, followed by applicable decoding tags. The pinned catalog does not define rule tags; popup and History content are unchanged.
+
+Every finding also includes `startLine`, `startColumn`, `endLine` and `endColumn`
+for its final masking span in the original prompt. Lines and UTF-8 byte columns
+start at one, and the end is inclusive. The existing `start`/`end` fields remain
+UTF-16 editor offsets with an exclusive end. See [location conventions](docs/GITLEAKS.md#original-prompt-locations).
 
 ## Try it
 
@@ -21,7 +28,7 @@ npm run build
 
 1. Open `chrome://extensions` in Chrome and enable **Developer mode**.
 2. Choose **Load unpacked** and select this project's `dist` folder.
-3. Pin CkretGuard and reload existing ChatGPT / Claude / Gemini / DeepSeek / Grok / Meta AI / Copilot / Perplexity / Mistral tabs.
+3. Pin SecretGuard and reload existing ChatGPT / Claude / Gemini / DeepSeek / Grok / Meta AI / Copilot / Perplexity / Mistral tabs.
 4. Test with `api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8` and choose Send, Edit, or Mask. Use synthetic values only. To try a custom field, save `dataset_key` in Custom secret fields, then send `dataset_key = demo-value`.
 
 When upgrading, allow access to the newly supported chat sites if Chrome asks for the new site permissions.
@@ -44,7 +51,7 @@ Use the **settings icon** at the top right to open full mode and use the **Home*
 
 Custom secret field names remain stored locally, up to 50 names. Clicking × removes a saved name and stops its custom matching. Newly added names require 3–64 characters, starting with a letter and containing letters, digits, spaces, underscores or hyphens. Names match literally, ignoring case, with `=` or `:` assignments and quoted JSON properties. A value may follow the separator on the immediately next line. Quoted values can include spaces and line breaks; unquoted values end at whitespace or a closing delimiter. Placeholders, empty values and JSX/object expressions such as `{event.id}` are skipped. Bare field mentions and distant values do not trigger custom matching. Incomplete quoted custom values block sending until corrected.
 
-**The Chrome extension performs the interception.** The optional CkretGuard AI plugin is a setup companion containing the extension and its instructions. Enabling that plugin alone does not intercept prompts in ChatGPT, Codex, Claude, or other clients.
+**The Chrome extension performs the interception.** The optional SecretGuard AI plugin is a setup companion containing the extension and its instructions. Enabling that plugin alone does not intercept prompts in ChatGPT, Codex, Claude, or other clients.
 
 Microsoft Copilot covers `copilot.microsoft.com`, `copilot.com`, `copilot.cloud.microsoft`, and `m365.cloud.microsoft`; Perplexity covers `www.perplexity.ai` and `perplexity.ai`; Mistral covers `chat.mistral.ai` (including its Vibe chat composer). These are browser integrations only. Unrecognized editors, app modes, files, and native desktop clients are not covered. Each integration uses the same review, masking, and local History behavior.
 
@@ -56,7 +63,7 @@ After switching branches, run `npm run build` and reload the extension to use th
 
 ## Privacy and coverage
 
-- No backend, remote scanner, remote analytics, remote scripts, or model calls. Policy preferences and three aggregate numeric counters use Chrome local storage. Unmasked-send History uses a separate extension-origin IndexedDB database and contains full prompts with their secret values, timestamps, and supported chat links. It is not encrypted by CkretGuard or synced/uploaded. Entries older than 90 days are deleted automatically; earlier deletion, extension data removal, and browser storage limits also apply. A storage failure shows a notice rather than silently discarding or truncating the prompt. Clearing History does not remove messages from the chat provider. Nothing is placed in sync storage. Extension pages have `connect-src 'none'`.
+- No backend, remote scanner, remote analytics, remote scripts, or model calls. Policy preferences and three aggregate numeric counters use Chrome local storage. Unmasked-send History uses a separate extension-origin IndexedDB database and contains full prompts with their secret values, timestamps, and supported chat links. It is not encrypted by SecretGuard or synced/uploaded. Entries older than 90 days are deleted automatically; earlier deletion, extension data removal, and browser storage limits also apply. A storage failure shows a notice rather than silently discarding or truncating the prompt. Clearing History does not remove messages from the chat provider. Nothing is placed in sync storage. Extension pages have `connect-src 'none'`.
 - Website guards operate on recognized inputs and send controls on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `gemini.google.com`, `chat.deepseek.com`, `grok.com`, `www.meta.ai`, and `meta.ai`. Popup coverage reports whether an input is recognized, not a proof that every transmission is protected.
 - A website can read text as you type into its own page, including autosave/telemetry, before you press Send. Custom fields store names rather than sample secret values. The toolbar does not provide a private prompt composer.
 - This version does not intercept network requests. It cannot enforce confidentiality against a hostile site, scripts using programmatic requests, changed or unknown UI controls, browser extensions, compromised devices, or disabled/site-restricted installation. Site DOM changes can bypass event coverage; reload the tab and verify recognition before relying on the guard.
@@ -94,6 +101,15 @@ const result = redact(prompt);
 // Send result.text only after the local host has intercepted the original request.
 ```
 
+To scan with particular Gitleaks rules, pass exact IDs in the fourth argument:
+`redact(prompt, undefined, undefined, { ruleIds: ['github-pat', 'generic-api-key'] })`.
+Omitting `ruleIds` or passing `[]` keeps all 217 rules enabled. Selection applies
+only to that call, including decoded text. Saved custom fields and the Protect
+client IDs preference remain independent. Unknown or malformed IDs fail the
+scan. The browser worker API accepts the same `ruleIds` option in its third
+argument. Automatic chat protection continues to use all rules. See
+[rule selection](docs/GITLEAKS.md#rule-selection-by-id) for limits and composite behavior.
+
 Base64, percent and hex decoding share a default limit of three passes. A fourth argument, for example
 `redact(prompt, undefined, undefined, { maxDecodeDepth: 1 })`, limits it to one;
 `maxDecodeDepth: 0` preserves plaintext-only comparisons. Depths above 3 are
@@ -102,8 +118,14 @@ rejected. See [decoding limits and mapping](docs/GITLEAKS.md#encoded-text-and-or
 Findings intersecting decoded text include `tags`, for example
 `['decoded:hex', 'decode-depth:2']` for a twice-hex-encoded token. Mixed codecs
 are listed once each, and overlapping findings retain the maximum contributing
-depth. Plaintext findings keep their existing shape. Tags do not change review,
+depth. Plaintext findings omit decoding tags. Tags do not change review,
 masking or History, and contain no decoded secret values.
+
+Bundled catalog allowlists can specify `targetRules` to apply one exception only
+to selected Gitleaks rules. Unknown targets fail the scan. Other rules and
+explicit custom-field/client-ID protection stay active. The current production
+catalog has no targeted shared exceptions; no dashboard setting or import API
+is added. See [allowlist behavior](docs/GITLEAKS.md#engine-behavior).
 
 Exceptions must block delivery. Never fall back to the original prompt. A local stdin filter is also included:
 

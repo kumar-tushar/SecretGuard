@@ -2,13 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { scan, redact, MASK, ScanError } from '../src/index.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const policy = { sensitiveNames: ['dataset_key', 'project code', 'internal-token'] };
 
 function check(input, values, expected, settings = policy) {
   const findings = scan(input, settings);
   assert.deepEqual(findings.map(item => input.slice(item.start, item.end)), values, input);
-  for (const item of findings) assert.deepEqual(Object.keys(item).sort(), ['end', 'start', 'type']);
+  for (const item of findings) {
+    const description = SecretShieldRules.rules.find(rule => rule.id === item.type)?.description;
+    assert.equal(item.description, description);
+    assert.deepEqual(Object.keys(item).sort(), description === undefined ? ['end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type'] : ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
+  }
   const result = redact(input, settings);
   assert.equal(result.text, expected, input);
   assert.equal(result.count, values.length, input);
@@ -54,7 +59,7 @@ test('quoted literals preserve wrappers, escapes, punctuation and following text
 test('UTF-16 offsets replace complete Unicode literals without changing surrounding text', () => {
   const value = 'गुप्त🔑é', input = `😀 हिन्दी dataset_key="${value}". Keep 🔐.`;
   const start = input.indexOf(value);
-  assert.deepEqual(scan(input, policy), [{ start, end: start + value.length, type: 'custom-field' }]);
+  assert.deepEqual(scan(input, policy), withLocations(input, [{ start, end: start + value.length, type: 'custom-field' }]));
   check(input, [value], `😀 हिन्दी dataset_key="${MASK}". Keep 🔐.`);
 });
 

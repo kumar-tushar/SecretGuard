@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "ckretguard",
+    "site": "secretguard-hunasys",
     "public": "public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "cleanUrls": true,

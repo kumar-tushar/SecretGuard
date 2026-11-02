@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { scan, redact, MASK } from '../src/index.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/gitleaks-providers.json', import.meta.url), 'utf8'));
 const core = await readFile(new URL('../src/core.js', import.meta.url), 'utf8');
@@ -24,7 +25,7 @@ for (const id of rules) test(`${id} matches the independently generated Gitleaks
     let cursor = 0, expected = '';
     for (const finding of findings) {
       assert.equal(finding.type, id);
-      assert.deepEqual(Object.keys(finding).sort(), ['end', 'start', 'type']);
+      assert.deepEqual(Object.keys(finding).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
       assert.ok(finding.start >= cursor && finding.end > finding.start && finding.end <= fixture.input.length);
       expected += fixture.input.slice(cursor, finding.start) + MASK;
       cursor = finding.end;
@@ -40,7 +41,7 @@ test('standalone provider values work without a keyword, field name or custom se
     const text = `🔐 हिन्दी\n${value}\nKeep this sentence.`;
     for (const mode of ['redact', 'block']) {
       const start = text.indexOf(value);
-      assert.deepEqual(scan(text, { mode, protectClientIds: false }), [{ start, end: start + value.length, type }]);
+      assert.deepEqual(scan(text, { mode, protectClientIds: false }), withLocations(text, [{ start, end: start + value.length, type, description: SecretShieldRules.rules.find(rule => rule.id === type).description }]));
       assert.equal(redact(text).text, `🔐 हिन्दी\n${MASK}\nKeep this sentence.`);
     }
   }

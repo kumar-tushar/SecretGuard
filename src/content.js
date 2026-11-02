@@ -9,7 +9,7 @@
   const reconnectEvent = 'ckretguard-reconnect';
   const iconUrl = chrome.runtime.getURL('icons/orbit-pointer.png');
   const reconnectMessage = 'Extension connection lost. Refresh this chat tab before sending.';
-  const fontFamily = '"CkretGuard DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const fontFamily = '"SecretGuard DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   const noticeDuration = 5000;
   const sendWait = 3000;
   let policy = null, policyError = false, generation = 0;
@@ -39,7 +39,7 @@
       host.id = 'secret-shield-notice';
       const shadow = host.attachShadow({ mode: 'closed' });
       const style = document.createElement('style');
-      style.textContent = `:host{all:initial;position:fixed;bottom:40px;right:20px;z-index:2147483647;max-width:min(390px,calc(100vw - 40px))}div{position:relative;overflow:hidden;display:flex;align-items:flex-start;gap:10px;font:13px/1.5 ${fontFamily};color:#dfdfdf;background:rgb(24 24 24 / .55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid #ffffff28;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px #0003;white-space:pre-wrap}strong{color:#45d6c8;font-weight:500}.brand-icon{flex:0 0 20px;width:20px;height:20px;background:#45d6c8;mask:url("${iconUrl}") center/contain no-repeat}.notice-progress{position:absolute;top:0;left:0;width:100%;height:3px;background:#45d6c8;transform-origin:left;pointer-events:none}`;
+      style.textContent = `:host{all:initial;position:fixed;bottom:40px;right:20px;z-index:2147483647;max-width:min(390px,calc(100vw - 40px))}div{position:relative;overflow:hidden;display:flex;align-items:flex-start;gap:10px;font:13px/1.5 ${fontFamily};color:#dfdfdf;background:rgb(24 24 24 / .55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid #ffffff28;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px #0003;white-space:pre-wrap}strong{color:#ffffff;font-weight:500}.brand-icon{flex:0 0 20px;width:20px;height:20px;background:url("${iconUrl}") center/contain no-repeat}.notice-progress{position:absolute;top:0;left:0;width:100%;height:3px;background:#ffffff;transform-origin:left;pointer-events:none}`;
       const text = document.createElement('div');
       text.setAttribute('role', 'status');
       text.setAttribute('aria-live', 'polite');
@@ -48,7 +48,7 @@
       icon.setAttribute('aria-hidden', 'true');
       const copy = document.createElement('span');
       const brand = document.createElement('strong');
-      brand.textContent = 'CkretGuard';
+      brand.textContent = 'SecretGuard';
       const body = document.createElement('span');
       const progress = document.createElement('span');
       progress.className = 'notice-progress';
@@ -227,26 +227,26 @@
       dialog{box-sizing:border-box;width:min(460px,calc(100vw - 32px));max-height:calc(100vh - 40px);overflow:auto;border:1px solid #ffffff28;border-radius:16px;padding:26px;background:rgb(24 24 24 / .9);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#dfdfdf;box-shadow:0 24px 70px #0006;font:14px/1.6 ${fontFamily}}
       dialog::backdrop{background:#0003}
       .brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-      .brand{color:#45d6c8;font-size:12px;font-weight:600;letter-spacing:1.7px;white-space:pre-wrap}
-      .brand-icon{display:block;flex:0 0 24px;width:24px;height:24px;background:#45d6c8;mask:url("${iconUrl}") center/contain no-repeat}
+      .brand{color:#ffffff;font-size:12px;font-weight:600;letter-spacing:1.7px;white-space:pre-wrap}
+      .brand-icon{display:block;flex:0 0 24px;width:24px;height:24px;background:url("${iconUrl}") center/contain no-repeat}
       h2{font-size:20px;line-height:1.25;letter-spacing:-.6px;margin:20px 0 12px}
       .count{color:#ff6b6b}
       .review-values{display:grid;gap:8px;list-style:none;margin:12px 0 0;padding:0}
       .review-values li{padding:10px 12px;border-radius:8px;background:#ffffff08}
       .review-values code{display:block;font:400 12px/16px ${fontFamily};white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
-      .review-more{display:block;flex:none;min-width:0;height:auto;margin:10px 0 0;padding:4px 0;border-radius:0;background:none;color:#45d6c8;font-size:12px;line-height:16px}
+      .review-more{display:block;flex:none;min-width:0;height:auto;margin:10px 0 0;padding:4px 0;border-radius:0;background:none;color:#ffffff;font-size:12px;line-height:16px}
       .review-more[hidden]{display:none}
       .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
       button{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:90px;box-sizing:border-box;height:34px;border:0;outline:none;box-shadow:none;border-radius:999px;padding:0 16px;background:#303030;color:#dfdfdf;font:500 13px ${fontFamily};cursor:pointer}
       .button-icon{width:14px;height:14px;flex:0 0 14px;pointer-events:none}
       button:focus-visible{filter:brightness(1.2)}
-      button.mask{background:#45d6c8;color:#181818}
+      button.mask{background:#ffffff;color:#181818}
       button.send{color:#fff;background:#b4232d}
       button:disabled{opacity:.45;cursor:not-allowed}
     `;
     const dialog = document.createElement('dialog');
     dialog.setAttribute('aria-labelledby', 'ckretguard-review-title');
-    dialog.innerHTML = '<div class="brand-row"><div class="brand">CkretGuard ·  Orenthic</div><span class="brand-icon" aria-hidden="true"></span></div><h2 id="ckretguard-review-title"><span class="count"></span> <span class="caption"></span></h2><ol class="review-values" aria-label="Detected values"></ol><button type="button" class="review-more" hidden></button><div class="actions"><button type="button" class="send">Send</button><button type="button" class="edit" autofocus>Edit</button><button type="button" class="mask">Mask</button></div>';
+    dialog.innerHTML = '<div class="brand-row"><div class="brand">SecretGuard ·  HUNASYS</div><span class="brand-icon" aria-hidden="true"></span></div><h2 id="ckretguard-review-title"><span class="count"></span> <span class="caption"></span></h2><ol class="review-values" aria-label="Detected values"></ol><button type="button" class="review-more" hidden></button><div class="actions"><button type="button" class="send">Send</button><button type="button" class="edit" autofocus>Edit</button><button type="button" class="mask">Mask</button></div>';
     const actionIcons = {
       send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
       edit: '<path d="m16 3 5 5-13 13H3v-5Z"/><path d="m14 5 5 5"/>',

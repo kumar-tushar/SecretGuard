@@ -40,7 +40,7 @@ test('production excludes the log viewer, recording scripts and legacy debug rou
   await expect(dashboard.locator('#home-view')).toBeVisible();
   await expect(dashboard.locator('#debug-view,#debug-export,#debug-clear')).toHaveCount(0);
   await expect(dashboard.getByRole('navigation').getByRole('link')).toHaveText(['Home', 'History', 'Privacy Policy', 'Contact Us']);
-  await expect(dashboard).toHaveTitle('CkretGuard · Protection');
+  await expect(dashboard).toHaveTitle('SecretGuard · Protection');
 });
 
 test('production reviews, masks and sends without creating logs or accepting the old logging API', async () => {

@@ -38,8 +38,8 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
     pending = update.catch(() => {});
     update.then(() => reply({ ok: true }), error => {
       const reason = error instanceof SecretShieldCore.ScanError ? 'invalid' :
-        ['duplicate', 'limit', 'managed'].includes(error.message) ? error.message : 'storage_unavailable';
-      reply({ ok: false, error: reason === 'storage_unavailable' ? 'unavailable' : reason });
+        ['duplicate', 'limit', 'managed'].includes(error.message) ? error.message : 'unavailable';
+      reply({ ok: false, error: reason });
     });
     return true;
   }

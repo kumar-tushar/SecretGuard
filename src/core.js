@@ -1,10 +1,10 @@
-/* Shared local-only scanner. Loaded as a classic script in Chrome and by index.mjs. */
 (() => {
   'use strict';
   const MAX_CHARACTERS = 100_000;
   const MAX_CUSTOM_FIELDS = 50;
   const MAX_DECODE_DEPTH = 3;
   const MAX_DECODE_CHARACTERS = 1_000_000;
+  const MAX_COMPOSITE_CHECKS = 1_000_000;
   const ENCODING_TAGS = ['decoded:percent', 'decoded:hex', 'decoded:base64'];
   const MASK = 'xxxxxxxxxx';
   const CLIENT_ID_NAMES = ['client_id', 'client-id', 'client id', 'clientId'];
@@ -14,15 +14,18 @@
   }
   let detector;
 
-  function compileAllowlists(values = []) {
+  function compileAllowlists(values = [], ruleIds) {
     return values.map(value => {
       const condition = value.condition ?? 'OR', target = value.regexTarget ?? 'secret';
+      const targetRules = value.targetRules === undefined ? [] : value.targetRules;
       if (!['AND', 'OR'].includes(condition) || !['secret', 'match', 'line'].includes(target) ||
+          !Array.isArray(targetRules) || targetRules.some(id => typeof id !== 'string' || !ruleIds?.has(id)) ||
           !Array.isArray(value.regexes) || !Array.isArray(value.stopwords) || !Array.isArray(value.paths) ||
           [...value.regexes, ...value.stopwords, ...value.paths].some(item => typeof item !== 'string') ||
           !value.regexes.length && !value.stopwords.length && !value.paths.length) throw new ScanError();
       return { condition, target, regexes: value.regexes.map(pattern => new RegExp(pattern)),
-        stopwords: value.stopwords.map(word => word.toLowerCase()), hasPaths: value.paths.length > 0 };
+        stopwords: value.stopwords.map(word => word.toLowerCase()), hasPaths: value.paths.length > 0,
+        targetRules: [...new Set(targetRules)] };
     });
   }
 
@@ -33,17 +36,22 @@
       if (!source || !Array.isArray(source.rules) || !source.rules.length) throw new ScanError();
       const ids = new Set();
       const rules = source.rules.map(rule => {
+        const required = rule.required === undefined ? [] : rule.required;
         if (typeof rule.id !== 'string' || !rule.id || ids.has(rule.id) || typeof rule.regex !== 'string' ||
+            rule.description !== undefined && (typeof rule.description !== 'string' || rule.description.length > 2048) ||
+            rule.tags !== undefined && (!Array.isArray(rule.tags) || rule.tags.length > 64 ||
+              rule.tags.some(tag => typeof tag !== 'string' || !tag || tag.length > 256)) ||
             !Number.isInteger(rule.secretGroup) || rule.secretGroup < 0 || !Number.isFinite(rule.entropy) || rule.entropy < 0 ||
             !Array.isArray(rule.keywords) || rule.keywords.some(word => typeof word !== 'string' || !word) ||
-            rule.reuseBoundary !== undefined && typeof rule.reuseBoundary !== 'boolean') throw new ScanError();
+            rule.reuseBoundary !== undefined && typeof rule.reuseBoundary !== 'boolean' ||
+            rule.skipReport !== undefined && typeof rule.skipReport !== 'boolean' || !Array.isArray(required) ||
+            required.some(item => !item || typeof item !== 'object' || Array.isArray(item) || typeof item.id !== 'string' || !item.id ||
+              ['withinLines', 'withinColumns'].some(key => item[key] !== undefined && (!Number.isSafeInteger(item[key]) || item[key] < 0)))) throw new ScanError();
         ids.add(rule.id);
-        // Go quantifiers count Unicode code points; indices still use UTF-16
-        // offsets for the existing editor API.
+        // Match Go's code-point quantifiers while retaining UTF-16 editor offsets.
         const regex = new RegExp(rule.regex, 'gdu');
-        // Group zero uses Gitleaks' first populated capture, or the whole match
-        // when the expression has no populated captures.
-        // Validate extraction without requiring a credential to match.
+        // Gitleaks group zero selects the first populated capture or the whole match.
+        // Count captures without requiring a credential to match.
         const groupCount = new RegExp(`(?:${rule.regex})|`, 'u').exec('').length;
         if (groupCount <= rule.secretGroup || rule.maskGroup !== undefined &&
             (!Number.isInteger(rule.maskGroup) || rule.maskGroup < 0 || rule.maskGroup >= groupCount)) throw new ScanError();
@@ -59,9 +67,20 @@
           command = { start: new RegExp(start, 'gu'), tail: new RegExp(rule.regex.slice(prefix.length), 'gdu'),
             complete: new RegExp(`^(?:${normalizedPrefix}${rule.regex.slice(prefix.length)})(?![\\s\\S])`, 'du') };
         }
-        return { ...rule, regex, command, keywords: rule.keywords.map(word => word.toLowerCase()), allowlists: compileAllowlists(rule.allowlists) };
+        return { ...rule, regex, command, tags: [...(rule.tags ?? [])], required: required.map(item => ({ ...item })),
+          keywords: rule.keywords.map(word => word.toLowerCase()), allowlists: compileAllowlists(rule.allowlists) };
       });
-      detector = { rules, allowlists: compileAllowlists(source.globalAllowlists) };
+      const byId = new Map(rules.map(rule => [rule.id, rule])), allowlists = [], auxiliaryIds = new Set();
+      for (const rule of rules) for (const item of rule.required) {
+        if (!ids.has(item.id)) throw new ScanError();
+        auxiliaryIds.add(item.id);
+      }
+      for (const list of compileAllowlists(source.globalAllowlists, ids)) {
+        // Shared targeted exclusions are local to their named rules, never global.
+        if (list.targetRules.length) for (const id of list.targetRules) byId.get(id).allowlists.push(list);
+        else allowlists.push(list);
+      }
+      detector = { rules, byId, allowlists, auxiliaryIds };
       return detector;
     } catch { throw new ScanError(); }
   }
@@ -94,10 +113,8 @@
         previous = next; next = start.exec(text);
       }
       if (!previous) continue;
-      // Check each option with the complete pinned expression. The nearest
-      // command has the shortest valid prefix and avoids rescanning every curl
-      // word against the rest of a long prompt. An anchored end prevents a
-      // greedy prefix from hiding earlier authentication options.
+      // Anchor each option to the nearest command to avoid quadratic rescanning
+      // and prevent a greedy prefix from hiding earlier authentication options.
       const match = complete.exec(text.slice(previous.index, candidate.index + candidate[0].length));
       if (!match) continue;
       match.index += previous.index;
@@ -114,8 +131,7 @@
       const point = char.codePointAt(0);
       length += point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
     }
-    // Gitleaks counts runes but uses the UTF-8 byte length as its denominator.
-    // Preserve that behavior for the Unicode case folds allowed by the rule.
+    // Gitleaks counts runes but divides by UTF-8 byte length, including case folds.
     let result = 0;
     for (const count of counts.values()) { const frequency = count / length; result -= frequency * Math.log2(frequency); }
     return result;
@@ -125,8 +141,7 @@
     const lower = secret.toLowerCase();
     return allowlists.some(list => {
       const checks = [];
-      // Prompt fragments have no file path. Do not turn an upstream path+line
-      // exclusion into a line-only exclusion by dropping its path requirement.
+      // A prompt has no path, so an AND exclusion requiring one cannot match.
       if (list.hasPaths && list.condition === 'AND') checks.push(false);
       if (list.regexes.length) checks.push(list.regexes.some(regex => regex.test(list.target === 'line' ? line : list.target === 'match' ? match : secret)));
       if (list.stopwords.length) checks.push(list.stopwords.some(word => lower.includes(word)));
@@ -153,11 +168,9 @@
       .map(name => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
     const assignments = new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_$-])(?:(['"\x60])(?:${labels})\\1|(?:${labels}))[\\t \\u00a0]*(?:=(?!=|>)|:(?![:=]))[\\t \\u00a0]*`, 'giu');
     const findings = [];
-    let match;
-    while ((match = assignments.exec(text)) !== null) {
+    while (assignments.exec(text) !== null) {
       let start = assignments.lastIndex;
-      // An explicit separator may continue on the immediately following line.
-      // Never infer a value from a bare name or search past blank paragraphs.
+      // Only an explicit assignment can continue onto the immediately next line.
       if (text[start] === '\r' || text[start] === '\n') {
         start += text[start] === '\r' && text[start + 1] === '\n' ? 2 : 1;
         while (/[\t \u00a0]/.test(text[start] ?? '')) start++;
@@ -173,8 +186,7 @@
         while (end < text.length && text[end] !== quote) {
           end += text[end] === '\\' ? 2 : 1;
         }
-        // Guessing where an incomplete quoted value ends could leave a secret
-        // behind. Keep the draft local until the assignment is well formed.
+        // Block incomplete quoted values rather than masking only a prefix.
         if (end >= text.length) throw new ScanError();
         assignments.lastIndex = end + 1;
       } else {
@@ -260,8 +272,7 @@
   }
 
   function originalOffset(offset, segments, end) {
-    // Only the segment containing an endpoint can expand its bounds. Binary
-    // search keeps many findings/segments from becoming a quadratic scan.
+    // Locate the endpoint's segment in logarithmic time, then expand its bounds.
     let low = 0, high = segments.length;
     while (low < high) {
       const middle = low + high >> 1;
@@ -280,12 +291,120 @@
     return [...encodings, `decode-depth:${depth}`];
   }
 
-  function plainFindings(text, normalized) {
-    const { rules, allowlists } = detectionRules(), lower = text.toLowerCase();
+  function matchLocations(text, starts) {
+    const locations = new Map();
+    let index = 0, bytes = 0, line = 0, lastNewline = 0;
+    for (const start of [...new Set(starts)].sort((a, b) => a - b)) {
+      while (index < start) {
+        const point = text.codePointAt(index);
+        if (point === 10) { line++; lastNewline = bytes; }
+        bytes += point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
+        index += point > 0xffff ? 2 : 1;
+      }
+      // Gitleaks measures byte columns from the preceding LF itself, and a
+      // match starting on LF belongs to the following line at column one.
+      locations.set(start, text[start] === '\n' ? { line: line + 1, column: 1 } : { line, column: bytes - lastNewline + 1 });
+    }
+    return locations;
+  }
+
+  function findingLocations(text, findings) {
+    let index = 0, line = 1, column = 1, lastLine = 1, lastColumn = 1;
+    const advance = end => {
+      while (index < end) {
+        const point = text.codePointAt(index), width = point > 0xffff ? 2 : 1;
+        if (index + width > end) throw new ScanError();
+        lastLine = line;
+        if (point === 10) { lastColumn = column; line++; column = 1; }
+        else {
+          column += point <= 0x7f ? 1 : point <= 0x7ff ? 2 : point <= 0xffff ? 3 : 4;
+          lastColumn = column - 1;
+        }
+        index += width;
+      }
+    };
+    return findings.map(({ start, end }) => {
+      if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < index || end <= start || end > text.length) throw new ScanError();
+      advance(start);
+      const startLine = line, startColumn = column;
+      advance(end);
+      return { startLine, startColumn, endLine: lastLine, endColumn: lastColumn };
+    });
+  }
+
+  function proximityWindow(items, key, center, distance) {
+    const bound = value => {
+      let low = 0, high = items.length;
+      while (low < high) {
+        const middle = low + high >> 1;
+        if (items[middle][key] < value) low = middle + 1;
+        else high = middle;
+      }
+      return low;
+    };
+    return [bound(center - distance), bound(center + distance + 1)];
+  }
+
+  function compositeFindings(pending, matches, original, budget) {
+    const located = pending.some(item => item.rule.required.some(required => required.withinLines !== undefined || required.withinColumns !== undefined));
+    const locations = located ? matchLocations(original, [...pending.map(item => item.point), ...[...matches.values()].flat()]) : null;
+    const indexes = new Map();
+    for (const [id, points] of matches) {
+      const items = locations ? points.map(point => locations.get(point)) : points;
+      indexes.set(id, locations ? { items, line: [...items].sort((a, b) => a.line - b.line),
+        column: [...items].sort((a, b) => a.column - b.column) } : { items });
+    }
+    const supports = (required, point) => {
+      if (budget.remaining-- <= 0) throw new ScanError();
+      const index = indexes.get(required.id);
+      if (!index?.items.length) return false;
+      const { withinLines, withinColumns } = required;
+      if (withinLines === undefined && withinColumns === undefined) return true;
+      const position = locations.get(point);
+      const lines = withinLines === undefined ? [0, index.items.length] : proximityWindow(index.line, 'line', position.line, withinLines);
+      const columns = withinColumns === undefined ? [0, index.items.length] : proximityWindow(index.column, 'column', position.column, withinColumns);
+      if (withinLines === undefined) return columns[0] < columns[1];
+      if (withinColumns === undefined) return lines[0] < lines[1];
+      const [items, range] = lines[1] - lines[0] <= columns[1] - columns[0] ? [index.line, lines] : [index.column, columns];
+      for (let i = range[0]; i < range[1]; i++) {
+        if (budget.remaining-- <= 0) throw new ScanError();
+        if (Math.abs(items[i].line - position.line) <= withinLines && Math.abs(items[i].column - position.column) <= withinColumns) return true;
+      }
+      return false;
+    };
+    return pending.filter(item => {
+      // Upstream collects all qualifying supports by ID before checking that
+      // every required ID is present. Repeated IDs provide alternative bounds.
+      const satisfied = new Set();
+      for (const required of item.rule.required) if (supports(required, item.point)) satisfied.add(required.id);
+      return item.rule.required.every(required => satisfied.has(required.id));
+    }).map(item => item.finding);
+  }
+
+  function normalizeRuleIds(value) {
+    if (value === undefined) return undefined;
+    if (!Array.isArray(value) || value.length > 1000) throw new ScanError();
+    if (!value.length) return undefined;
+    const rules = globalThis.SecretShieldRules?.rules;
+    if (!Array.isArray(rules)) throw new ScanError();
+    const known = new Set(rules.map(rule => rule.id)), selected = new Set();
+    for (const id of value) {
+      if (typeof id !== 'string' || !known.has(id)) throw new ScanError();
+      selected.add(id);
+    }
+    // Copy caller input and retain catalog order, including for overlapping rules.
+    return rules.filter(rule => selected.has(rule.id)).map(rule => rule.id);
+  }
+
+  function plainFindings(text, normalized, original = text, passes = [], compositeBudget = { remaining: MAX_COMPOSITE_CHECKS }, ruleIds) {
+    const { rules, allowlists, auxiliaryIds } = detectionRules(), lower = text.toLowerCase();
     const findings = [...assignmentFindings(text, normalized.sensitiveNames, 'custom-field'),
       ...(normalized.protectClientIds ? assignmentFindings(text, CLIENT_ID_NAMES, 'client-id') : [])];
+    const matches = new Map(), pending = [];
     for (const rule of rules) {
-      if (rule.keywords.length && !rule.keywords.some(word => lower.includes(word))) continue;
+      if (ruleIds && !ruleIds.has(rule.id)) continue;
+      const active = !rule.keywords.length || rule.keywords.some(word => lower.includes(word));
+      if ((!active || rule.skipReport) && !auxiliaryIds.has(rule.id)) continue;
       for (const match of ruleMatches(rule, text)) {
         const group = rule.secretGroup || Math.max(0, match.findIndex((value, index) => index > 0 && value));
         const selectedBounds = match.indices[rule.maskGroup ?? group];
@@ -306,9 +425,22 @@
         const line = text.slice(lineStart, lineEnd < 0 ? text.length : lineEnd);
         if (allowed(allowlists, secret, matched, line) || allowed(rule.allowlists, secret, matched, line)) continue;
         const [start, end] = bounds;
-        findings.push({ start, end, type: rule.id });
+        const finding = { start, end, type: rule.id };
+        let point = match.index;
+        if (auxiliaryIds.has(rule.id) || rule.required.length) {
+          for (let i = passes.length - 1; i >= 0; i--) point = originalOffset(point, passes[i], false);
+        }
+        if (auxiliaryIds.has(rule.id)) {
+          if (!matches.has(rule.id)) matches.set(rule.id, []);
+          matches.get(rule.id).push(point);
+        }
+        if (active && !rule.skipReport) {
+          if (rule.required.length) pending.push({ rule, finding, point });
+          else findings.push(finding);
+        }
       }
     }
+    if (pending.length) for (const finding of compositeFindings(pending, matches, original, compositeBudget)) findings.push(finding);
     return findings;
   }
 
@@ -317,7 +449,9 @@
     if (typeof text !== 'string' || !Number.isSafeInteger(maxCharacters) || maxCharacters < 0 || text.length > maxCharacters ||
         !options || typeof options !== 'object' || Array.isArray(options) || !Number.isSafeInteger(maxDecodeDepth) ||
         maxDecodeDepth < 0 || maxDecodeDepth > MAX_DECODE_DEPTH) throw new ScanError();
-    const normalized = normalizePolicy(policy), findings = plainFindings(text, normalized);
+    const selected = normalizeRuleIds(options.ruleIds), ruleIds = selected && new Set(selected);
+    const normalized = normalizePolicy(policy), compositeBudget = { remaining: MAX_COMPOSITE_CHECKS };
+    const findings = plainFindings(text, normalized, text, [], compositeBudget, ruleIds);
     const passes = [], budget = { remaining: MAX_DECODE_CHARACTERS };
     let decoded = text;
     for (let depth = 0; depth < maxDecodeDepth; depth++) {
@@ -325,13 +459,12 @@
       if (!next.segments.length) break;
       passes.push(next.segments);
       decoded = next.text;
-      for (const item of plainFindings(decoded, normalized)) {
+      for (const item of plainFindings(decoded, normalized, text, passes, compositeBudget, ruleIds)) {
         let { start, end } = item;
         const tags = new Set();
         for (let i = passes.length - 1; i >= 0; i--) {
           const segments = passes[i];
-          // Only overlapping decoded segments contribute tags. A separate
-          // encoded value elsewhere must not label a plaintext finding.
+          // Only overlapping decoded segments contribute tags to this finding.
           let low = 0, high = segments.length;
           while (low < high) {
             const middle = low + high >> 1;
@@ -359,7 +492,14 @@
             ['custom-field', 'client-id'].includes(previous.type) && !['generic-api-key', 'custom-field', 'client-id'].includes(item.type)) previous.type = item.type;
       } else distinct.push(item);
     }
-    return distinct;
+    // Attach metadata after overlap selection so descriptions and rule tags
+    // always belong to the retained rule, separate from combined decode tags.
+    const { byId } = detectionRules(), locations = findingLocations(text, distinct);
+    return distinct.map((item, index) => {
+      const rule = byId.get(item.type);
+      return { ...item, ...locations[index], ...(rule?.description !== undefined ? { description: rule.description } : {}),
+        ...(rule?.tags.length ? { tags: [...rule.tags, ...(item.tags ?? [])] } : {}) };
+    });
   }
 
   function redact(text, policy, maxCharacters, options) {
@@ -371,5 +511,5 @@
     }
     return { text: output + text.slice(cursor), count: findings.length, findings };
   }
-  globalThis.SecretShieldCore = Object.freeze({ scan, redact, normalizePolicy, defaults, ScanError, MASK, MAX_CHARACTERS, MAX_CUSTOM_FIELDS });
+  globalThis.SecretShieldCore = Object.freeze({ scan, redact, findingLocations, normalizePolicy, normalizeRuleIds, defaults, ScanError, MASK, MAX_CHARACTERS, MAX_CUSTOM_FIELDS });
 })();

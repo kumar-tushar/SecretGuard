@@ -1,0 +1,2463 @@
+{
+  "source": "Official Gitleaks 8.30.1 with the pinned 5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c config and one appended whole-capture synthetic rule; stdin; depth 0; inline suppression disabled. Raw upstream coordinates are retained. Browser expected coordinates independently count UTF-8 bytes with LF advancing the line and resetting column to one, including correct multiline end positions on an unterminated last line. Public browser coordinates describe final masking spans, rather than upstream full-regex matches.",
+  "binarySha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "configSha256": "e163e53b9e7e8a8511e77271e2b323ed057759542a6d988258afe3a1fa329caf",
+  "rule": {
+    "id": "fixture-location",
+    "regex": "(LOC(?:A|B|C|\n|\r|é|🧪)+END)",
+    "secretGroup": 1,
+    "entropy": 0,
+    "keywords": [],
+    "allowlists": []
+  },
+  "cases": [
+    {
+      "name": "original location 1",
+      "input": "LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 9
+      }
+    },
+    {
+      "name": "original location 2",
+      "input": "LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 9
+      }
+    },
+    {
+      "name": "original location 3",
+      "input": "LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 4",
+      "input": "LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 5",
+      "input": "LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 6",
+      "input": "LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 7",
+      "input": "LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 8",
+      "input": "LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 9",
+      "input": "LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 10",
+      "input": "LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 11",
+      "input": "LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 12",
+      "input": "LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 13",
+      "input": "x LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 11
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 14",
+      "input": "x LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 11
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 15",
+      "input": "x LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 16",
+      "input": "x LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 17",
+      "input": "x LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 18",
+      "input": "x LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 19",
+      "input": "x LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 20",
+      "input": "x LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 21",
+      "input": "x LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 22",
+      "input": "x LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 23",
+      "input": "x LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 24",
+      "input": "x LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 3,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 25",
+      "input": "é LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 26",
+      "input": "é LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 12
+      }
+    },
+    {
+      "name": "original location 27",
+      "input": "é LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 28",
+      "input": "é LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 29",
+      "input": "é LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 30",
+      "input": "é LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 31",
+      "input": "é LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 32",
+      "input": "é LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 33",
+      "input": "é LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 34",
+      "input": "é LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 35",
+      "input": "é LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 36",
+      "input": "é LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 4,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 37",
+      "input": "中 LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 38",
+      "input": "中 LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 39",
+      "input": "中 LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 40",
+      "input": "中 LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 41",
+      "input": "中 LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 42",
+      "input": "中 LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 43",
+      "input": "中 LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 44",
+      "input": "中 LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 45",
+      "input": "中 LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 46",
+      "input": "中 LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 47",
+      "input": "中 LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 48",
+      "input": "中 LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 49",
+      "input": "😀 LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 50",
+      "input": "😀 LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 51",
+      "input": "😀 LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 52",
+      "input": "😀 LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 53",
+      "input": "😀 LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 54",
+      "input": "😀 LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 55",
+      "input": "😀 LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 56",
+      "input": "😀 LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 57",
+      "input": "😀 LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 17
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 17
+      }
+    },
+    {
+      "name": "original location 58",
+      "input": "😀 LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 17
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 17
+      }
+    },
+    {
+      "name": "original location 59",
+      "input": "😀 LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 60",
+      "input": "😀 LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 61",
+      "input": "é LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 62",
+      "input": "é LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 63",
+      "input": "é LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 64",
+      "input": "é LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 65",
+      "input": "é LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 66",
+      "input": "é LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 67",
+      "input": "é LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 68",
+      "input": "é LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 14
+      }
+    },
+    {
+      "name": "original location 69",
+      "input": "é LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 70",
+      "input": "é LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 71",
+      "input": "é LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 72",
+      "input": "é LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 5,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 73",
+      "input": "\nLOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 74",
+      "input": "\nLOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 75",
+      "input": "\nLOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 76",
+      "input": "\nLOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 77",
+      "input": "\nLOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 78",
+      "input": "\nLOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 79",
+      "input": "\nLOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 80",
+      "input": "\nLOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 81",
+      "input": "\nLOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 82",
+      "input": "\nLOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 83",
+      "input": "\nLOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 84",
+      "input": "\nLOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 85",
+      "input": "\r\nLOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 86",
+      "input": "\r\nLOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 87",
+      "input": "\r\nLOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 88",
+      "input": "\r\nLOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 89",
+      "input": "\r\nLOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 90",
+      "input": "\r\nLOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 91",
+      "input": "\r\nLOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 92",
+      "input": "\r\nLOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 93",
+      "input": "\r\nLOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 94",
+      "input": "\r\nLOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 95",
+      "input": "\r\nLOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 96",
+      "input": "\r\nLOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 97",
+      "input": "first\nLOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 98",
+      "input": "first\nLOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 99",
+      "input": "first\nLOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 100",
+      "input": "first\nLOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 101",
+      "input": "first\nLOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 102",
+      "input": "first\nLOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 103",
+      "input": "first\nLOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 104",
+      "input": "first\nLOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 105",
+      "input": "first\nLOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 106",
+      "input": "first\nLOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 2,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 107",
+      "input": "first\nLOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 108",
+      "input": "first\nLOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 109",
+      "input": "first\n😀 LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 110",
+      "input": "first\n😀 LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 14
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 15
+      }
+    },
+    {
+      "name": "original location 111",
+      "input": "first\n😀 LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 112",
+      "input": "first\n😀 LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 113",
+      "input": "first\n😀 LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 114",
+      "input": "first\n😀 LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 3,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 115",
+      "input": "first\n😀 LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 116",
+      "input": "first\n😀 LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 15
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 16
+      }
+    },
+    {
+      "name": "original location 117",
+      "input": "first\n😀 LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 17
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 18
+      }
+    },
+    {
+      "name": "original location 118",
+      "input": "first\n😀 LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 2,
+        "endColumn": 17
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 18
+      }
+    },
+    {
+      "name": "original location 119",
+      "input": "first\n😀 LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 2,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 120",
+      "input": "first\n😀 LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 2,
+        "startColumn": 6,
+        "endLine": 3,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 2,
+        "startColumn": 7,
+        "endLine": 3,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 121",
+      "input": "one\n\nLOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 122",
+      "input": "one\n\nLOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 9
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 10
+      }
+    },
+    {
+      "name": "original location 123",
+      "input": "one\n\nLOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 124",
+      "input": "one\n\nLOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 4,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 125",
+      "input": "one\n\nLOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 126",
+      "input": "one\n\nLOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 4,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 127",
+      "input": "one\n\nLOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 128",
+      "input": "one\n\nLOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 10
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 11
+      }
+    },
+    {
+      "name": "original location 129",
+      "input": "one\n\nLOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 130",
+      "input": "one\n\nLOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 3,
+        "endColumn": 12
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 13
+      }
+    },
+    {
+      "name": "original location 131",
+      "input": "one\n\nLOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 3,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 132",
+      "input": "one\n\nLOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 3,
+        "startColumn": 1,
+        "endLine": 4,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 3,
+        "startColumn": 2,
+        "endLine": 4,
+        "endColumn": 4
+      }
+    },
+    {
+      "name": "original location 133",
+      "input": "one\rrest LOCABCEND",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 18
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 18
+      }
+    },
+    {
+      "name": "original location 134",
+      "input": "one\rrest LOCABCEND\nTail",
+      "secret": "LOCABCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 18
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 18
+      }
+    },
+    {
+      "name": "original location 135",
+      "input": "one\rrest LOCA\nBCEND",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 136",
+      "input": "one\rrest LOCA\nBCEND\nTail",
+      "secret": "LOCA\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 137",
+      "input": "one\rrest LOCA\r\nBCEND",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 138",
+      "input": "one\rrest LOCA\r\nBCEND\nTail",
+      "secret": "LOCA\r\nBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 5
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 6
+      }
+    },
+    {
+      "name": "original location 139",
+      "input": "one\rrest LOCA\rBCEND",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 19
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 19
+      }
+    },
+    {
+      "name": "original location 140",
+      "input": "one\rrest LOCA\rBCEND\nTail",
+      "secret": "LOCA\rBCEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 19
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 19
+      }
+    },
+    {
+      "name": "original location 141",
+      "input": "one\rrest LOCé🧪END",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 21
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 21
+      }
+    },
+    {
+      "name": "original location 142",
+      "input": "one\rrest LOCé🧪END\nTail",
+      "secret": "LOCé🧪END",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 21
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 21
+      }
+    },
+    {
+      "name": "original location 143",
+      "input": "one\rrest LOCA\nEND",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 1,
+        "endColumn": 0
+      }
+    },
+    {
+      "name": "original location 144",
+      "input": "one\rrest LOCA\nEND\nTail",
+      "secret": "LOCA\nEND",
+      "location": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 3
+      },
+      "upstreamLocation": {
+        "startLine": 1,
+        "startColumn": 10,
+        "endLine": 2,
+        "endColumn": 4
+      }
+    }
+  ]
+}

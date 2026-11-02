@@ -1,0 +1,6603 @@
+{
+  "source": "Official Gitleaks 8.30.1; pinned config 5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c plus synthetic composite rules; legacy [allowlist] header converted to equivalent [[allowlists]] without changing criteria; stdin; --ignore-gitleaks-allow; max-decode-depth 0 for plaintext, 3 for encoded cases. Encoded expected spans cover the original complete blob for browser masking.",
+  "binarySha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "configSha256": "e163e53b9e7e8a8511e77271e2b323ed057759542a6d988258afe3a1fa329caf",
+  "cases": [
+    {
+      "name": "fragment input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "fragment input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "fragment input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "fragment input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same line input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same line input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same line input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same line input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same line input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "one line input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "one line input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "one line input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "one line input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "one line input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same column input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "same column input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "same column input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "eight columns input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "eight columns input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "eight columns input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "eight columns input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "eight columns input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinColumns": 8
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "rectangle input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "rectangle input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "rectangle input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "rectangle input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "rectangle input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "rectangle input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 1,
+              "withinColumns": 1
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "visible auxiliary input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [
+        "SERVICE"
+      ],
+      "ruleIds": [
+        "fixture-context"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123",
+        "SERVICE"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123",
+        "SERVICE"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "SERVICE",
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "visible auxiliary input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": false
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "SERVICE",
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-context",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "two required IDs input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "two required IDs input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "two required IDs input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            },
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "raw auxiliary input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "raw auxiliary input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "raw auxiliary input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "raw auxiliary input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "absent-prefilter"
+          ],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-region"
+            }
+          ]
+        },
+        {
+          "id": "fixture-region",
+          "regex": "(REGION)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "duplicate alternatives input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "duplicate alternatives input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "duplicate alternatives input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0
+            },
+            {
+              "id": "fixture-context",
+              "withinLines": 2
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "excluded auxiliary input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "excluded auxiliary input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [
+        {
+          "targetRules": [
+            "fixture-context"
+          ],
+          "regexes": [
+            "^SERVICE$"
+          ],
+          "stopwords": [],
+          "paths": []
+        }
+      ],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "primary prefilter input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "primary prefilter input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [
+            "trigger"
+          ],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "hidden primary input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ],
+          "skipReport": true
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "empty requirements input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "empty requirements input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "empty requirements input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": []
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "self support input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "self support input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-primary",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 1",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "mutual support input 2",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE",
+      "secrets": [],
+      "ruleIds": []
+    },
+    {
+      "name": "mutual support input 3",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 4",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 5",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "credential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 6",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\n\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 7",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "REGION\ncredential=ABC123\nSERVICE",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 8",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE\ncredential=ABC123\n\ncredential=DEF456",
+      "secrets": [
+        "ABC123",
+        "DEF456"
+      ],
+      "ruleIds": [
+        "fixture-primary",
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 9",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "SERVICE 😀credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 10",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "trigger SERVICE credential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "mutual support input 11",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true,
+          "required": [
+            {
+              "id": "fixture-primary"
+            }
+          ]
+        }
+      ],
+      "allowlists": [],
+      "input": "prefix\r\n SERVICE\r\ncredential=ABC123",
+      "secrets": [
+        "ABC123"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ]
+    },
+    {
+      "name": "encoded base64",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "U0VSVklDRQpjcmVkZW50aWFsPUFCQzEyMw==",
+      "secrets": [
+        "U0VSVklDRQpjcmVkZW50aWFsPUFCQzEyMw=="
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ],
+      "decodedSecrets": [
+        "ABC123"
+      ]
+    },
+    {
+      "name": "encoded hex",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "534552564943450a63726564656e7469616c3d414243313233",
+      "secrets": [
+        "534552564943450a63726564656e7469616c3d414243313233"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ],
+      "decodedSecrets": [
+        "ABC123"
+      ]
+    },
+    {
+      "name": "encoded percent",
+      "rules": [
+        {
+          "id": "fixture-primary",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "required": [
+            {
+              "id": "fixture-context",
+              "withinLines": 0,
+              "withinColumns": 0
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "skipReport": true
+        }
+      ],
+      "allowlists": [],
+      "input": "%53%45%52%56%49%43%45%0a%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "secrets": [
+        "%53%45%52%56%49%43%45%0a%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33"
+      ],
+      "ruleIds": [
+        "fixture-primary"
+      ],
+      "decodedSecrets": [
+        "ABC123"
+      ]
+    }
+  ]
+}

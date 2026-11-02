@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { scan, redact, MASK, MAX_CHARACTERS, ScanError } from '../src/index.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/gitleaks-structured.json', import.meta.url), 'utf8'));
 const providers = JSON.parse(await readFile(new URL('./fixtures/gitleaks-providers.json', import.meta.url), 'utf8')).examples;
@@ -18,7 +19,7 @@ for (const id of ['private-key', 'jwt']) test(`${id} matches the independently e
     let cursor = 0, expected = '';
     for (const finding of findings) {
       assert.equal(finding.type, id);
-      assert.deepEqual(Object.keys(finding).sort(), ['end', 'start', 'type']);
+      assert.deepEqual(Object.keys(finding).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
       assert.ok(finding.start >= cursor && finding.end > finding.start && finding.end <= fixture.input.length);
       expected += fixture.input.slice(cursor, finding.start) + MASK;
       cursor = finding.end;
@@ -35,7 +36,7 @@ test('private-key length constraints count code points while findings retain UTF
     assert.deepEqual(scan(prefix + char.repeat(63) + suffix), [], char);
     const block = prefix + char.repeat(64) + suffix, text = `🛡️ हिन्दी ${block}\nKeep this.`;
     const start = text.indexOf(prefix);
-    assert.deepEqual(scan(text), [{ start, end: start + block.length, type: 'private-key' }]);
+    assert.deepEqual(scan(text), withLocations(text, [{ start, end: start + block.length, type: 'private-key', description: SecretShieldRules.rules.find(rule => rule.id === 'private-key').description }]));
     assert.equal(redact(text).text, '🛡️ हिन्दी xxxxxxxxxx\nKeep this.');
   }
 });
@@ -45,7 +46,7 @@ test('multiline blocks and standalone signed or unsigned JWTs are masked without
     for (const mode of ['redact', 'block']) {
       const text = `Keep this header.\n\n${value}\n\nKeep this footer.`;
       const start = text.indexOf(value);
-      assert.deepEqual(scan(text, { mode }), [{ start, end: start + value.length, type }]);
+      assert.deepEqual(scan(text, { mode }), withLocations(text, [{ start, end: start + value.length, type, description: SecretShieldRules.rules.find(rule => rule.id === type).description }]));
       assert.equal(redact(text, { mode }).text, `Keep this header.\n\n${MASK}\n\nKeep this footer.`);
       assert.ok(!JSON.stringify(scan(text, { mode })).includes(value));
     }
@@ -78,7 +79,7 @@ test('public blocks, incomplete private blocks and malformed tokens retain upstr
   const policy = { sensitiveNames: ['dataset_name'], protectClientIds: true };
   assert.equal(redact('dataset_name=Q7mV8z2R9tA4nP6xL3cD', policy).text, 'dataset_name=' + MASK);
   const wrapped = Buffer.from(jwt).toString('base64');
-  assert.deepEqual(scan(wrapped), [{ start: 0, end: wrapped.length, type: 'jwt-base64', tags: ['decoded:base64', 'decode-depth:1'] }]);
+  assert.deepEqual(scan(wrapped), withLocations(wrapped, [{ start: 0, end: wrapped.length, type: 'jwt-base64', description: SecretShieldRules.rules.find(rule => rule.id === 'jwt-base64').description, tags: ['decoded:base64', 'decode-depth:1'] }]));
   assert.equal(redact(wrapped).text, MASK);
 });
 

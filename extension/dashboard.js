@@ -94,7 +94,7 @@
       if (link.hash === '#' + selected) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     }
-    document.title = `CkretGuard · ${selected === 'privacy' ? 'Privacy Policy' : selected === 'contact' ? 'Contact Us' : selected === 'history' ? 'History' : 'Protection'}`;
+    document.title = `SecretGuard · ${selected === 'privacy' ? 'Privacy Policy' : selected === 'contact' ? 'Contact Us' : selected === 'history' ? 'History' : 'Protection'}`;
     if (selected === 'history') void refreshHistory();
     if (focus) document.querySelector(`#${selected}-view h2`)?.focus();
   }

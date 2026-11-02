@@ -1,0 +1,1809 @@
+{
+  "source": "Official Gitleaks 8.30.1 with config pinned at 5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c; each of 217 enabled rules evaluated in isolation with existing positive reference input. 28 additional synthetic metadata cases append rules to the pinned config (legacy allowlist header converted without changing criteria); stdin; ignore-gitleaks-allow; depth 0 plaintext, 3 encoded.",
+  "binarySha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "configSha256": "e163e53b9e7e8a8511e77271e2b323ed057759542a6d988258afe3a1fa329caf",
+  "metadata": {
+    "generic-api-key": {
+      "description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+      "tags": [],
+      "input": "api_key = N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8"
+    },
+    "openai-api-key": {
+      "description": "Found an OpenAI API Key, posing a risk of unauthorized access to AI services and data manipulation.",
+      "tags": [],
+      "input": "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"
+    },
+    "anthropic-api-key": {
+      "description": "Identified an Anthropic API Key, which may compromise AI assistant integrations and expose sensitive data to unauthorized access.",
+      "tags": [],
+      "input": "sk-ant-api03-1qex9t5hhNNHiD7_UF1KXd3cTm_KxPLFwfqQVLi3vvUgemG5PUd2b1LrSsDANic4uu7aJMqVtrvspwLZ37Qqp-UE7VAWPAA"
+    },
+    "anthropic-admin-api-key": {
+      "description": "Detected an Anthropic Admin API Key, risking unauthorized access to administrative functions and sensitive AI model configurations.",
+      "tags": [],
+      "input": "sk-ant-admin01-qFpzQ1ZMmEJQvPAC3D_qBEIR1vu0OO7WJMvR4BHF4PGrQWtbz4bB-8OYzw4crbKbxz-txKe2NoFujzUl9XrASJaLrwjY1AA"
+    },
+    "gcp-api-key": {
+      "description": "Uncovered a GCP API key, which could lead to unauthorized access to Google Cloud services and data breaches.",
+      "tags": [],
+      "input": "AIzawV1PQC-l11LdD1xaOW1LU8d6sZ3vrn2oYRi"
+    },
+    "github-pat": {
+      "description": "Uncovered a GitHub Personal Access Token, potentially leading to unauthorized repository access and sensitive content exposure.",
+      "tags": [],
+      "input": "ghp_m2HUy2S5l26nmFpTX2WgZX5dkly5yFoSlit2"
+    },
+    "github-fine-grained-pat": {
+      "description": "Found a GitHub Fine-Grained Personal Access Token, risking unauthorized repository access and code manipulation.",
+      "tags": [],
+      "input": "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"
+    },
+    "github-oauth": {
+      "description": "Discovered a GitHub OAuth Access Token, posing a risk of compromised GitHub account integrations and data leaks.",
+      "tags": [],
+      "input": "gho_33psqNE3I80dNfL4TY70jpxIz9P0vciafTPv"
+    },
+    "github-app-token": {
+      "description": "Identified a GitHub App Token, which may compromise GitHub application integrations and source code security.",
+      "tags": [],
+      "input": "ghu_wcHlCbUedbNQSbQW6tttEuQ7lmC5dmioHyfg"
+    },
+    "github-refresh-token": {
+      "description": "Detected a GitHub Refresh Token, which could allow prolonged unauthorized access to GitHub services.",
+      "tags": [],
+      "input": "ghr_fdEd08jZkq5LkjBvw0HAE9LKt9WSSWk7KQBJ"
+    },
+    "aws-access-token": {
+      "description": "Identified a pattern that may indicate AWS credentials, risking unauthorized cloud resource access and data breaches on AWS platforms.",
+      "tags": [],
+      "input": "AKIALSBAHQMXEFWZ7TY3"
+    },
+    "private-key": {
+      "description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+      "tags": [],
+      "input": "-----BEGIN PRIVATE KEY-----\nOPhsXf1N2QCag1xxALHdZSGxnc4C+CCbANwXNBby1ov7dA1rjglqKZY35WzgdBPcsh/Cz1EhlhZAplHX1wiZVZyNvSb6JLT7K1/E4dr/7wgSGhEo8+UcFllFoe8wvAiQ\n-----END PRIVATE KEY-----"
+    },
+    "jwt": {
+      "description": "Uncovered a JSON Web Token, which may lead to unauthorized access to web applications and sensitive user data.",
+      "tags": [],
+      "input": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzeW50aGV0aWMtdGVzdC11c2VyIiwiaWF0IjoxNzAwMDAwMDAwfQ.sPl_MXSWx07szYVGJ2SdTg4vdDCgYD2pEDQTNERUKu6"
+    },
+    "curl-auth-header": {
+      "description": "Discovered a potential authorization token provided in a curl command header, which could compromise the curl accessed resource.",
+      "tags": [],
+      "input": "curl -H \"Authorization: Bearer N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\" https://api.example.com"
+    },
+    "curl-auth-user": {
+      "description": "Discovered a potential basic authorization token provided in a curl command, which could compromise the curl accessed resource.",
+      "tags": [],
+      "input": "curl -u \"service-user:N7q2V9m4R8s6T3x5K1p0L2z7H4c9D6b8\" https://api.example.com"
+    },
+    "npm-access-token": {
+      "description": "Uncovered an npm access token, potentially compromising package management and code repository access.",
+      "tags": [],
+      "input": "npm_AhnOHsMh6W1FbMPMH5ccNZfg6paBLiQ7uWd3"
+    },
+    "slack-app-token": {
+      "description": "Detected a Slack App-level token, risking unauthorized access to Slack applications and workspace data.",
+      "tags": [],
+      "input": "xapp-1-TM3pK5CZC24-123456789012-hlpcgMTD4mcwyK4Cpnd9ACDmqAtcyWpB"
+    },
+    "slack-bot-token": {
+      "description": "Identified a Slack Bot token, which may compromise bot integrations and communication channel security.",
+      "tags": [],
+      "input": "xoxb-123456789012-987654321012-ZQ6MJ5JZsgzTRuPO6ovPl3um"
+    },
+    "slack-config-access-token": {
+      "description": "Found a Slack Configuration access token, posing a risk to workspace configuration and sensitive data access.",
+      "tags": [],
+      "input": "xoxe.xoxb-1-TvTjuKy8PtT7BC9IF9AKdumK5xOUzMEuPdewPsPMDJbCVq5fCBS1GKwkRDWo3hRvKu87iBGtYKV6cx3Ha3P14YFGgbBunOOAjz57CaxlMSy2C9N1JGDCqpTIY4vCAIr1fYI35ICPxZUGnAdY1iquNF8W49Vn4om8Bt3"
+    },
+    "slack-config-refresh-token": {
+      "description": "Discovered a Slack Configuration refresh token, potentially allowing prolonged unauthorized access to configuration settings.",
+      "tags": [],
+      "input": "xoxe-1-Sfa1Xr4UqWUbVAFQSuaiRaK0I8mvmCx56VVxwfJ2hm4fjdlECiN2rH9skb6JmbClLMppNQVtMY4rB33LZfBzlmUeO6TtgSfUKpD7sLEbBfVzQjgGyFHDE8vixc790ilwlKRNluSB4gPCNPPYAy"
+    },
+    "slack-legacy-bot-token": {
+      "description": "Uncovered a Slack Legacy bot token, which could lead to compromised legacy bot operations and data exposure.",
+      "tags": [],
+      "input": "xoxb-1234567890-qi7YNTZCbnkNzWZBPb4IgfMt"
+    },
+    "slack-legacy-token": {
+      "description": "Detected a Slack Legacy token, risking unauthorized access to older Slack integrations and user data.",
+      "tags": [],
+      "input": "xoxo-1234567890-9876543210-1234567890-761b8514f47edf8323ffaa6419f125f1"
+    },
+    "slack-legacy-workspace-token": {
+      "description": "Identified a Slack Legacy Workspace token, potentially compromising access to workspace data and legacy features.",
+      "tags": [],
+      "input": "xoxa-TTlYpauEux1jl6w9r9Ah5waT1WAlYqBv"
+    },
+    "slack-user-token": {
+      "description": "Found a Slack User token, posing a risk of unauthorized user impersonation and data access within Slack workspaces.",
+      "tags": [],
+      "input": "xoxp-123456789012-987654321012-123456789012-5DVupcC2sNaeqHXqF5QcBtVuEuDedztC"
+    },
+    "slack-webhook-url": {
+      "description": "Discovered a Slack Webhook, which could lead to unauthorized message posting and data leakage in Slack channels.",
+      "tags": [],
+      "input": "https://hooks.slack.com/services/T1234567890/B9876543210/7XFCDdKc4keFN5iLiqVvAPBf"
+    },
+    "stripe-access-token": {
+      "description": "Found a Stripe Access Token, posing a risk to payment processing services and sensitive financial data.",
+      "tags": [],
+      "input": "sk_test_nMTPN4LdHSS0yi5aIO21EeTB8z7ksie5"
+    },
+    "1password-secret-key": {
+      "description": "Uncovered a possible 1Password secret key, potentially compromising access to secrets in vaults.",
+      "tags": [],
+      "input": "A3-JHER6G-CZHMSOUXRBP-84QGO-D2PRT-4OV5Y"
+    },
+    "1password-service-account-token": {
+      "description": "Uncovered a possible 1Password service account token, potentially compromising access to secrets in vaults.",
+      "tags": [],
+      "input": "ops_eyJClh1B8CBUqSUsV9A///lYT4Hg4X5Ie+MoS/J2wOkXW6elqT2gWOYFWwzFmhmrOlGl1LgcrbVMeeTkhUO2raFtQ+ZptZN6pdB8COLidwFBcanRRRaKbDLb50Z4WbaRM9UluGxs5+N+KzDOFzr1Byr6IP8mm0ntcUC9oVJsg1EkHqg4CtDJY8HvhilPXEydpKj+JqhBP58b0uPEd28502CiRbAvrn9pAcU56PfNvqaHIUVpbSzPthAkHorOBr==="
+    },
+    "adafruit-api-key": {
+      "description": "Identified a potential Adafruit API Key, which could lead to unauthorized access to Adafruit services and sensitive data exposure.",
+      "tags": [],
+      "input": "vhP3KXADAfrUItrtliT \n,'\n= \fscXwePtLbLbpdOj9beRm3YQlNfNPA4Wu'"
+    },
+    "adobe-client-id": {
+      "description": "Detected a pattern that resembles an Adobe OAuth Web Client ID, posing a risk of compromised Adobe integrations and data breaches.",
+      "tags": [],
+      "input": "adobetHfxCU ,'=FBD61F26e7BbC00c1b3A5B5D5df99Df5\\R"
+    },
+    "adobe-client-secret": {
+      "description": "Discovered a potential Adobe Client Secret, which, if exposed, could allow unauthorized Adobe service access and data manipulation.",
+      "tags": [],
+      "input": "p8e-H7yfIZYpuBtLvujJmFEafiieASdSqDsb"
+    },
+    "age-secret-key": {
+      "description": "Discovered a potential Age encryption tool secret key, risking data decryption and unauthorized access to sensitive information.",
+      "tags": [],
+      "input": "AGE-SECRET-KEY-19K4U9UM8LMKA3WGK86PCV6CEF6KD3DSYZGGEXXEGF0K823Z7TL9Q9EK7SZ"
+    },
+    "airtable-api-key": {
+      "description": "Uncovered a possible Airtable API Key, potentially compromising database access and leading to data leakage or alteration.",
+      "tags": [],
+      "input": "KaIrTabLE\n\f=='`\"\"tDvM6f0uNcſgfFpsE"
+    },
+    "airtable-personnal-access-token": {
+      "description": "Uncovered a possible Airtable Personal AccessToken, potentially compromising database access and leading to data leakage or alteration.",
+      "tags": [],
+      "input": "airtable\npatzAMQuf5NzW6NxP.08512787e7cf20c8a9509c4a21220218a6a51391ee4cff85b60b6652ae1e6737"
+    },
+    "algolia-api-key": {
+      "description": "Identified an Algolia API Key, which could result in unauthorized search operations and data exposure on Algolia-managed platforms.",
+      "tags": [],
+      "input": "CgmALgOlIa\tBuZBa''\t,\"\"\r\nwWKyufRanWikGUjfeFYGkbSzcfv8KuKC"
+    },
+    "alibaba-access-key-id": {
+      "description": "Detected an Alibaba Cloud AccessKey ID, posing a risk of unauthorized cloud resource access and potential data compromise.",
+      "tags": [],
+      "input": "LTAIHvtGnmQsvſV6IfdYNqf3\\n"
+    },
+    "alibaba-secret-key": {
+      "description": "Discovered a potential Alibaba Cloud Secret Key, potentially allowing unauthorized operations and data access within Alibaba Cloud.",
+      "tags": [],
+      "input": "80HaLIbABa Wy\t\t\r::='rsM1PAeeOzsNpbJſfkACCVegxNFuYV\\r"
+    },
+    "artifactory-api-key": {
+      "description": "Detected an Artifactory api key, posing a risk unauthorized access to the central repository.",
+      "tags": [],
+      "input": "AKCpYLugZOYUhihvRayP6NIdtcvQs5pf7cVHbgbc1aGtjA7uWaMDSofSsGf3P4IRKHOMsdF5P"
+    },
+    "artifactory-reference-token": {
+      "description": "Detected an Artifactory reference token, posing a risk of impersonation and unauthorized access to the central repository.",
+      "tags": [],
+      "input": "cmVmdWRiKOdvodXWAuEZgULt8Ko5SZZhZYbktiivfj8xzJnRbenkBuW018msqePV"
+    },
+    "asana-client-id": {
+      "description": "Discovered a potential Asana Client ID, risking unauthorized access to Asana projects and sensitive task information.",
+      "tags": [],
+      "input": "ASanAm' ,`3109137796820457"
+    },
+    "asana-client-secret": {
+      "description": "Identified an Asana Client Secret, which could lead to compromised project management integrity and unauthorized access.",
+      "tags": [],
+      "input": "FhOAsanAd6\n=\n\n\r=pN4LeVpyMCP4q1Aa8dWqqRBjfQNTO6Ds"
+    },
+    "atlassian-api-token": {
+      "description": "Detected an Atlassian API token, posing a threat to project management and collaboration tool security and data confidentiality.",
+      "tags": [],
+      "input": "aTatT3XaWVſV-RkſmjhUj4Nk-Z_rs7hC=yG3ſkKR_8hdpV_Y-RmEbqQUw2i4Wbo65mHPpdHN14DSoxrtlgjvGUCFydW9g6CgT3OkvBxPixVt8_MſVsQ=yQlg8j2l_ſ6VtIgepjF9D0ſ0M84aNhGE93DE9NWskn2BOuD8RNvſ7M40hsK4seKtsLt_QWxIsoY5\\r"
+    },
+    "authress-service-client-access-key": {
+      "description": "Uncovered a possible Authress Service Client Access Key, which may compromise access control services and sensitive data.",
+      "tags": [],
+      "input": "scauth_nYFFvſg.m5GQ.acc-KRuTLVaEww5dq3E.sYsluCjsE9md=y9qy9KwnSg+kj98yj\f"
+    },
+    "aws-amazon-bedrock-api-key-long-lived": {
+      "description": "Identified a pattern that may indicate long-lived Amazon Bedrock API keys, risking unauthorized Amazon Bedrock usage",
+      "tags": [],
+      "input": "ABSKfW3oZ+VjqnVoeav2fk6PEr41PSFN1X+2qCBBndSGcJGELMyOt3wqaKi8lSFGhoTvyT+SPvhFNc3+6Nfa3yl4wU40tQM9XnX+pt+z/AflPNGAhd="
+    },
+    "aws-amazon-bedrock-api-key-short-lived": {
+      "description": "Identified a pattern that may indicate short-lived Amazon Bedrock API keys, risking unauthorized Amazon Bedrock usage",
+      "tags": [],
+      "input": "bedrock-api-key-YmVkcm9jay5hbWF6b25hd3MuY29t"
+    },
+    "azure-ad-client-secret": {
+      "description": "Azure AD Client Secret",
+      "tags": [],
+      "input": " Tof1Q~Yz_VVxojaNHrbX_jd7k6.pgaW6BxpAOqw\f"
+    },
+    "beamer-api-token": {
+      "description": "Detected a Beamer API token, potentially compromising content management and exposing sensitive notifications and updates.",
+      "tags": [],
+      "input": "EO93beamer:\t`\"B_aaV5FnnXaJEyFYKsbW-jſB-GiaCgXQRpXSQAzYtQP0gO"
+    },
+    "bitbucket-client-id": {
+      "description": "Discovered a potential Bitbucket Client ID, risking unauthorized repository access and potential codebase exposure.",
+      "tags": [],
+      "input": "zbITBuCketOvſeJ\"\t:=\r\n\t pKQbGqULncuckJhWK2WpdwXXMfqZr7dQ"
+    },
+    "bitbucket-client-secret": {
+      "description": "Discovered a potential Bitbucket Client Secret, posing a risk of compromised code repositories and unauthorized access.",
+      "tags": [],
+      "input": "BoVhKVBItbUcKeTM:yCZAſO73=2eDZ_uiGaFLQKbC1wZPMxnIGW58mhffqo0bAnVOJUEhſKPſNrhfKvqG"
+    },
+    "bittrex-access-key": {
+      "description": "Identified a Bittrex Access Key, which could lead to unauthorized access to cryptocurrency trading accounts and financial loss.",
+      "tags": [],
+      "input": "LkBIttREXUvnt6,uJbtIRtDgamxLzV5TkYWfeP9SLnozbUL\\N"
+    },
+    "bittrex-secret-key": {
+      "description": "Detected a Bittrex Secret Key, potentially compromising cryptocurrency transactions and financial security.",
+      "tags": [],
+      "input": "V0ebIttREXbHu' ',\n\n\nqaKk7XXks2t1M7luR35PB0o3bRXR90yU"
+    },
+    "cisco-meraki-api-key": {
+      "description": "Cisco Meraki is a cloud-managed IT solution that provides networking, security, and device management through an easy-to-use interface.",
+      "tags": [],
+      "input": "LjQhNshMeraki\t\"?=\n\r'\f\tb4469568caabd1d848b143cf1b2f4747feca9515\n"
+    },
+    "clickhouse-cloud-api-secret-key": {
+      "description": "Identified a pattern that may indicate clickhouse cloud API secret key, risking unauthorized clickhouse cloud api access and data breaches on ClickHouse Cloud platforms.",
+      "tags": [],
+      "input": "4b1dTsDx82GwjTrTPSHXKNLDefhado06trjx2zFbbY"
+    },
+    "clojars-api-token": {
+      "description": "Uncovered a possible Clojars API token, risking unauthorized access to Clojure libraries and potential code manipulation.",
+      "tags": [],
+      "input": "cLojARs_KucjEmCtEM2FMaHOp8hgBy1DSDp5XdhNJ43spyJRkJHjſ6r0NiVDBIzrhu8l"
+    },
+    "cloudflare-api-key": {
+      "description": "Detected a Cloudflare API Key, potentially compromising cloud application deployments and operational security.",
+      "tags": [],
+      "input": "IY8cLoUdFlarExu\n\r=`\n=utf46iM_McfeIfC8pe5D5ſ9RB2Z9jVy5w_tqWOmG\f"
+    },
+    "cloudflare-global-api-key": {
+      "description": "Detected a Cloudflare Global API Key, potentially compromising cloud application deployments and operational security.",
+      "tags": [],
+      "input": "EUleTkcLoUdfLareO'\f>\f``\t 3E161A29C9a222097fB9C123efCB8cDA0c6A4;"
+    },
+    "cloudflare-origin-ca-key": {
+      "description": "Detected a Cloudflare Origin CA Key, potentially compromising cloud application deployments and operational security.",
+      "tags": [],
+      "input": "v1.0-75aaada193e5c5fe6ae4064d-9186a092fab29e19eed141902016f57627c58e80ac00e00e5b01379cb94d58d1d7a16e306c71287e2b4197f3ddc95b9ae84fa2de967d197d42966db896060281e4fa575b80f71662f1\\r"
+    },
+    "codecov-access-token": {
+      "description": "Found a pattern resembling a Codecov Access Token, posing a risk of unauthorized access to code coverage reports and sensitive data.",
+      "tags": [],
+      "input": "0vXhACODECoV_NYo-'\t:::= \n`xBfXQYX3KwJxEQ6slx4zinYHj9TgPOKy"
+    },
+    "cohere-api-token": {
+      "description": "Identified a Cohere Token, posing a risk of unauthorized access to AI services and data manipulation.",
+      "tags": [],
+      "input": "J6k8Q9COHeREi\r:\r =27YYGyRBna67AxN6jlOuEC9cHizq0uoE6dR77tDD\n"
+    },
+    "coinbase-access-token": {
+      "description": "Detected a Coinbase Access Token, posing a risk of unauthorized access to cryptocurrency accounts and financial transactions.",
+      "tags": [],
+      "input": "UCOinBASe\ttg'\t\",\r\tyl7opRK0uLPlNmWN6F30DcfqE_aykINSj_47A2Gyoxg8v-iOyoSMh8mXt1wWUzih`"
+    },
+    "confluent-access-token": {
+      "description": "Identified a Confluent Access Token, which could compromise access to streaming data platforms and sensitive data flow.",
+      "tags": [],
+      "input": "LDlfGConfluENtsfMJEw?=\t\tbUq1VXG7KxSLt1JM"
+    },
+    "confluent-secret-key": {
+      "description": "Found a Confluent Secret Key, potentially risking unauthorized operations and data access within Confluent services.",
+      "tags": [],
+      "input": "8dvCoNfLUeNT0K.5:='kXsw0XufGgIVwBgIsnxvffl3NgifYJXbStx7PaXh4YDKKPn7Sn7YYdpvGVW8QRſS\r"
+    },
+    "contentful-delivery-api-token": {
+      "description": "Discovered a Contentful delivery API token, posing a risk to content management systems and data integrity.",
+      "tags": [],
+      "input": "HJcontentfUL 5c,\teLcP_QWs9=7qRLbxa36F6FXtY0Yu6XK7FZKJmhmPfFP"
+    },
+    "databricks-api-token": {
+      "description": "Uncovered a Databricks API token, which may compromise big data analytics platforms and sensitive data processing.",
+      "tags": [],
+      "input": "dapi69571087527cb4dbdfd16cf52164cfbb\\n"
+    },
+    "datadog-access-token": {
+      "description": "Detected a Datadog Access Token, potentially risking monitoring and analytics data exposure and manipulation.",
+      "tags": [],
+      "input": "05Be7tDaTAdogDR 5\t'>=\t\ryidvJDmRſldGGbIWUYtTYzſRyAiBfPYFk9sgG97u\\N"
+    },
+    "defined-networking-api-token": {
+      "description": "Identified a Defined Networking API token, which could lead to unauthorized network operations and data breaches.",
+      "tags": [],
+      "input": "hiOtwdnKEymUi \"\n:::=\"=\t dNKEy-nooZEjDCx199Cmqt-vkYdqMVfV-DYmCGK5DHwEcrmPgm3GCaC-oH1vdfg-BNHFQ5CP5qwj3vZq_UcyE\\R"
+    },
+    "digitalocean-access-token": {
+      "description": "Found a DigitalOcean OAuth Access Token, risking unauthorized cloud resource access and data compromise.",
+      "tags": [],
+      "input": "doo_v1_7a6512cd9c6ae30bbfc975f8697b117effbb793d13f44afd42949994eb1810f2\r"
+    },
+    "digitalocean-pat": {
+      "description": "Discovered a DigitalOcean Personal Access Token, posing a threat to cloud infrastructure security and data privacy.",
+      "tags": [],
+      "input": "dop_v1_bcf99d61d7433cb1d4355eaf0068e9c7d6b38b209e7cc6ebe8d0bd3f72e25e81"
+    },
+    "digitalocean-refresh-token": {
+      "description": "Uncovered a DigitalOcean OAuth Refresh Token, which could allow prolonged unauthorized access and resource manipulation.",
+      "tags": [],
+      "input": "DOr_V1_C52ffAf3D87437d117D4d5440EEE849afa232db6B8aBa1c1EdfE2dA842C2F3cA\\N"
+    },
+    "discord-api-token": {
+      "description": "Detected a Discord API key, potentially compromising communication channels and user data privacy on Discord.",
+      "tags": [],
+      "input": "SRſF7yDiSCoRDC\r?=\r c6267EeadBB373Bd0CBedFb5Dc6375f3E6A5708456BFCee22dd1F01FacD1b092;"
+    },
+    "discord-client-id": {
+      "description": "Identified a Discord client ID, which may lead to unauthorized integrations and data exposure in Discord applications.",
+      "tags": [],
+      "input": "Bz6p79dIscORDb9_Gia'\f :\t509839981770469322"
+    },
+    "discord-client-secret": {
+      "description": "Discovered a potential Discord client secret, risking compromised Discord bot integrations and data leaks.",
+      "tags": [],
+      "input": "zndIscordZcoMS,\"\n'\rIjAs5-FxKvtMtPrNg4yecwtJl8=ha=Jc"
+    },
+    "doppler-api-token": {
+      "description": "Discovered a Doppler API token, posing a risk to environment and secrets management security.",
+      "tags": [],
+      "input": "dp.pt.rVsNKgCEPkſVH44U3Wsj5KTy2s9zp5DJIKH9rDuLbDp"
+    },
+    "droneci-access-token": {
+      "description": "Detected a Droneci Access Token, potentially compromising continuous integration and deployment workflows.",
+      "tags": [],
+      "input": "droNECiZ\n\r =\nw3Qj3lHsBELKpGt1ſ58Rl8fAJQC9noDw\""
+    },
+    "dropbox-api-token": {
+      "description": "Identified a Dropbox API secret, which could lead to unauthorized file access and data breaches in Dropbox storage.",
+      "tags": [],
+      "input": "FdRopBOxFo_-7M\"\n?='\"\t\fwuOQYKopkW9pHDN\\n"
+    },
+    "dropbox-long-lived-api-token": {
+      "description": "Found a Dropbox long-lived API token, risking prolonged unauthorized access to cloud storage and sensitive data.",
+      "tags": [],
+      "input": "JSlDRopbOxqNLP\n:k0du6koPs2zAaaAaAAaaaVnyEſS4JtS__sDUTGQX6ybBOKooYth58Hdfsc7nt80="
+    },
+    "dropbox-short-lived-api-token": {
+      "description": "Discovered a Dropbox short-lived API token, posing a risk of temporary but potentially harmful data access and manipulation.",
+      "tags": [],
+      "input": "7dRoPbOx\t5T'>\tsL.M4401oaJmZqP9-cZI-aW=LWaPQbſ6_5v1DvUc7XXKaOGRTTJ-ElOlF8I9o-1yGvEQ-fSlD4kto2Iqfk2PgSH13IJJM96yEewNlRxERUaL=jjPgQ_h0IZip8LQTS_Uqj=KeOBt_2\\N"
+    },
+    "duffel-api-token": {
+      "description": "Uncovered a Duffel API token, which may compromise travel platform integrations and sensitive customer data.",
+      "tags": [],
+      "input": "duffel_test_UdXQE6s6Zi9OſdAMI-_vdiyXouDbqZJGVYKepDcUjPK"
+    },
+    "dynatrace-api-token": {
+      "description": "Detected a Dynatrace API token, potentially risking application performance monitoring and data exposure.",
+      "tags": [],
+      "input": "dt0c01.5xMCv8FQ3Y8bKxm7fMWEkRKQ.qG72ZcdpYKb0od5vg1KqofqqddfdaNd17fſ5IRqs9ſHM0MMKoOvtja9TjMAm90wC"
+    },
+    "easypost-api-token": {
+      "description": "Identified an EasyPost API token, which could lead to unauthorized postal and shipment service access and data exposure.",
+      "tags": [],
+      "input": "EZAK6MetLsOK19Vwd3C0JkgVuWYUc6zpqxtOC35lIAHZa6v25fd3AWyVwH"
+    },
+    "easypost-test-api-token": {
+      "description": "Detected an EasyPost test API token, risking exposure of test environments and potentially sensitive shipment data.",
+      "tags": [],
+      "input": "EZTKTſYtSQp0bT23T6vBrpcYmmDhdSjGcj93so55Fm7tqNhwwuGMKb96Qz"
+    },
+    "etsy-access-token": {
+      "description": "Found an Etsy Access Token, potentially compromising Etsy shop management and customer data.",
+      "tags": [],
+      "input": "b-uo4dETSYz-3 :\n\nx6GſCCKbMK6f9ZA4Cy1KyVIV`"
+    },
+    "facebook-access-token": {
+      "description": "Discovered a Facebook Access Token, posing a risk of unauthorized access to Facebook accounts and personal data exposure.",
+      "tags": [],
+      "input": "facebook\n1100959503452716%ſNr9D5l11dyjA9nmlWDShKAxmWDfzy\\R"
+    },
+    "facebook-page-access-token": {
+      "description": "Discovered a Facebook Page Access Token, posing a risk of unauthorized access to Facebook accounts and personal data exposure.",
+      "tags": [],
+      "input": "EAAM4sNbSuvHT8pQQ0EfENxRg4w8NlKoFi5d0mAiNrNE7VNK04XqH7GaHON2ORwDxIlKNCHk77vaDuxlfuſhmCtGOApFoNdEkSpsDJY6"
+    },
+    "facebook-secret": {
+      "description": "Discovered a Facebook Application secret, posing a risk of unauthorized access to Facebook accounts and personal data exposure.",
+      "tags": [],
+      "input": "FacebOoK::==\f \f=9d28c5f23AE5441aca4dB945Db0d0Ce5"
+    },
+    "fastly-api-token": {
+      "description": "Uncovered a Fastly API key, which may compromise CDN and edge cloud services, leading to content delivery and security issues.",
+      "tags": [],
+      "input": "5FaStLY1M''||\r\n`\tMfD9Jc5MoQa38SNOp7tFMiFnS6KIoQA=\\R"
+    },
+    "finicity-api-token": {
+      "description": "Detected a Finicity API token, potentially risking financial data access and unauthorized financial operations.",
+      "tags": [],
+      "input": "KTſkDFinicItYGXxM94\t?= F21fbe3F30ACe1abBdF3fBaeEA970775`"
+    },
+    "finicity-client-secret": {
+      "description": "Identified a Finicity Client Secret, which could lead to compromised financial service integrations and data breaches.",
+      "tags": [],
+      "input": "gqCrwfINICitY9wqz ,v3FgzsRyKA1ZOdBz1KKE`"
+    },
+    "finnhub-access-token": {
+      "description": "Found a Finnhub Access Token, risking unauthorized access to financial market data and analytics.",
+      "tags": [],
+      "input": "2KQ2jefiNNhUbsQ1\", \t\t`pkcNk5CrqREdFv9cF01f\""
+    },
+    "flickr-access-token": {
+      "description": "Discovered a Flickr Access Token, posing a risk of unauthorized photo management and potential data leakage.",
+      "tags": [],
+      "input": "tJnFlICkR9\t =>=HRKOtLAAdb388ZJ68WITO5lZpbf1ſYGm\f"
+    },
+    "flutterwave-encryption-key": {
+      "description": "Uncovered a Flutterwave Encryption Key, which may compromise payment processing and sensitive financial information.",
+      "tags": [],
+      "input": "FLWSECK_TEST-FaA32G5DhBG5"
+    },
+    "flutterwave-public-key": {
+      "description": "Detected a Finicity Public Key, potentially exposing public cryptographic operations and integrations.",
+      "tags": [],
+      "input": "FLWPUBK_TEST-gdDBBd3A9d4a4edcfgE666g093361292-x"
+    },
+    "flutterwave-secret-key": {
+      "description": "Identified a Flutterwave Secret Key, risking unauthorized financial transactions and data breaches.",
+      "tags": [],
+      "input": "FLWSECK_TEST-65daBca8F1F3395984GAAC5Gh8E2e389-x"
+    },
+    "flyio-access-token": {
+      "description": "Uncovered a Fly.io API key",
+      "tags": [],
+      "input": "fm2_LY1vH9L4vd9JOixMvcIeDxK8PCcx15nSyspC+aPGdbRHKOrSuIv70e6CDuLqtJ1P/8IIzt+c4V1VGPegFQ0lXUTDynR3oJrhSgfQm11aVH=="
+    },
+    "frameio-api-token": {
+      "description": "Found a Frame.io API token, potentially compromising video collaboration and project management.",
+      "tags": [],
+      "input": "fio-u-MpJA4jeAqgDqNRDvpPPXO7Qp39D-YW5ſcEI81dhm97gl7-ſRBDek4ſgpTCOvSLy_"
+    },
+    "freshbooks-access-token": {
+      "description": "Discovered a Freshbooks Access Token, posing a risk to accounting software access and sensitive financial data exposure.",
+      "tags": [],
+      "input": "T9dp.FreshBOoKS \n,\n'HR0xBeGvRZDZghaytSſwunvMdrFY9KKHTuK8YkZs7D4ZaTTKſuf24BſIwyHEWVeſ\\r"
+    },
+    "gitlab-cicd-job-token": {
+      "description": "Identified a GitLab CI/CD Job Token, potential access to projects and some APIs on behalf of a user while the CI job is running.",
+      "tags": [],
+      "input": "glcbt-C55_UIeYRpVDbWNz-3RekHBN"
+    },
+    "gitlab-deploy-token": {
+      "description": "Identified a GitLab Deploy Token, risking access to repositories, packages and containers with write access.",
+      "tags": [],
+      "input": "gldt-fFmbaqBdP-yB7E11H1dc"
+    },
+    "gitlab-feature-flag-client-token": {
+      "description": "Identified a GitLab feature flag client token, risks exposing user lists and features flags used by an application.",
+      "tags": [],
+      "input": "glffct-5C3ngix4JquzY1cOBXx7"
+    },
+    "gitlab-feed-token": {
+      "description": "Identified a GitLab feed token, risking exposure of user data.",
+      "tags": [],
+      "input": "glft-AaszZgzvI26Y-2Xz8gRy"
+    },
+    "gitlab-incoming-mail-token": {
+      "description": "Identified a GitLab incoming mail token, risking manipulation of data sent by mail.",
+      "tags": [],
+      "input": "glimt-BsbeNB2Hj-8xL5EueANA8naUM"
+    },
+    "gitlab-kubernetes-agent-token": {
+      "description": "Identified a GitLab Kubernetes Agent token, risking access to repos and registry of projects connected via agent.",
+      "tags": [],
+      "input": "glagent-RXc7sihLLf-CkgQXvSMBwJ1LD2vCGE9PfZqb3hgcoZ2T1KYw9w"
+    },
+    "gitlab-oauth-app-secret": {
+      "description": "Identified a GitLab OIDC Application Secret, risking access to apps using GitLab as authentication provider.",
+      "tags": [],
+      "input": "gloas-kYiZISUsw0_Qaqf0xicKn3ZpF_BQwH5LMTj_ZM06KhfRlU5cdMSJVKDR56ksX_du"
+    },
+    "gitlab-pat": {
+      "description": "Identified a GitLab Personal Access Token, risking unauthorized access to GitLab repositories and codebase exposure.",
+      "tags": [],
+      "input": "glpat-B1H1rdQPIMCFlSMzBV2N"
+    },
+    "gitlab-pat-routable": {
+      "description": "Identified a GitLab Personal Access Token (routable), risking unauthorized access to GitLab repositories and codebase exposure.",
+      "tags": [],
+      "input": "glpat-R3qh0HNcIelh_J3sPGduX0sBpQ25Pws2F.pzodfuhma"
+    },
+    "gitlab-ptt": {
+      "description": "Found a GitLab Pipeline Trigger Token, potentially compromising continuous integration workflows and project security.",
+      "tags": [],
+      "input": "glptt-f350784b41a1a098bfb8f2f74b9c374fb2cbe0f1"
+    },
+    "gitlab-rrt": {
+      "description": "Discovered a GitLab Runner Registration Token, posing a risk to CI/CD pipeline integrity and unauthorized access.",
+      "tags": [],
+      "input": "GR1348941vM-vMQkaFk-dQZVt5_C4"
+    },
+    "gitlab-runner-authentication-token": {
+      "description": "Discovered a GitLab Runner Authentication Token, posing a risk to CI/CD pipeline integrity and unauthorized access.",
+      "tags": [],
+      "input": "glrt-C3dmHrDvF2hJYI75CCjt"
+    },
+    "gitlab-runner-authentication-token-routable": {
+      "description": "Discovered a GitLab Runner Authentication Token (Routable), posing a risk to CI/CD pipeline integrity and unauthorized access.",
+      "tags": [],
+      "input": "glrt-t9_CrxWAOSvPjmiKsiTVbe5PKW64oy.3vxsatvyy"
+    },
+    "gitlab-scim-token": {
+      "description": "Discovered a GitLab SCIM Token, posing a risk to unauthorized access for a organization or instance.",
+      "tags": [],
+      "input": "glsoat-r8HBXk2izpQD-ZJchMp6"
+    },
+    "gitlab-session-cookie": {
+      "description": "Discovered a GitLab Session Cookie, posing a risk to unauthorized access to a user account.",
+      "tags": [],
+      "input": "_gitlab_session=a8ydne53rvsocrblvs20rjhifjymhx3g"
+    },
+    "gitter-access-token": {
+      "description": "Uncovered a Gitter Access Token, which may lead to unauthorized access to chat and communication services.",
+      "tags": [],
+      "input": "tGItTErk>\nc78xfzyo3NLPdNcF8ECL-ruCW-DK1ſTTy0nkfHF5"
+    },
+    "gocardless-api-token": {
+      "description": "Detected a GoCardless API token, potentially risking unauthorized direct debit payment operations and financial data exposure.",
+      "tags": [],
+      "input": "F-qSGoCaRDlEſSIU\" >LivE_EiGHs0M4JſnKQ8Tga_g9ArEgR4nhX8CBmfVQh8QV'"
+    },
+    "grafana-api-key": {
+      "description": "Identified a Grafana API key, which could compromise monitoring dashboards and sensitive data analytics.",
+      "tags": [],
+      "input": "eYjrijoidrqRvyUXTOviK3S1yROLwYſT8Ov22ſcZRXS0zZ1Ym5SmMSXoNwOPyuQvebwq8NWoCa5z5SzcZG==="
+    },
+    "grafana-cloud-api-token": {
+      "description": "Found a Grafana cloud API token, risking unauthorized access to cloud-based monitoring services and data exposure.",
+      "tags": [],
+      "input": "gLC_+ovKTsnDfaJcKAjB9RmS80awM1RiIRuEqrRri==="
+    },
+    "grafana-service-account-token": {
+      "description": "Discovered a Grafana service account token, posing a risk of compromised monitoring services and data integrity.",
+      "tags": [],
+      "input": "GlSa_10BuXs5UpLDd0ugLYSraPbGOARiVS8b6_BafF88f3"
+    },
+    "harness-api-key": {
+      "description": "Identified a Harness Access Token (PAT or SAT), risking unauthorized access to a Harness account.",
+      "tags": [],
+      "input": "pat.FROY69EjeAKdfdmAXzdUEi.drNUdwQDVpWdU4LnyZ12oFJ5.gAtzZZ10J2b1mNMiWPI5"
+    },
+    "hashicorp-tf-api-token": {
+      "description": "Uncovered a HashiCorp Terraform user/org API token, which may lead to unauthorized infrastructure management and security breaches.",
+      "tags": [],
+      "input": "tnCykHtjGRQgUn.atlasv1.CſNwOKMbcoVHjJHAWw7U-E3TwG3iWBK7tCKH4MuhoK9HeUEXZarsh0rljQIctJ6b"
+    },
+    "heroku-api-key": {
+      "description": "Detected a Heroku API Key, potentially compromising cloud application deployments and operational security.",
+      "tags": [],
+      "input": "PkHEROku78\n>\t\r\r \n73987C81-3d72-f852-06aA-9CC49C977ddC"
+    },
+    "heroku-api-key-v2": {
+      "description": "Detected a Heroku API Key, potentially compromising cloud application deployments and operational security.",
+      "tags": [],
+      "input": "HRKU-AAYVsbPkspiEE82DwL1VrKxNklrdWToSFjuSgUC3WZnErxZ5eVSODR1hvVpg"
+    },
+    "hubspot-api-key": {
+      "description": "Found a HubSpot API Token, posing a risk to CRM data integrity and unauthorized marketing operations.",
+      "tags": [],
+      "input": "NUS8dGhUbSpOT\"\n||'\t\t9A5E3f8B-BbaC-7CEc-5a6c-8efD42efBEEb'"
+    },
+    "huggingface-access-token": {
+      "description": "Discovered a Hugging Face Access token, which could lead to unauthorized access to AI models and sensitive data.",
+      "tags": [],
+      "input": "hf_tSyKQMQtJbcſqsdnWJkDwACzXlOSZpEqLJ\""
+    },
+    "huggingface-organization-api-token": {
+      "description": "Uncovered a Hugging Face Organization API token, potentially compromising AI organization accounts and associated data.",
+      "tags": [],
+      "input": "api_org_FſbUoORgOXysMsOuxKhvRrjqumCtUcwmCb"
+    },
+    "infracost-api-token": {
+      "description": "Detected an Infracost API Token, risking unauthorized access to cloud cost estimation tools and financial data.",
+      "tags": [],
+      "input": "ico-fa9fxeSMSAhpwNjlTPE1NZAxGCPRRQuW\\r"
+    },
+    "intercom-api-key": {
+      "description": "Identified an Intercom API Token, which could compromise customer communication channels and data privacy.",
+      "tags": [],
+      "input": "KiNteRCom6-D:::=o=oyruHEhgſzqNdDSXmWxJhINqtYTBuXbq=NjAyjxTWbXObPD_WgXYSJ2y4s"
+    },
+    "intra42-client-secret": {
+      "description": "Found a Intra42 client secret, which could lead to unauthorized access to the 42School API and sensitive data.",
+      "tags": [],
+      "input": "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\\r"
+    },
+    "jfrog-api-key": {
+      "description": "Found a JFrog API Key, posing a risk of unauthorized access to software artifact repositories and build pipelines.",
+      "tags": [],
+      "input": "CckhXrayyk: \n\"=\"tC8KMK0jB5LzGKMCOCLTSTozCSZR2TOpboR6gIqabjgxBGs8o0XveKYvrkAi3G9kBTs6nskJD"
+    },
+    "jfrog-identity-token": {
+      "description": "Discovered a JFrog Identity Token, potentially compromising access to JFrog services and sensitive software artifacts.",
+      "tags": [],
+      "input": "Yo6-VARTIfacTOrYz'==\fag0v6yRwFFynqRsJn0eH66QmISDqEKbdhR12fM2HCW4KJplWQK6B212tTqK5tORs\\r"
+    },
+    "jwt-base64": {
+      "description": "Detected a Base64-encoded JSON Web Token, posing a risk of exposing encoded authentication and data exchange information.",
+      "tags": [],
+      "input": "ZXlKNElqb2\n9RO\\eym2YpQTFXym74tX2Nk2f\net_TN\\0\rW-b9WS0d="
+    },
+    "kraken-access-token": {
+      "description": "Identified a Kraken Access Token, potentially compromising cryptocurrency trading accounts and financial security.",
+      "tags": [],
+      "input": "I4tKRaKeNIJYh '\f,1bSAix60GlcbQ0akKQG_dVk-kjvnwDJWAMw=3a04V9esF89tGQskBNlW86H=jKieu/lF0ywppNoH08Vnb/P\f"
+    },
+    "kucoin-access-token": {
+      "description": "Found a Kucoin Access Token, risking unauthorized access to cryptocurrency exchange services and transactions.",
+      "tags": [],
+      "input": "o3GbYkucOINlb0Qe\f\n\n>=Acc0dd0FA2956c0f753D08C4\\R"
+    },
+    "kucoin-secret-key": {
+      "description": "Discovered a Kucoin Secret Key, which could lead to compromised cryptocurrency operations and financial data breaches.",
+      "tags": [],
+      "input": "dOKUcoins4sA6= 'f217DC41-54C1-D803-5810-E52dbb5FDeD1"
+    },
+    "launchdarkly-access-token": {
+      "description": "Uncovered a Launchdarkly Access Token, potentially compromising feature flag management and application functionality.",
+      "tags": [],
+      "input": "ELauNcHdArkLY\tTyTr \n ||'iLYbxy2dm6D3e0KSIj3ſ=om2l6ſOciſ03Kt1usQo`"
+    },
+    "linear-api-key": {
+      "description": "Detected a Linear API Token, posing a risk to project management tools and sensitive task data.",
+      "tags": [],
+      "input": "lin_api_Rwzn8TbgRId3XufiGDLgxX2sf5b0Xbp4m8rIjKFR"
+    },
+    "linear-client-secret": {
+      "description": "Identified a Linear Client Secret, which may compromise secure integrations and sensitive project management data.",
+      "tags": [],
+      "input": "jjSdCWlIneaRLr>5b05BBc0ce902dABcbA6BaaEfCDE99cf"
+    },
+    "linkedin-client-id": {
+      "description": "Found a LinkedIn Client ID, risking unauthorized access to LinkedIn integrations and professional data exposure.",
+      "tags": [],
+      "input": "KJuLINKEd_Inz.R\n:\" '`\"M27Wo1qiJ86rtb\\n"
+    },
+    "linkedin-client-secret": {
+      "description": "Discovered a LinkedIn Client secret, potentially compromising LinkedIn application integrations and user data.",
+      "tags": [],
+      "input": "YZLiNKeD_IN\r\t,az11itZMhg53LIOf"
+    },
+    "lob-api-key": {
+      "description": "Uncovered a Lob API Key, which could lead to unauthorized access to mailing and address verification services.",
+      "tags": [],
+      "input": "vjS4NloB-4Y.I||\nTeST_CBf1adED1284BBA2C9eD0DA6BcedAe7bFB1\\r"
+    },
+    "lob-pub-api-key": {
+      "description": "Detected a Lob Publishable API Key, posing a risk of exposing mail and print service integrations.",
+      "tags": [],
+      "input": "lObR?=\f=\fTESt_PUb_C0D0BB0dd1fCfce306aF8B075AD64ED\\n"
+    },
+    "looker-client-id": {
+      "description": "Found a Looker Client ID, risking unauthorized access to a Looker account and exposing sensitive data.",
+      "tags": [],
+      "input": "ulrDKloOKERBW\t=>`\t\f\tJhJmsEKEoHd6sGpmKKnF"
+    },
+    "looker-client-secret": {
+      "description": "Found a Looker Client Secret, risking unauthorized access to a Looker account and exposing sensitive data.",
+      "tags": [],
+      "input": "Y9WZ9LOokern\f\t||=\t`=KſsjcLPi0ſ9kwruUsvowlN6a"
+    },
+    "mailchimp-api-key": {
+      "description": "Identified a Mailchimp API key, potentially compromising email marketing campaigns and subscriber data.",
+      "tags": [],
+      "input": "OaſMAiLCHImPsDKwiNITIAlizE:=\"\"'\r3d90FFD85CAa7bAA2CAe4dcc540BE2A4-us18\r"
+    },
+    "mailgun-private-api-token": {
+      "description": "Found a Mailgun private API token, risking unauthorized email service operations and data breaches.",
+      "tags": [],
+      "input": "Yc5mAiLGUN3YCeas \"\n?=\nKeY-0cd0eb055BEFffc5b45c2dc99B68251a\\r"
+    },
+    "mailgun-pub-key": {
+      "description": "Discovered a Mailgun public validation key, which could expose email verification processes and associated data.",
+      "tags": [],
+      "input": "sHUSPmaiLGuNLuw\f\r=` `\npUBkEY-DFAfE9e48aabca53D3f7b1bbb9CEEC84\\R"
+    },
+    "mailgun-signing-key": {
+      "description": "Uncovered a Mailgun webhook signing key, potentially compromising email automation and data integrity.",
+      "tags": [],
+      "input": "c1r4mAIlgUNH6Z \r :'\"`\r\n8FCAACAFbH02fCGb4EhFhd8d6BgCb78b-dDHeC3d2-E3h7F44d"
+    },
+    "mapbox-api-token": {
+      "description": "Detected a MapBox API token, posing a risk to geospatial services and sensitive location data exposure.",
+      "tags": [],
+      "input": "zrluMApBoXhXKESu\r'=>Pk.f68vFY9TRmLKzqW5d6S6vQ6RZl0EB2FOFdGZS6MkHIt0QS6PWGlaJg4h4lSw.fBIbEvVZSDAGſrZ7QHrtoy\\N"
+    },
+    "mattermost-access-token": {
+      "description": "Identified a Mattermost Access Token, which may compromise team communication channels and data privacy.",
+      "tags": [],
+      "input": "cJMAtTERMOSTy\n\n:'\r\"\f bKſ4B4IpB9ſ6FoNIoV7wN2Vlce\r"
+    },
+    "maxmind-license-key": {
+      "description": "Discovered a potential MaxMind license key.",
+      "tags": [],
+      "input": "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"
+    },
+    "messagebird-api-token": {
+      "description": "Found a MessageBird API token, risking unauthorized access to communication platforms and message data.",
+      "tags": [],
+      "input": "OxVWLmeSSage-biRD\"\"\">X87SJkKVſ8vR9QSewQHqOSEpF"
+    },
+    "messagebird-client-id": {
+      "description": "Discovered a MessageBird client ID, potentially compromising API integrations and sensitive communication data.",
+      "tags": [],
+      "input": "_rmessAGE_BiRd3R'\n>\n==\t\f31917dfE-cf2B-beFd-8cCe-9c2AaEC0Af15"
+    },
+    "microsoft-teams-webhook": {
+      "description": "Uncovered a Microsoft Teams Webhook, which could lead to unauthorized access to team collaboration tools and data leaks.",
+      "tags": [],
+      "input": "https://4.webhook.office.com/webhookb2/5hasylrk-cb2m-8gb7-bj0q-i9dggafy18oz@94fno3ol-fs1h-h7fz-m18w-atriwsx4ieza/IncomingWebhook/com6xa63sj70pjn1g14z1og3x56rc9lk/6l3m8qqf-d8bv-66en-cm24-s9z6sq0zozgf"
+    },
+    "netlify-access-token": {
+      "description": "Detected a Netlify Access Token, potentially compromising web hosting services and site management.",
+      "tags": [],
+      "input": "htG8fxnETlifYO\"\t\r=>\t RzSTdnWoiDEI4tvUxefnB_hgeJudjxdMja8Pr-dGCU'"
+    },
+    "new-relic-browser-api-token": {
+      "description": "Identified a New Relic ingest browser API token, risking unauthorized access to application performance data and analytics.",
+      "tags": [],
+      "input": "6j-drvnEwRElic\t\"'||\f`\r\nNRjs-c17FAB4fadadae4E6Ab\\r"
+    },
+    "new-relic-insert-key": {
+      "description": "Discovered a New Relic insight insert key, compromising data injection into the platform.",
+      "tags": [],
+      "input": "ſqNEW-RElicj36\t||'\r \tNrii-0TiJyY7-zvlhC-48FstQS64diAcbzGX6\\R"
+    },
+    "new-relic-user-api-id": {
+      "description": "Found a New Relic user API ID, posing a risk to application monitoring services and data integrity.",
+      "tags": [],
+      "input": "KdfNEwReliCAHmbBv':::=P2Sb64PiIPc8FQpExA9U5quGPoVLssB6Eav64TL8x8Ai9G26TimSjO7ypweceG7I\\N"
+    },
+    "new-relic-user-api-key": {
+      "description": "Discovered a New Relic user API Key, which could lead to compromised application insights and performance monitoring.",
+      "tags": [],
+      "input": "rONoNew-RElic\r\"\n:::=nRak-7ooKYOtcB6xhkqTaOK4wN43Ukgf "
+    },
+    "notion-api-token": {
+      "description": "Notion API token",
+      "tags": [],
+      "input": "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\\r"
+    },
+    "nytimes-access-token": {
+      "description": "Detected a Nytimes Access Token, risking unauthorized access to New York Times APIs and content services.",
+      "tags": [],
+      "input": "QFtnEW-YOrk-tiMes,DRb \f=>\rD9szVdZTy3SlxYRChVjjJoma=Z-ZfsrS\n"
+    },
+    "octopus-deploy-api-key": {
+      "description": "Discovered a potential Octopus Deploy API key, risking application deployments and operational security.",
+      "tags": [],
+      "input": "API-8AGLT4ZM174W95OTOSKCK6C1QY\\r"
+    },
+    "okta-access-token": {
+      "description": "Identified an Okta Access Token, which may compromise identity management services and user authentication data.",
+      "tags": [],
+      "input": "VKgG0YuOKTAPbDCD\">\t\f00xdnif_fKlhkY6CxvIoIL_jrvhp3TuLjxAX3nT78H\r"
+    },
+    "openshift-user-token": {
+      "description": "Found an OpenShift user token, potentially compromising an OpenShift/Kubernetes cluster.",
+      "tags": [],
+      "input": "sha256~usBqtHLx5KaP5Iq8nn9TaLVTj-cgsJFLmqpw-SWysBj@"
+    },
+    "perplexity-api-key": {
+      "description": "Detected a Perplexity API key, which could lead to unauthorized access to Perplexity AI services and data exposure.",
+      "tags": [],
+      "input": "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"
+    },
+    "plaid-api-token": {
+      "description": "Discovered a Plaid API Token, potentially compromising financial data aggregation and banking services.",
+      "tags": [],
+      "input": "3pxyplAID0o5:'\t`=aCcEſs-deVeLOPment-3A8a8DC1-FcA1-8D6d-B0c2-42C7eAb2Bb70\""
+    },
+    "plaid-client-id": {
+      "description": "Uncovered a Plaid Client ID, which could lead to unauthorized financial service integrations and data breaches.",
+      "tags": [],
+      "input": "x3gplAIDZ=\r\"\t\"wZCoCm4EGTfopAN1NmcqwJyV\\N"
+    },
+    "plaid-secret-key": {
+      "description": "Detected a Plaid Secret key, risking unauthorized access to financial accounts and sensitive transaction data.",
+      "tags": [],
+      "input": "xAsPlaidYF7FF\r:byr7UxgZ1ZRtUuyzpmE1Cli7t66lwJ\\r"
+    },
+    "planetscale-api-token": {
+      "description": "Identified a PlanetScale API token, potentially compromising database management and operations.",
+      "tags": [],
+      "input": "pscale_tkn_Osz61Dd3WdtlWHcPOQb.nhEDZumHb-gIDſ"
+    },
+    "planetscale-oauth-token": {
+      "description": "Found a PlanetScale OAuth token, posing a risk to database access control and sensitive data integrity.",
+      "tags": [],
+      "input": "pscale_oauth_ly.DUo0EZvEr5_7EDfNxRk8lnz3p.MdhmrdO"
+    },
+    "planetscale-password": {
+      "description": "Discovered a PlanetScale password, which could lead to unauthorized database operations and data breaches.",
+      "tags": [],
+      "input": "pScalE_pw_4blqMO.O4N4XrWFjvXtlcISu8zAWIXIsS4a.2G\\N"
+    },
+    "postman-api-token": {
+      "description": "Uncovered a Postman API token, potentially compromising API testing and development workflows.",
+      "tags": [],
+      "input": "PMAK-4a2e29daC29AF07EDe6F2CF1-3d7e4dED88337fbfe10F4e67ab5EeAfA41\n"
+    },
+    "prefect-api-token": {
+      "description": "Detected a Prefect API token, risking unauthorized access to workflow management and automation services.",
+      "tags": [],
+      "input": "pnu_JffMyNSVEgNJILQGXbziI4c6pnwvMFZRBN8c"
+    },
+    "privateai-api-token": {
+      "description": "Identified a PrivateAI Token, posing a risk of unauthorized access to AI services and data manipulation.",
+      "tags": [],
+      "input": "PRivaTEAIRT9\n\r:y1m8leg0fqufjh4t54o3t10fvpbmuly9\\r"
+    },
+    "pulumi-api-token": {
+      "description": "Found a Pulumi API token, posing a risk to infrastructure as code services and cloud resource management.",
+      "tags": [],
+      "input": "pul-73ee2040a65825fd6a269cabe874fee3aaac4ee6'"
+    },
+    "pypi-upload-token": {
+      "description": "Discovered a PyPI upload token, potentially compromising Python package distribution and repository integrity.",
+      "tags": [],
+      "input": "pypi-AgEIcHlwaS5vcmc_5_F73ME75gMWI3JjDGrN1E3MUuGU4GDZtb40Y0gGz0dtXyxqWuaXR4"
+    },
+    "rapidapi-access-token": {
+      "description": "Uncovered a RapidAPI Access Token, which could lead to unauthorized access to various APIs and data services.",
+      "tags": [],
+      "input": "amfrApIdaPI2_\f||\r=` `u-D_JqrXkEGrXuTWNl3cKNL9rUlGBdN3Q5lVYdJcHmEVUZmYhf`"
+    },
+    "readme-api-token": {
+      "description": "Detected a Readme API token, risking unauthorized documentation management and content exposure.",
+      "tags": [],
+      "input": "rdme_k1oqjygw8ngm0wnhg49dpx8c5r237tpa1idzyc1b2aa5fp47gi8xxyn1coxstkhswovowm`"
+    },
+    "rubygems-api-token": {
+      "description": "Identified a Rubygem API token, potentially compromising Ruby library distribution and package management.",
+      "tags": [],
+      "input": "rubygems_34055c38c45bffe69f7d73c2c05055d76b924a104c1a374f\\r"
+    },
+    "scalingo-api-token": {
+      "description": "Found a Scalingo API token, posing a risk to cloud platform services and application deployment security.",
+      "tags": [],
+      "input": "tk-us-CuXYx1NzTow5YUZzqz4VE4o1_1ODMdhYah4JikHbKpP1q4X0"
+    },
+    "sendbird-access-id": {
+      "description": "Discovered a Sendbird Access ID, which could compromise chat and messaging platform integrations.",
+      "tags": [],
+      "input": "nONSeNdbIrd- \r',\r \n=8ccf14A6-6b6e-E649-fB70-0B5b372A6CDA"
+    },
+    "sendbird-access-token": {
+      "description": "Uncovered a Sendbird Access Token, potentially risking unauthorized access to communication services and user data.",
+      "tags": [],
+      "input": "A5LSendbirdrA\f\r\"::='\" \r\r9AE6551a604821Ea66158fc7ef2Dd6AA1d3fA065\\n"
+    },
+    "sendgrid-api-token": {
+      "description": "Detected a SendGrid API token, posing a risk of unauthorized email service operations and data exposure.",
+      "tags": [],
+      "input": "SG.Rt.nZsAY=iQſqM69t.Kpz2_s7pnKIeZjIS3WXC72rJA2rſAbznO_A0cDPy65AO3KXX\\n"
+    },
+    "sendinblue-api-token": {
+      "description": "Identified a Sendinblue API token, which may compromise email marketing services and subscriber data privacy.",
+      "tags": [],
+      "input": "xkeysib-696c74c98577876b9c9cefb8368abaac2b4f8f222e39a4a91b20c17e4c18b386-u4R5cFWO0hjmdKRW\\r"
+    },
+    "sentry-access-token": {
+      "description": "Found a Sentry.io Access Token (old format), risking unauthorized access to error tracking services and sensitive application data.",
+      "tags": [],
+      "input": "QQsEnTrybV.O'\r?=\f'a1d7EBAfccbaFfD4c00E47CEc537d56AeBF81E05d99fd770aE12BcD3C5a64BDD"
+    },
+    "sentry-org-token": {
+      "description": "Found a Sentry.io Organization Token, risking unauthorized access to error tracking services and sensitive application data.",
+      "tags": [],
+      "input": "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"
+    },
+    "sentry-user-token": {
+      "description": "Found a Sentry.io User Token, risking unauthorized access to error tracking services and sensitive application data.",
+      "tags": [],
+      "input": "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"
+    },
+    "settlemint-application-access-token": {
+      "description": "Found a Settlemint Application Access Token.",
+      "tags": [],
+      "input": "sm_aat_jRSoGLMsGGux8b2J"
+    },
+    "settlemint-personal-access-token": {
+      "description": "Found a Settlemint Personal Access Token.",
+      "tags": [],
+      "input": "sm_pat_aPydUyvIofpVYqhR\\n"
+    },
+    "settlemint-service-access-token": {
+      "description": "Found a Settlemint Service Access Token.",
+      "tags": [],
+      "input": "sm_sat_9LUOkMLBZdvwCPDF\f"
+    },
+    "shippo-api-token": {
+      "description": "Discovered a Shippo API token, potentially compromising shipping services and customer order data.",
+      "tags": [],
+      "input": "shippo_live_bccfb8fde34c550aBbAEE8Cf62a26feadBcAfa17"
+    },
+    "shopify-access-token": {
+      "description": "Uncovered a Shopify access token, which could lead to unauthorized e-commerce platform access and data breaches.",
+      "tags": [],
+      "input": "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"
+    },
+    "shopify-custom-access-token": {
+      "description": "Detected a Shopify custom access token, potentially compromising custom app integrations and e-commerce data security.",
+      "tags": [],
+      "input": "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"
+    },
+    "shopify-private-app-access-token": {
+      "description": "Identified a Shopify private app access token, risking unauthorized access to private app data and store operations.",
+      "tags": [],
+      "input": "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"
+    },
+    "shopify-shared-secret": {
+      "description": "Found a Shopify shared secret, posing a risk to application authentication and e-commerce platform security.",
+      "tags": [],
+      "input": "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"
+    },
+    "sidekiq-secret": {
+      "description": "Discovered a Sidekiq Secret, which could lead to compromised background job processing and application data breaches.",
+      "tags": [],
+      "input": "tatq-bUNdlE_enTeRPRiSe__contRIbSYS__COmIr_wct\t::=`=\n\n\t977f657f:c351b0F2"
+    },
+    "sidekiq-sensitive-url": {
+      "description": "Uncovered a Sidekiq Sensitive URL, potentially exposing internal job queues and sensitive operation details.",
+      "tags": [],
+      "input": "gems.contribsys.com\nHTTpS://8b62E9A9:0FB96E0E@geMs7COnTrIBsYſ1com|"
+    },
+    "snyk-api-token": {
+      "description": "Uncovered a Snyk API token, potentially compromising software vulnerability scanning and code security.",
+      "tags": [],
+      "input": "XpSNYKkEYRrgg:=\"`\n 92cf04F3-7Cd8-42d3-E3fB-Ddecfc46FBF7\\N"
+    },
+    "sonar-api-token": {
+      "description": "Uncovered a Sonar API token, potentially compromising software vulnerability scanning and code security.",
+      "tags": [],
+      "input": "MESonARtoKEN'>nSEU16tKGz49Xhmo=Nq3Qkwe1ZslLPmNozZſFS_s\\R"
+    },
+    "sourcegraph-access-token": {
+      "description": "Sourcegraph is a code search and navigation engine.",
+      "tags": [],
+      "input": "sgP_LOCal_BD6Ec363849216c2a6ECeb2cC9fBDeD6b52B070c'"
+    },
+    "square-access-token": {
+      "description": "Detected a Square Access Token, risking unauthorized payment processing and financial transaction exposure.",
+      "tags": [],
+      "input": "EAAAC-Kq4IkzUOKZ3JVb7o1QtmM\\n"
+    },
+    "squarespace-access-token": {
+      "description": "Identified a Squarespace Access Token, which may compromise website management and content control on Squarespace.",
+      "tags": [],
+      "input": "Bn4sqUaResPaCEZPX7k\"\"||\f\n\"\t3B1D862E-dF3a-BEA5-cAcB-1dC8EACd6CED\\n"
+    },
+    "sumologic-access-id": {
+      "description": "Discovered a SumoLogic Access ID, potentially compromising log management services and data analytics integrity.",
+      "tags": [],
+      "input": "JqvQq2faSUMOKB\r>=''sufm65Q3t2EuHp\\n"
+    },
+    "sumologic-access-token": {
+      "description": "Uncovered a SumoLogic Access Token, which could lead to unauthorized access to log data and analytics insights.",
+      "tags": [],
+      "input": "WKſKSUMOixsH'||\f\n`\fitT5fJRLtuNGamlKLhHmFsFkCu1mUmity437yD6a77YXDyJ2WdavBe5jcUdsrt0F"
+    },
+    "telegram-bot-api-token": {
+      "description": "Detected a Telegram Bot API Token, risking unauthorized bot operations and message interception on Telegram.",
+      "tags": [],
+      "input": "dſTEleGr-\t\t||764544:AVk0ROBK5jWRſLa3J7bhvQNqQVtwjVKEKzP\f"
+    },
+    "travisci-access-token": {
+      "description": "Identified a Travis CI Access Token, potentially compromising continuous integration services and codebase security.",
+      "tags": [],
+      "input": "Dt6y2TRAviSgDaS>\t\r\f\nYorZWCjM3WpSh1Dm6h6B6m\t"
+    },
+    "twilio-api-key": {
+      "description": "Found a Twilio API Key, posing a risk to communication services and sensitive customer interaction data.",
+      "tags": [],
+      "input": "SK771c8Fa754f941DCbfDBf6313D45E203"
+    },
+    "twitch-api-token": {
+      "description": "Discovered a Twitch API token, which could compromise streaming services and account integrations.",
+      "tags": [],
+      "input": "-twitCHUPt\t'\f:::=IlAwBgiDtMfZolzG4KxIZl9emBliBJ"
+    },
+    "twitter-access-secret": {
+      "description": "Uncovered a Twitter Access Secret, potentially risking unauthorized Twitter integrations and data breaches.",
+      "tags": [],
+      "input": "-UjtwiTTERdMNf:\"674ERiRBGTBeGgoYQpDwsUAnQbFLhIuH3ozysA3K2uHLt\\N"
+    },
+    "twitter-access-token": {
+      "description": "Detected a Twitter Access Token, posing a risk of unauthorized account operations and social media data exposure.",
+      "tags": [],
+      "input": "6kTwITTER=\t\t421148411335398-BI7v1A9W9tnADoJg9jlFBVhg\\r"
+    },
+    "twitter-api-key": {
+      "description": "Identified a Twitter API Key, which may compromise Twitter application integrations and user data security.",
+      "tags": [],
+      "input": "x6tWitTER\twEd\t\"'=='\nirg8wBrWſEw3WVv8KYecsFsfQ"
+    },
+    "twitter-api-secret": {
+      "description": "Found a Twitter API Secret, risking the security of Twitter app integrations and sensitive data access.",
+      "tags": [],
+      "input": "cMtWiTTeRcKU4\r\",\r\t`HL2hSdHnuſvwHxſPobWTzB4hBjnakm1q8YASyzraOCRaHAcsMi"
+    },
+    "twitter-bearer-token": {
+      "description": "Discovered a Twitter Bearer Token, potentially compromising API access and data retrieval from Twitter.",
+      "tags": [],
+      "input": "tWiTtErpPW\t||` \t=aaAAAAaAAAaaaaAAaAaaaAlgQXMiKKB0Z2puMKZq2oG6X%4S9CKs32XK3cJKſOwH8hzſQYNOZVkRvWqLCPWTlu5uN%KVazSJRdNokVK%Qf\f"
+    },
+    "typeform-api-token": {
+      "description": "Uncovered a Typeform API token, which could lead to unauthorized survey management and data collection.",
+      "tags": [],
+      "input": "DdtypEforMjF_9\n \f:::=TfP_P_o08oſk8q2_Chxg5=KwſlnOCAP4=mCvFyxPI.1FvFTujENYEzk-5yuv2AX\\n"
+    },
+    "vault-batch-token": {
+      "description": "Detected a Vault Batch Token, risking unauthorized access to secret management services and sensitive data.",
+      "tags": [],
+      "input": "hvb.LfMOK4LXJL07s0WPdi7hQlQxgbGzbL1wBctRVdLzT6hx_SclS-78QzMzqdmvn4_4oABdfmekJ-SLF3zIoGPayMqyp2I1YzHFl_1i5u8e3na5f_gebPkKi9QPC_E6zgOVxbY6Vg8AXuk73ruY"
+    },
+    "vault-service-token": {
+      "description": "Identified a Vault Service Token, potentially compromising infrastructure security and access to sensitive credentials.",
+      "tags": [],
+      "input": "s.3VKzY0Vxm9z3DwRTtfC1pHIH\\n"
+    },
+    "yandex-access-token": {
+      "description": "Found a Yandex Access Token, posing a risk to Yandex service integrations and user data privacy.",
+      "tags": [],
+      "input": "R9R_yanDEXGk \r::= t1.ic37vt==.JBguveaIRUfBx1HZopT5X9wmpFDhtlx_lo7HiFuZg91MKXYjmpmCjrOTyUqlXKLb-2d51K5PUWNb1wivXLgqZy=\\N"
+    },
+    "yandex-api-key": {
+      "description": "Discovered a Yandex API Key, which could lead to unauthorized access to Yandex services and data manipulation.",
+      "tags": [],
+      "input": "XnyyAndEx ',\f'aqvnXQK5oſd4gwUooO1Q3ftV6WHE8j_8hT5gjXOZbe"
+    },
+    "yandex-aws-access-token": {
+      "description": "Uncovered a Yandex AWS Access Token, potentially compromising cloud resource access and data security on Yandex Cloud.",
+      "tags": [],
+      "input": "k5nYAndexy\t\n\n=>`\f\"yCLr56zAHX1y9X8D435_MhKvDeqx_nFscFLL2xT7\f"
+    },
+    "zendesk-secret-key": {
+      "description": "Detected a Zendesk Secret Key, risking unauthorized access to customer support services and sensitive ticketing data.",
+      "tags": [],
+      "input": "YfwCyPzendesKM>`ToSiUWQrB2NQBvOto3VRbTR3snIFM58MwFMrtNKc"
+    }
+  },
+  "cases": [
+    {
+      "name": "configuration 1 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": []
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "",
+      "tags": []
+    },
+    {
+      "name": "configuration 1 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": []
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "",
+      "tags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 1 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": []
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 1 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": []
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "",
+      "tags": [
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 2 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "",
+          "tags": []
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "",
+      "tags": []
+    },
+    {
+      "name": "configuration 2 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "",
+          "tags": []
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "",
+      "tags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 2 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "",
+          "tags": []
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 2 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "",
+          "tags": []
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "",
+      "tags": [
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 3 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Synthetic service credential"
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "Synthetic service credential",
+      "tags": []
+    },
+    {
+      "name": "configuration 3 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Synthetic service credential"
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "Synthetic service credential",
+      "tags": [
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 3 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Synthetic service credential"
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "Synthetic service credential",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 3 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Synthetic service credential"
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "Synthetic service credential",
+      "tags": [
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 4 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "tags": [
+            "service",
+            "api",
+            "service"
+          ]
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "",
+      "tags": [
+        "service",
+        "api",
+        "service"
+      ]
+    },
+    {
+      "name": "configuration 4 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "tags": [
+            "service",
+            "api",
+            "service"
+          ]
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "",
+      "tags": [
+        "service",
+        "api",
+        "service",
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 4 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "tags": [
+            "service",
+            "api",
+            "service"
+          ]
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "",
+      "tags": [
+        "service",
+        "api",
+        "service",
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 4 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "tags": [
+            "service",
+            "api",
+            "service"
+          ]
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "",
+      "tags": [
+        "service",
+        "api",
+        "service",
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 5 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Ünicode · <service>",
+          "tags": [
+            "service:local",
+            "日本語",
+            "api key"
+          ]
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "Ünicode · <service>",
+      "tags": [
+        "service:local",
+        "日本語",
+        "api key"
+      ]
+    },
+    {
+      "name": "configuration 5 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Ünicode · <service>",
+          "tags": [
+            "service:local",
+            "日本語",
+            "api key"
+          ]
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "Ünicode · <service>",
+      "tags": [
+        "service:local",
+        "日本語",
+        "api key",
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 5 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Ünicode · <service>",
+          "tags": [
+            "service:local",
+            "日本語",
+            "api key"
+          ]
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "Ünicode · <service>",
+      "tags": [
+        "service:local",
+        "日本語",
+        "api key",
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 5 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Ünicode · <service>",
+          "tags": [
+            "service:local",
+            "日本語",
+            "api key"
+          ]
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "Ünicode · <service>",
+      "tags": [
+        "service:local",
+        "日本語",
+        "api key",
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 6 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Reserved-looking configured tags",
+          "tags": [
+            "decoded:hex",
+            "decode-depth:2"
+          ]
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "Reserved-looking configured tags",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:2"
+      ]
+    },
+    {
+      "name": "configuration 6 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Reserved-looking configured tags",
+          "tags": [
+            "decoded:hex",
+            "decode-depth:2"
+          ]
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "Reserved-looking configured tags",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:2",
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 6 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Reserved-looking configured tags",
+          "tags": [
+            "decoded:hex",
+            "decode-depth:2"
+          ]
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "Reserved-looking configured tags",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:2",
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 6 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Reserved-looking configured tags",
+          "tags": [
+            "decoded:hex",
+            "decode-depth:2"
+          ]
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "Reserved-looking configured tags",
+      "tags": [
+        "decoded:hex",
+        "decode-depth:2",
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 7 plain",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Composite primary",
+          "tags": [
+            "primary"
+          ],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Hidden context",
+          "tags": [
+            "support"
+          ],
+          "skipReport": true
+        }
+      ],
+      "input": "SERVICE credential=ABC123",
+      "description": "Composite primary",
+      "tags": [
+        "primary"
+      ]
+    },
+    {
+      "name": "configuration 7 base64",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Composite primary",
+          "tags": [
+            "primary"
+          ],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Hidden context",
+          "tags": [
+            "support"
+          ],
+          "skipReport": true
+        }
+      ],
+      "input": "U0VSVklDRSBjcmVkZW50aWFsPUFCQzEyMw==",
+      "description": "Composite primary",
+      "tags": [
+        "primary",
+        "decoded:base64",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 7 hex",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Composite primary",
+          "tags": [
+            "primary"
+          ],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Hidden context",
+          "tags": [
+            "support"
+          ],
+          "skipReport": true
+        }
+      ],
+      "input": "534552564943452063726564656e7469616c3d414243313233",
+      "description": "Composite primary",
+      "tags": [
+        "primary",
+        "decoded:hex",
+        "decode-depth:1"
+      ]
+    },
+    {
+      "name": "configuration 7 percent",
+      "rules": [
+        {
+          "id": "fixture-metadata",
+          "regex": "credential=([A-Z][A-Z0-9]{5,})",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Composite primary",
+          "tags": [
+            "primary"
+          ],
+          "required": [
+            {
+              "id": "fixture-context"
+            }
+          ]
+        },
+        {
+          "id": "fixture-context",
+          "regex": "(SERVICE)",
+          "secretGroup": 1,
+          "entropy": 0,
+          "keywords": [],
+          "allowlists": [],
+          "description": "Hidden context",
+          "tags": [
+            "support"
+          ],
+          "skipReport": true
+        }
+      ],
+      "input": "%53%45%52%56%49%43%45%20%63%72%65%64%65%6e%74%69%61%6c%3d%41%42%43%31%32%33",
+      "description": "Composite primary",
+      "tags": [
+        "primary",
+        "decoded:percent",
+        "decode-depth:1"
+      ]
+    }
+  ]
+}

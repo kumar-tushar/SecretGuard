@@ -36,5 +36,5 @@ try {
   for (const relative of previous) {
     if (!next.includes(relative)) await rm(path.join(destination, relative), { force: true });
   }
-  console.log(`Built CkretGuard ${manifest.version} → ${destination}`);
+  console.log(`Built SecretGuard ${manifest.version} → ${destination}`);
 } finally { await rm(staging, { recursive: true, force: true }); }

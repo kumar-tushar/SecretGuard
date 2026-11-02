@@ -189,7 +189,7 @@ test('field Save requires three characters and routine field changes remain quie
   expect(await composer.evaluate(async()=>(await chrome.storage.local.get('policy')).policy)).toBeUndefined();
   await input.fill('abc');
   await expect(save).toBeEnabled();
-  await expect(save).toHaveCSS('background-color','rgb(69, 214, 200)');
+  await expect(save).toHaveCSS('background-color','rgb(255, 255, 255)');
   await save.click();
   await expect(input).toHaveValue('');
   await expect(save).toBeDisabled();
@@ -1063,10 +1063,10 @@ test('saved fields use full-width rows and controls use brand hover colors', asy
   await expect(composer.locator('#saved-fields li')).toHaveCount(7);
   const remove=composer.getByRole('button',{name:'Remove dataset0',exact:true});
   await remove.hover();
-  await expect(remove).toHaveCSS('color','rgb(69, 214, 200)');
+  await expect(remove).toHaveCSS('color','rgb(255, 255, 255)');
   await composer.locator('#sensitive-names').fill('new_field');
   await composer.locator('#save-fields').hover();
-  await expect(composer.locator('#save-fields')).toHaveCSS('background-color','rgb(69, 214, 200)');
+  await expect(composer.locator('#save-fields')).toHaveCSS('background-color','rgb(255, 255, 255)');
   await expect(composer.locator('#save-fields')).toHaveCSS('color','rgb(24, 24, 24)');
   const list=await composer.locator('#saved-fields').boundingBox();
   let previous;
@@ -1096,7 +1096,7 @@ test('saved fields use full-width rows and controls use brand hover colors', asy
   await page.locator('textarea').press('Enter');
   const mask=review(page).getByRole('button',{name:'Mask',exact:true});
   await mask.hover();
-  await expect(mask).toHaveCSS('background-color','rgb(69, 214, 200)');
+  await expect(mask).toHaveCSS('background-color','rgb(255, 255, 255)');
   await expect(mask).toHaveCSS('color','rgb(24, 24, 24)');
   await page.close();
 });
@@ -1110,7 +1110,7 @@ test('managed custom fields are read-only while unlocked settings remain editabl
   });
   await composer.evaluate(async()=>{
     const original=SecretShieldPolicy;
-    window.restoreCkretguardPolicy=()=>{globalThis.SecretShieldPolicy=original;};
+    window.restoreSecretGuardPolicy=()=>{globalThis.SecretShieldPolicy=original;};
     globalThis.SecretShieldPolicy={...original,loadPolicy:async()=>{
       const {policy={}}=await chrome.storage.local.get('policy');
       return {policy:SecretShieldCore.normalizePolicy({...policy,sensitiveNames:['org_dataset']}),locked:['sensitiveNames']};
@@ -1131,7 +1131,7 @@ test('managed custom fields are read-only while unlocked settings remain editabl
     expect(policy.sensitiveNames).toBeUndefined();
     await expect(composer.locator('#saved-fields span')).toHaveText(['org_dataset']);
   } finally {
-    await composer.evaluate(()=>{window.restoreCkretguardPolicy();delete window.restoreCkretguardPolicy;});
+    await composer.evaluate(()=>{window.restoreSecretGuardPolicy();delete window.restoreSecretGuardPolicy;});
     await worker.evaluate(()=>{restoreManagedStorage();delete globalThis.restoreManagedStorage;});
   }
 });
@@ -1255,7 +1255,7 @@ for (const host of ['chatgpt.com','claude.ai']) test(`${host}: notices count dow
     expect(progress.duration).toBe(5000);expect(progress.easing).toBe('linear');
     expect(Math.abs(progress.width-(progress.parentWidth-2)/2)).toBeLessThan(1);
     expect(progress.height).toBe(3);expect(progress.top).toBe(1);
-    expect(progress.color).toBe('rgb(69, 214, 200)');
+    expect(progress.color).toBe('rgb(255, 255, 255)');
     await page.clock.runFor(4000);
     await page.locator('textarea,[contenteditable]').press('Enter');
     await expect(notice).toHaveCount(1);

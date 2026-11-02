@@ -45,8 +45,8 @@ for(const file of pluginFiles) {
   if(/(?:^|\/)(?:node_modules|\.git|\.env)(?:\/|$)/.test(file)) throw new Error('Unwanted package file');
   if(file.endsWith('.json')) JSON.parse(await readFile(path.join(output,file),'utf8'));
 }
-const extensionZip=path.join(artifacts,`secret-shield-chrome-${manifest.version}.zip`);
-const pluginZip=path.join(artifacts,`secret-shield-plugin-${manifest.version}.zip`);
+const extensionZip=path.join(artifacts,`secretguard-chrome-${manifest.version}.zip`);
+const pluginZip=path.join(artifacts,`secretguard-plugin-${manifest.version}.zip`);
 async function archive(source,destination,include) {
   await rm(destination,{force:true});
   execFileSync('zip',['-q','-r',destination,...include],{cwd:source});

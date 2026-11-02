@@ -24,7 +24,7 @@
       worker.onmessage = event => finish(event.data);
       worker.onerror = event => { event.preventDefault(); finish({ ok: false }); };
       worker.onmessageerror = () => finish({ ok: false });
-      worker.postMessage({ text: event.data.text, policy: event.data.policy });
+      worker.postMessage({ text: event.data.text, policy: event.data.policy, ruleIds: event.data.ruleIds });
     } catch { finish({ ok: false }); }
   });
 })();

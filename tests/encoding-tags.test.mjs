@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { scan, redact, MASK } from '../src/index.mjs';
 import { providerKey } from './fixtures/gitleaks-credentials.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const codecs = {
   base64: text => Buffer.from(text).toString('base64'),
@@ -13,9 +14,9 @@ const codecs = {
 const encode = (text, route) => route.reduce((value, kind) => codecs[kind](value), text);
 const tags = (route, depth = route.length) => [...['percent', 'hex', 'base64'].filter(kind => route.includes(kind)).map(kind => `decoded:${kind}`), `decode-depth:${depth}`];
 
-test('plaintext findings keep the existing shape without encoding or depth tags', () => {
+test('plaintext findings include their rule description without encoding or depth tags', () => {
   const input = `api_key=${providerKey}`, start = input.indexOf(providerKey);
-  assert.deepEqual(scan(input), [{ start, end: input.length, type: 'github-pat' }]);
+  assert.deepEqual(scan(input), withLocations(input, [{ start, end: input.length, type: 'github-pat', description: SecretShieldRules.rules.find(rule => rule.id === 'github-pat').description }]));
   for (const route of [['base64'], ['hex'], ['percent']]) {
     const unrelated = encode('ordinary text without credentials', [...route, ...route, ...route]);
     const result = scan(input + '\n' + unrelated);
@@ -28,7 +29,7 @@ test('single and repeated codec layers report unique encoding tags and their dec
   for (const kind of Object.keys(codecs)) for (let depth = 1; depth <= 3; depth++) {
     const route = Array(depth).fill(kind), encoded = encode(providerKey, route);
     const input = `😀 ${encoded}\nKeep.`, result = redact(input);
-    assert.deepEqual(result.findings, [{ start: 3, end: 3 + encoded.length, type: 'github-pat', tags: tags(route) }]);
+    assert.deepEqual(result.findings, withLocations(input, [{ start: 3, end: 3 + encoded.length, type: 'github-pat', description: SecretShieldRules.rules.find(rule => rule.id === 'github-pat').description, tags: tags(route) }]));
     assert.equal(result.text, `😀 ${MASK}\nKeep.`);
   }
 });
@@ -131,7 +132,7 @@ test('returned tags are independent between occurrences and scans and contain no
   assert.deepEqual(first[1].tags, ['decoded:hex', 'decode-depth:1']);
   const next = scan(input);
   assert.deepEqual(next.map(item => item.tags), [tags(['hex']), tags(['hex'])]);
-  for (const item of next) assert.deepEqual(Object.keys(item).sort(), ['end', 'start', 'tags', 'type']);
+  for (const item of next) assert.deepEqual(Object.keys(item).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'tags', 'type']);
   assert.equal(JSON.stringify(next).includes(providerKey), false);
 });
 

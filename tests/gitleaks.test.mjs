@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { scan, redact, MASK } from '../src/index.mjs';
+import { withLocations } from './fixtures/finding-locations.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/gitleaks-generic.json', import.meta.url), 'utf8'));
 const coreSource = await readFile(new URL('../src/core.js', import.meta.url), 'utf8');
@@ -19,7 +20,7 @@ test('generic-api-key matches the pinned upstream reference corpus', () => {
     assert.deepEqual(Array.from(findings, item => fixture.input.slice(item.start, item.end)), fixture.secrets, fixture.name);
     let cursor = 0, expected = '';
     for (const item of findings) {
-      assert.deepEqual(Object.keys(item).sort(), ['end', 'start', 'type']);
+      assert.deepEqual(Object.keys(item).sort(), ['description', 'end', 'endColumn', 'endLine', 'start', 'startColumn', 'startLine', 'type']);
       assert.equal(item.type, 'generic-api-key');
       assert.ok(item.start >= cursor && item.end > item.start && item.end <= fixture.input.length, fixture.name);
       expected += fixture.input.slice(cursor, item.start) + MASK;
@@ -48,10 +49,10 @@ test('only captured occurrences are masked and offsets remain UTF-16 editor offs
   const text = `🔐 हिन्दी ${value}\napi_key="${value}"\n${value}\npassword: ${value}`;
   const first = text.indexOf(value, text.indexOf('api_key'));
   const last = text.lastIndexOf(value);
-  assert.deepEqual(scan(text), [
-    { start: first, end: first + value.length, type: 'generic-api-key' },
-    { start: last, end: last + value.length, type: 'generic-api-key' },
-  ]);
+  assert.deepEqual(scan(text), withLocations(text, [
+    { start: first, end: first + value.length, type: 'generic-api-key', description: SecretShieldRules.rules.find(rule => rule.id === 'generic-api-key').description },
+    { start: last, end: last + value.length, type: 'generic-api-key', description: SecretShieldRules.rules.find(rule => rule.id === 'generic-api-key').description },
+  ]));
   assert.equal(redact(text).text, `🔐 हिन्दी ${value}\napi_key="${MASK}"\n${value}\npassword: ${MASK}`);
   assert.ok(!JSON.stringify(scan(text)).includes(value), 'findings do not duplicate secret values');
 });

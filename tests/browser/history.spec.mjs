@@ -56,6 +56,7 @@ test.afterEach(async () => {
 test.afterAll(async () => { await context?.close(); });
 
 test('full page navigation supports all four production views, reloads and browser back', async () => {
+  await expect(dashboard.locator('.sidebar-footer')).toHaveText('SecretGuard by HUNASYS');
   await expect(dashboard.locator('#field-form')).toBeHidden();
   await expect(dashboard.locator('#protection-settings .settings')).toBeHidden();
   await expect(dashboard.getByRole('navigation').getByRole('link')).toHaveText(['Home', 'History', 'Privacy Policy', 'Contact Us']);
@@ -68,7 +69,8 @@ test('full page navigation supports all four production views, reloads and brows
   }
   await dashboard.reload();
   await expect(dashboard.locator('#contact-view')).toBeVisible();
-  await expect(dashboard.locator('.contact-link')).toHaveAttribute('href', 'mailto:connect.orenthic@gmail.com');
+  await expect(dashboard.locator('#contact-view h3')).toHaveText('Get in touch with HUNASYS');
+  await expect(dashboard.locator('.contact-link')).toHaveAttribute('href', 'mailto:connect.hunasys@gmail.com');
   await dashboard.goBack();
   await expect(dashboard.locator('#privacy-view')).toBeVisible();
   for (const width of [1280, 800, 661, 410]) {

@@ -9,6 +9,6 @@ try {
   }
   process.stdout.write(redact(text).text);
 } catch {
-  process.stderr.write('CkretGuard could not scan the input. No input was printed.\n');
+  process.stderr.write('SecretGuard could not scan the input. No input was printed.\n');
   process.exitCode = 2;
 }

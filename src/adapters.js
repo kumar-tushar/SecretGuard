@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  // Narrow selectors intentionally avoid unrelated fields, search, and login forms.
+  // Restrict matching to chat composers and send controls.
   const adapters = {
     'chatgpt.com': {
       name: 'ChatGPT',
@@ -85,7 +85,7 @@
       const prototype = editor instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
       Object.getOwnPropertyDescriptor(prototype, 'value').set.call(editor, text);
     } else {
-      // Use the editor's editing transaction where available (ProseMirror/React state).
+      // Use editing transactions so rich-editor state stays in sync.
       editor.focus();
       const selection = window.getSelection();
       if (findings?.length) {
@@ -120,9 +120,8 @@
             editor = replacements[0];
             editor.focus();
           }
-          // Chromium can insert an extra BR after replacing a selection across
-          // block elements. Correct only that exact extra newline, through the
-          // editor's transaction, and retain the complete-text check below.
+          // Chromium may add a BR when replacing across blocks. Remove only
+          // that exact extra newline through an editing transaction.
           const at = finding.start + SecretShieldCore.MASK.length;
           const caret = selection.anchorNode;
           const extraBreak = caret?.nodeType === Node.TEXT_NODE && selection.anchorOffset === caret.length ? caret.nextSibling : null;

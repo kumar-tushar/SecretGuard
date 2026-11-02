@@ -28,7 +28,7 @@ let context, worker, dashboard;
 
 function editorApp() {
   const root = document.querySelector('[contenteditable]'), button = document.querySelector('button');
-  const editor = createEditor({ namespace: 'CkretGuardTest', onError: error => { throw error; } });
+  const editor = createEditor({ namespace: 'SecretGuardTest', onError: error => { throw error; } });
   window.current = ''; window.submitted = [];
   editor.setRootElement(root);
   // Lexical core delegates cross-node typing to the host editor's text handler.
