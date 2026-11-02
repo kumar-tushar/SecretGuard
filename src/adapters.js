@@ -53,13 +53,50 @@
   adapters['meta.ai'] = adapters['www.meta.ai'];
   for (const host of ['copilot.com', 'copilot.cloud.microsoft', 'm365.cloud.microsoft']) adapters[host] = adapters['copilot.microsoft.com'];
   adapters['perplexity.ai'] = adapters['www.perplexity.ai'];
+  const editInputs = 'textarea, [contenteditable="true"][role="textbox"], [contenteditable="true"].ProseMirror, [contenteditable="true"].ql-editor, [contenteditable="true"][data-lexical-editor="true"]';
+  const controls = 'button, [role="button"], input[type="submit"]';
+  const editAction = /^(?:send(?: message)?|resend|submit(?: message)?|save(?: changes| (?:and|&) (?:send|submit))?|update(?: message)?)$/i;
+  const cancelAction = /^(?:cancel(?: edit(?:ing)?| changes)?|discard(?: changes)?)$/i;
   function getAdapter(hostname) { return adapters[hostname] ?? null; }
   function isVisible(element) {
     return element.isConnected && element.getClientRects().length > 0 &&
       !element.closest('[hidden], [aria-hidden="true"]') && getComputedStyle(element).visibility === 'visible';
   }
-  function getEditors(adapter) {
-    return [...document.querySelectorAll(adapter.editors)].filter(isVisible);
+  function controlLabel(control) {
+    return (control.getAttribute('aria-label') || control.innerText || control.value || '').trim().replace(/\s+/g, ' ');
+  }
+  function editScope(element) {
+    // Cancel identifies a local edit panel even while its Save/Send control remounts.
+    for (let scope = element.parentElement; scope && scope !== document.body; scope = scope.parentElement) {
+      const buttons = [...scope.querySelectorAll(controls)].filter(isVisible);
+      if (buttons.some(button => cancelAction.test(controlLabel(button))) && scope.querySelector(editInputs)) return scope;
+      if (scope instanceof HTMLFormElement) break;
+    }
+    return null;
+  }
+  function getEditors(adapter, scope = document) {
+    const candidates = [...scope.querySelectorAll(`${adapter.editors}, ${editInputs}`)];
+    return candidates.filter(editor => isVisible(editor) && (editor.matches(adapter.editors) ||
+      !editor.disabled && !editor.readOnly && editScope(editor)));
+  }
+  function getSendControl(adapter, target) {
+    const button = target instanceof Element ? target.closest(`${adapter.send}, ${controls}`) : null;
+    return button && (button.matches(adapter.send) || editAction.test(controlLabel(button)) && editScope(button)) ? button : null;
+  }
+  function getSendButtons(adapter, scope = document) {
+    return [...document.querySelectorAll(`${adapter.send}, ${controls}`)].filter(button =>
+      isVisible(button) && (scope.contains(button) || scope instanceof HTMLFormElement && button.form === scope) &&
+      getSendControl(adapter, button) === button);
+  }
+  function submissionScope(adapter, target) {
+    // A message edit and the bottom composer can both remain open.
+    const form = target instanceof HTMLFormElement ? target : target.form ?? target.closest('form');
+    if (form) return form;
+    const editor = getEditors(adapter).includes(target);
+    for (let scope = target.parentElement; scope; scope = scope.parentElement) {
+      if (editor ? getSendButtons(adapter, scope).length : getEditors(adapter, scope).length) return scope;
+    }
+    return document;
   }
   function readEditor(editor) {
     return editor instanceof HTMLTextAreaElement || editor instanceof HTMLInputElement ? editor.value : editor.innerText;
@@ -80,7 +117,7 @@
     }
     throw new Error('Editor text could not be mapped');
   }
-  async function writeEditor(editor, text, findings) {
+  async function writeEditor(editor, text, findings, scope = document) {
     if (editor instanceof HTMLTextAreaElement || editor instanceof HTMLInputElement) {
       const prototype = editor instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
       Object.getOwnPropertyDescriptor(prototype, 'value').set.call(editor, text);
@@ -115,7 +152,7 @@
           // Let batched editor state commit before replacing another value in the same text node.
           await Promise.resolve();
           if (!editor.isConnected) {
-            const replacements = getEditors(getAdapter(location.hostname));
+            const replacements = getEditors(getAdapter(location.hostname), scope);
             if (replacements.length !== 1 || readEditor(replacements[0]) !== expected) throw new Error('Editor update failed');
             editor = replacements[0];
             editor.focus();
@@ -150,5 +187,5 @@
     editor.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertReplacementText' }));
     if (readEditor(editor) !== text) throw new Error('Editor update failed');
   }
-  globalThis.SecretShieldAdapters = Object.freeze({ getAdapter, getEditors, isVisible, readEditor, writeEditor });
+  globalThis.SecretShieldAdapters = Object.freeze({ getAdapter, getEditors, getSendControl, getSendButtons, submissionScope, isVisible, readEditor, writeEditor });
 })();

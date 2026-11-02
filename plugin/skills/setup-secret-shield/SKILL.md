@@ -5,7 +5,7 @@ description: Use when the user wants to install or evaluate SecretGuard's Chrome
 
 # Set up SecretGuard
 
-SecretGuard is published by HUNASYS.
+SecretGuard is published by Hunasys.
 
 This is a setup companion. Installing this plugin alone does **not** intercept prompts. The bundled Chrome extension performs local pattern detection and gates recognized website send controls. It does not protect native ChatGPT, Codex, Claude desktop, Claude Code, files, images, voice, history, or arbitrary agent traffic.
 

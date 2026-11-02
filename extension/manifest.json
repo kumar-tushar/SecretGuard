@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SecretGuard",
   "version": "2.0.0",
-  "author": "HUNASYS",
+  "author": "Hunasys",
   "description": "Detect secrets before sending prompts to supported AI chats. Review, edit or mask locally with SecretGuard.",
   "minimum_chrome_version": "120",
   "permissions": ["storage", "alarms", "scripting"],

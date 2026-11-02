@@ -317,7 +317,7 @@ for (const [host] of providers) for (const action of ['Send', 'Edit', 'Mask']) t
   await state.editor.press('Enter');
   const review = state.page.getByRole('dialog');
   await expect(review.locator('.review-values code')).toHaveText(['M7Q2V9']);
-  await expect(review.locator('.brand')).toHaveText('SecretGuard · HUNASYS');
+  await expect(review.locator('.brand')).toHaveText('SecretGuard · Hunasys');
   await expect(review).not.toContainText('Synthetic service credential');
   await review.getByRole('button', { name: action, exact: true }).click();
   await expect(review).toHaveCount(0);

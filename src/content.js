@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const { getAdapter, getEditors, isVisible, readEditor, writeEditor } = SecretShieldAdapters;
+  const { getAdapter, getEditors, getSendControl, getSendButtons, submissionScope, readEditor, writeEditor } = SecretShieldAdapters;
   const adapter = getAdapter(location.hostname);
   if (!adapter) return;
   globalThis.SecretShieldContent?.();
@@ -79,7 +79,7 @@
     approval = null;
   }
   function editorFrom(target) {
-    return target instanceof Element ? target.closest(adapter.editors) : null;
+    return target instanceof Element ? getEditors(adapter).find(editor => editor === target || editor.contains(target)) : null;
   }
   function denyUnavailable(event) {
     if (!runtimeAvailable()) {
@@ -110,7 +110,7 @@
   }
 
   function reviewIsCurrent(current) {
-    const editors = getEditors(adapter);
+    const editors = getEditors(adapter, current.scope);
     return runtimeAvailable() && review === current && policy && current.generation === generation &&
       current.editor.isConnected && readEditor(current.editor) === current.text &&
       editors.length === 1 && editors[0] === current.editor;
@@ -134,7 +134,7 @@
   }
 
   function submitDraft(current, original) {
-    const editors = getEditors(adapter);
+    const editors = getEditors(adapter, current.scope);
     if (!runtimeAvailable() || !policy || current.generation !== generation || pendingSend !== current ||
         (original ? policy.mode === 'block' : !current.verified)) {
       throw new Error('Draft or policy changed');
@@ -148,15 +148,14 @@
       throw new Error('Draft or policy changed');
     }
     const form = current.editor.closest('form');
-    const buttons = [...document.querySelectorAll(adapter.send)].filter(button =>
-      isVisible(button) && (!form || form.contains(button) || button.form === form));
+    const buttons = getSendButtons(adapter, current.scope).filter(button => !form || form.contains(button) || button.form === form);
     if (buttons.length > 1) throw new Error('Send control unavailable');
     if (buttons.length === 0 && !(form instanceof HTMLFormElement && current.submitForm === form)) return false;
     if (buttons.length === 1 && (buttons[0].disabled || buttons[0].getAttribute('aria-disabled') === 'true' ||
         (adapter.disabled && buttons[0].matches(adapter.disabled)))) return false;
     // Allow one click and its form submission, including a deferred framework callback.
     clearApproval();
-    const allowed = { editor: current.editor, text: current.text, generation, original,
+    const allowed = { editor: current.editor, text: current.text, generation, original, scope: current.scope,
       button: buttons[0], form, clicked: false, submitted: false, expires: performance.now() + sendWait };
     approval = allowed;
     allowed.timer = setTimeout(() => { if (approval === allowed) clearApproval(); }, sendWait);
@@ -210,7 +209,7 @@
     } finally { if (pendingSend === current) pendingSend = null; }
   }
 
-  function openReview(editor, text, result, submitForm) {
+  function openReview(editor, text, result, submitForm, scope) {
     const { findings } = result;
     const count = findings.length;
     if (review?.editor === editor && review.text === text && review.generation === generation) return;
@@ -246,7 +245,7 @@
     `;
     const dialog = document.createElement('dialog');
     dialog.setAttribute('aria-labelledby', 'ckretguard-review-title');
-    dialog.innerHTML = '<div class="brand-row"><div class="brand">SecretGuard ·  HUNASYS</div><span class="brand-icon" aria-hidden="true"></span></div><h2 id="ckretguard-review-title"><span class="count"></span> <span class="caption"></span></h2><ol class="review-values" aria-label="Detected values"></ol><button type="button" class="review-more" hidden></button><div class="actions"><button type="button" class="send">Send</button><button type="button" class="edit" autofocus>Edit</button><button type="button" class="mask">Mask</button></div>';
+    dialog.innerHTML = '<div class="brand-row"><div class="brand">SecretGuard ·  Hunasys</div><span class="brand-icon" aria-hidden="true"></span></div><h2 id="ckretguard-review-title"><span class="count"></span> <span class="caption"></span></h2><ol class="review-values" aria-label="Detected values"></ol><button type="button" class="review-more" hidden></button><div class="actions"><button type="button" class="send">Send</button><button type="button" class="edit" autofocus>Edit</button><button type="button" class="mask">Mask</button></div>';
     const actionIcons = {
       send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
       edit: '<path d="m16 3 5 5-13 13H3v-5Z"/><path d="m14 5 5 5"/>',
@@ -275,7 +274,7 @@
     showValues();
     const send = dialog.querySelector('.send');
     if (policy.mode === 'block') send.remove();
-    const current = { host, dialog, editor, text, count, generation, submitForm, result, controller: new AbortController(), closing: false };
+    const current = { host, dialog, editor, text, count, generation, submitForm, scope, result, controller: new AbortController(), closing: false };
     review = current;
     if (policy.mode !== 'block') send.addEventListener('click', () => releaseOriginal(current));
     dialog.querySelector('.edit').addEventListener('click', async () => {
@@ -302,8 +301,8 @@
         if (!reviewIsCurrent(current)) return;
         if (checked.count) throw new Error('Masked draft still contains findings');
         closeReview(false);
-        await writeEditor(editor, result.text, result.findings);
-        masked = { editor, text: result.text, generation: current.generation, submitForm: current.submitForm, verified: true };
+        await writeEditor(editor, result.text, result.findings, current.scope);
+        masked = { editor, text: result.text, generation: current.generation, submitForm: current.submitForm, scope: current.scope, verified: true };
         pendingSend = masked;
         if (await waitForSend(masked, false)) {
           void globalThis.SecretShieldStats?.record('maskedPrompts');
@@ -339,11 +338,11 @@
       const result = await SecretShieldScanner.redact(current.text, policy, { signal: current.controller.signal });
       if (pendingScan !== current) return;
       pendingScan = null;
-      const editors = getEditors(adapter);
+      const editors = getEditors(adapter, current.scope);
       if (!runtimeAvailable() || !policy || current.generation !== generation || !current.editor.isConnected ||
           editors.length !== 1 || editors[0] !== current.editor || readEditor(current.editor) !== current.text) return;
       if (result.count) {
-        openReview(current.editor, current.text, result, current.submitForm);
+        openReview(current.editor, current.text, result, current.submitForm, current.scope);
         return;
       }
       current.verified = true;
@@ -359,8 +358,9 @@
     }
   }
 
-  function guard(event, editors) {
+  function guard(event, target) {
     if (denyUnavailable(event)) return true;
+    const scope = submissionScope(adapter, target), editors = getEditors(adapter, scope);
     if (editors.length !== 1) {
       clearApproval();
       stop(event);
@@ -372,7 +372,7 @@
       const editor = editors[0];
       text = readEditor(editor);
       if (approval) {
-        if (approval.expires > performance.now() && approval.editor === editor &&
+        if (approval.expires > performance.now() && approval.editor === editor && approval.scope === scope &&
             approval.generation === generation && (!approval.original || policy.mode !== 'block')) {
           // Sites often clear the draft immediately after the first accepted submission.
           if (approval.submitted && !text.trim() && event.type === 'submit' && event.target === approval.form) {
@@ -381,7 +381,7 @@
           }
           if (approval.text === text) {
             if (event.type === 'click' && !approval.clicked && !approval.submitted &&
-                event.target instanceof Element && event.target.closest(adapter.send) === approval.button) {
+                getSendControl(adapter, event.target) === approval.button) {
               approval.clicked = true;
               return false;
             }
@@ -399,7 +399,7 @@
       if (pendingScan?.editor === editor && pendingScan.text === text && pendingScan.generation === generation) return true;
       if (review?.editor === editor && review.text === text && review.generation === generation) return true;
       cancelScan();
-      const current = { editor, text, generation, submitForm: event.type === 'submit' ? event.target : null, controller: new AbortController() };
+      const current = { editor, text, generation, scope, submitForm: event.type === 'submit' ? event.target : null, controller: new AbortController() };
       pendingScan = current;
       void scanDraft(current);
       return true;
@@ -414,26 +414,27 @@
     if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
     if (suppressEnter && event.repeat) { stop(event); return; }
     const editor = editorFrom(event.target);
-    if (editor) suppressEnter = guard(event, [editor]);
+    // Alternate edit boxes keep native Enter behavior; their click/submit is guarded.
+    if (editor?.matches(adapter.editors)) suppressEnter = guard(event, editor);
   }, capture);
   window.addEventListener('keyup', event => {
     if (event.key === 'Enter' && suppressEnter) { stop(event); suppressEnter = false; }
   }, capture);
   window.addEventListener('pointerdown', event => {
-    const button = event.target instanceof Element ? event.target.closest(adapter.send) : null;
+    const button = getSendControl(adapter, event.target);
     if (!button) return;
-    suppressClick = guard(event, getEditors(adapter)) ? button : null;
+    suppressClick = guard(event, button) ? button : null;
   }, capture);
   window.addEventListener('click', event => {
-    const button = event.target instanceof Element ? event.target.closest(adapter.send) : null;
+    const button = getSendControl(adapter, event.target);
     if (!button) return;
     if (suppressClick === button && (!approval || approval.clicked)) { suppressClick = null; stop(event); return; }
-    guard(event, getEditors(adapter));
+    guard(event, button);
   }, capture);
   window.addEventListener('submit', event => {
     if (event.target instanceof Element &&
-        (event.target.querySelector(adapter.editors) || event.target.querySelector(adapter.send))) {
-      guard(event, getEditors(adapter));
+        (getEditors(adapter, event.target).length || getSendButtons(adapter, event.target).length)) {
+      guard(event, event.target);
     }
   }, capture);
   window.addEventListener('input', event => {

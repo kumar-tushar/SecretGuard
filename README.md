@@ -1,6 +1,6 @@
 # SecretGuard
 
-Published by **HUNASYS**.
+Published by **Hunasys**.
 
 Local credential detection and masking for **ChatGPT, Claude, Gemini, DeepSeek, Grok, Meta AI, Microsoft Copilot, Perplexity and Mistral in Chrome**. Version 2.0.0 is an engineering pilot, not a production-certified enterprise DLP product.
 
