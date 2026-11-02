@@ -32,34 +32,40 @@
     $('field-help').textContent = full ? 'You can add maximum 50 fields.' : 'Add field names whose values you want to protect.';
     $('field-count').textContent = `${names.length} custom field${names.length === 1 ? '' : 's'} saved.`;
     $('saved-fields-panel').hidden = names.length === 0;
-    $('saved-fields').replaceChildren();
-    for (const name of names) {
-      const item = document.createElement('li');
-      item.className = 'saved-field';
-      const label = document.createElement('span');
-      label.textContent = name;
-      item.append(label);
-      if (!locked.includes('sensitiveNames')) {
-        const remove = document.createElement('button');
-        remove.type = 'button';
-        remove.className = 'remove-field';
-        remove.setAttribute('aria-label', `Remove ${name}`);
-        remove.innerHTML = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
-        remove.disabled = saving;
-        remove.addEventListener('click', () => {
-          if (!current || saving || locked.includes('sensitiveNames')) return;
-          void save({ kind: 'removeField', name }, 'field-status');
-        });
-        item.append(remove);
+    const list = $('saved-fields');
+    const items = new Map([...list.children].map(item => [item.firstElementChild.textContent, item]));
+    for (const [name, item] of items) if (!names.includes(name)) item.remove();
+    for (const [index, name] of names.entries()) {
+      let item = items.get(name);
+      if (!item) {
+        item = document.createElement('li');
+        item.className = 'saved-field';
+        const label = document.createElement('span');
+        label.textContent = name;
+        item.append(label);
       }
-      $('saved-fields').append(item);
+      let remove = item.querySelector('button');
+      if (locked.includes('sensitiveNames')) remove?.remove();
+      else {
+        if (!remove) {
+          remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'remove-field';
+          remove.setAttribute('aria-label', `Remove ${name}`);
+          remove.innerHTML = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+          remove.addEventListener('click', () => {
+            if (!current || saving || locked.includes('sensitiveNames')) return;
+            void save({ kind: 'removeField', name }, 'field-status');
+          });
+          item.append(remove);
+        }
+        remove.disabled = saving;
+      }
+      if (list.children[index] !== item) list.insertBefore(item, list.children[index] ?? null);
     }
   }
   async function reload() {
     const request = ++revision;
-    current = null; $('sensitive-names').disabled = true; $('save-fields').disabled = true;
-    $('mode').disabled = true; $('client-ids').disabled = true;
-    $('saved-fields').querySelectorAll('button').forEach(button => { button.disabled = true; });
     try {
       const loaded = await SecretShieldPolicy.loadPolicy();
       if (request !== revision) return;
@@ -69,7 +75,11 @@
       renderFields();
       setStatus('field-status', locked.includes('sensitiveNames') ? 'These fields are managed by your organization.' : '');
     } catch {
-      if (request === revision) setStatus('field-status', 'Protection settings unavailable. Reload the extension.', true);
+      if (request !== revision) return;
+      current = null; $('sensitive-names').disabled = true; $('save-fields').disabled = true;
+      $('mode').disabled = true; $('client-ids').disabled = true;
+      $('saved-fields').querySelectorAll('button').forEach(button => { button.disabled = true; });
+      setStatus('field-status', 'Protection settings unavailable. Reload the extension.', true);
     }
   }
   async function save(change, status) {

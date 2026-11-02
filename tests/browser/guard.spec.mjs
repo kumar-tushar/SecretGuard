@@ -1374,3 +1374,62 @@ test('two extension views preserve simultaneous field additions and independent 
     await expect(other.locator('#settings-status')).toHaveText('');
   } finally { await other.close(); }
 });
+
+test('an unreadable policy refresh disables editing until valid settings are restored',async()=>{
+  const controls=['#sensitive-names','#save-fields','#mode input[value="redact"]','#mode input[value="block"]','#client-ids','#saved-fields button'];
+  await addFields(['first_field']);
+  await composer.locator('#sensitive-names').fill('unsaved_field');
+  await composer.evaluate(()=>chrome.storage.local.set({policy:'malformed'}));
+  await expect(composer.locator('#field-status')).toHaveText('Protection settings unavailable. Reload the extension.');
+  for(const selector of controls) {
+    await expect(composer.locator(selector)).toBeDisabled();
+  }
+  await composer.evaluate(()=>chrome.storage.local.set({policy:{mode:'block',sensitiveNames:['first_field']}}));
+  await expect(composer.locator('#field-status')).toHaveText('');
+  for(const selector of controls) {
+    await expect(composer.locator(selector)).toBeEnabled();
+  }
+  await expect(composer.locator('#sensitive-names')).toHaveValue('unsaved_field');
+  await expect(composer.locator('#mode input[value="block"]')).toBeChecked();
+});
+
+for(const refresh of ['pending','finished']) test(`field removal survives a ${refresh} refresh from another extension view`,async()=>{
+  await addFields(['first_field','second_field']);
+  const other=await context.newPage();
+  try {
+    await other.goto(`chrome-extension://${extensionId}/composer.html`);
+    await expect(other.locator('#sensitive-names')).toBeEnabled();
+    await other.locator('#protection-settings').evaluate(element=>{element.open=true;});
+    if(refresh==='pending') await composer.evaluate(()=>{
+      const original=SecretShieldPolicy.loadPolicy;
+      let release;
+      const gate=new Promise(resolve=>{release=resolve;});
+      window.releasePolicyReload=()=>{release();globalThis.SecretShieldPolicy={...SecretShieldPolicy,loadPolicy:original};};
+      globalThis.SecretShieldPolicy={...SecretShieldPolicy,loadPolicy:async()=>{
+        window.policyReloadStarted=true;
+        await gate;
+        return original();
+      }};
+    });
+    const remove=composer.getByRole('button',{name:'Remove first_field',exact:true});
+    await remove.hover();
+    await composer.mouse.down();
+    await other.getByRole('radio',{name:'Edit or Mask',exact:true}).check();
+    if(refresh==='pending') await expect.poll(()=>composer.evaluate(()=>window.policyReloadStarted)).toBe(true);
+    else await expect(composer.locator('#mode input[value="block"]')).toBeChecked();
+    await composer.mouse.up();
+    if(refresh==='pending') await composer.evaluate(()=>releasePolicyReload());
+    await expect.poll(()=>composer.evaluate(async()=>(await chrome.storage.local.get('policy')).policy)).toEqual({mode:'block',protectClientIds:true,sensitiveNames:['second_field']});
+    for(const view of [composer,other]) {
+      await expect(view.locator('#saved-fields span')).toHaveText(['second_field']);
+      await expect(view.locator('#field-status')).toHaveText('');
+    }
+  } finally {
+    await composer.mouse.up();
+    await composer.evaluate(()=>{
+      window.releasePolicyReload?.();
+      delete window.releasePolicyReload;delete window.policyReloadStarted;
+    });
+    await other.close();
+  }
+});
